@@ -102,7 +102,7 @@ struct monst {
 
 struct state {
   char n[2][NAMELEN];                 /* name, secret name */
-  long int c[65];                /* various stuff */
+  int c[65];                /* various stuff */
   int l[22][22];                 /* current level map */
   int i[9], i1[9];               /* room analysis */
   int p[5][5];                   /* current pos */
@@ -110,7 +110,7 @@ struct state {
 
 struct chr {
   char nam[2][NAMELEN];
-  long int c[65];
+  int c[65];
 };
 
 struct dgnstr {

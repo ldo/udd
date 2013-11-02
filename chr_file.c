@@ -116,7 +116,7 @@ int chr_save
 #endif
     return(NOPE);
   }
-  tmp = sizeof(long) + (numc - numc2 - 1) * sizeof(struct chr);
+  tmp = sizeof(int) + (numc - numc2 - 1) * sizeof(struct chr);
   lseek(cwfp, tmp, L_SET);
   strncpy(sav.nam[0], u.n[0], NAMELEN);
   strncpy(sav.nam[1], u.n[1], NAMELEN);
@@ -166,7 +166,7 @@ int chr_lck_nuke
     printf("[File busy - please wait]\r\n");
     sleep(roll(1,2));
   }
-  loc = sizeof(long) + (numc - numc2 - 1) *sizeof(struct chr);
+  loc = sizeof(int) + (numc - numc2 - 1) *sizeof(struct chr);
   lseek(cwfp, loc, L_SET);
   if (lock == LOCK) {
     read(cwfp, (char *) &zold, sizeof(struct chr));
@@ -214,14 +214,14 @@ int chr_new(void)
     if (cp->c[0] == 0)
       break;
   if (cp != NULL) {
-    tmp = sizeof(long) + (numc - numc2 - 1) * sizeof(struct chr);
+    tmp = sizeof(int) + (numc - numc2 - 1) * sizeof(struct chr);
     lseek(cwfp, tmp, L_SET);
   } else {
     numc++;
     tmp = htonl(numc);
     lseek(cwfp, 0, L_SET);
     write(cwfp, (char *) &tmp, sizeof(tmp));
-    tmp = sizeof(long) + (numc - 1) * sizeof(struct chr);
+    tmp = sizeof(int) + (numc - 1) * sizeof(struct chr);
     lseek(cwfp, tmp, L_SET);
   } 
   strncpy(cpout.nam[0], u.n[0], NAMELEN);
