@@ -1,12 +1,12 @@
 #
-# udd Makefile file - Master Makefile, thanks to "mkmf"
+# udd Makefile file
 #
 # 03-Sep-89, Chuck Cranor
 #
 # V5.1C
 #
 
-DEST	      = /tmp
+DEST	      = /usr/local
 
 HDRS	      = cbt.h \
 		data.h \
@@ -19,8 +19,6 @@ LDFLAGS	      = -lm
 LIBS	      =
 
 LINKER	      = cc
-
-MAKEFILE      = Makefile
 
 OBJS	      = cbt.o \
 		cbt_cast.o \
@@ -71,9 +69,7 @@ $(PROGRAM):     $(OBJS) $(LIBS)
 		@$(LINKER) $(OBJS) $(LIBS) -o $(PROGRAM) $(LDFLAGS)
 		@echo "done"
 
-clean:;		@rm -f $(OBJS)
-
-depend:;	@mkmf -f $(MAKEFILE) PROGRAM=$(PROGRAM) DEST=$(DEST)
+clean:;		@rm -f $(PROGRAM) $(OBJS)
 
 index:;		@ctags -wx $(HDRS) $(SRCS)
 
@@ -90,7 +86,7 @@ tags:           $(HDRS) $(SRCS); @ctags $(HDRS) $(SRCS)
 update:		$(DEST)/$(PROGRAM)
 
 $(DEST)/$(PROGRAM): $(SRCS) $(LIBS) $(HDRS) $(EXTHDRS)
-		@make -f $(MAKEFILE) DEST=$(DEST) install
+		@make DEST=$(DEST) install
 ###
 cbt.o: defs.h cbt.h 
 cbt_cast.o: defs.h cbt.h 
