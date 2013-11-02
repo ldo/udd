@@ -12,6 +12,8 @@ HDRS	      = cbt.h \
 		data.h \
 		defs.h
 
+CC := cc
+
 CFLAGS	      = -g
 
 LDFLAGS	      = -lm
@@ -20,28 +22,32 @@ LIBS	      =
 
 LINKER	      = cc
 
-OBJS	      = cbt.o \
-		cbt_cast.o \
-		cbt_hit.o \
-		chr_file.o \
-		dgn.o \
-		dgn_nomove.o \
-		dgn_voices.o \
-		dlvl_file.o \
-		lock.o \
-		opr.o \
-		spc.o \
-		swb.o \
-		swb_file.o \
-		trs.o \
-		trs_cobjs.o \
-		unix.o \
-		utl_pplot.o \
-		utl_util.o
+OBJDIR := bin/
+
+MKBIN := mkdir -p $(OBJDIR)
+
+OBJS	      = $(OBJDIR)cbt.o \
+		$(OBJDIR)cbt_cast.o \
+		$(OBJDIR)cbt_hit.o \
+		$(OBJDIR)chr_file.o \
+		$(OBJDIR)dgn.o \
+		$(OBJDIR)dgn_nomove.o \
+		$(OBJDIR)dgn_voices.o \
+		$(OBJDIR)dlvl_file.o \
+		$(OBJDIR)lock.o \
+		$(OBJDIR)opr.o \
+		$(OBJDIR)spc.o \
+		$(OBJDIR)swb.o \
+		$(OBJDIR)swb_file.o \
+		$(OBJDIR)trs.o \
+		$(OBJDIR)trs_cobjs.o \
+		$(OBJDIR)unix.o \
+		$(OBJDIR)utl_pplot.o \
+		$(OBJDIR)utl_util.o
 
 PRINT	      = pr
 
-PROGRAM	      = udd
+PROGRAM	      = $(OBJDIR)udd
 
 SRCS	      = cbt.c \
 		cbt_cast.c \
@@ -66,10 +72,11 @@ all:		$(PROGRAM)
 
 $(PROGRAM):     $(OBJS) $(LIBS)
 		@echo -n "Loading $(PROGRAM) ... "
+		@$(MKBIN)
 		@$(LINKER) $(OBJS) $(LIBS) -o $(PROGRAM) $(LDFLAGS)
 		@echo "done"
 
-clean:;		@rm -f $(PROGRAM) $(OBJS)
+clean:;		@rm -rf $(OBJDIR)
 
 index:;		@ctags -wx $(HDRS) $(SRCS)
 
@@ -88,19 +95,74 @@ update:		$(DEST)/$(PROGRAM)
 $(DEST)/$(PROGRAM): $(SRCS) $(LIBS) $(HDRS) $(EXTHDRS)
 		@make DEST=$(DEST) install
 ###
-cbt.o: defs.h cbt.h 
-cbt_cast.o: defs.h cbt.h 
-cbt_hit.o: defs.h cbt.h
-chr_file.o: defs.h 
-dgn.o: defs.h
-dgn_nomove.o: defs.h
-dlvl_file.o: defs.h 
-opr.o: defs.h 
-spc.o: defs.h 
-swb.o: defs.h data.h 
-swb_file.o: defs.h
-trs.o: defs.h 
-trs_cobjs.o: defs.h 
-unix.o: defs.h 
-utl_pplot.o: defs.h
-utl_util.o: defs.h 
+$(OBJDIR)cbt.o: defs.h cbt.h cbt.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+$(OBJDIR)cbt_cast.o: defs.h cbt.h cbt_cast.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+$(OBJDIR)cbt_hit.o: defs.h cbt.h cbt_hit.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+$(OBJDIR)chr_file.o: defs.h chr_file.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+$(OBJDIR)dgn.o: defs.h dgn.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+$(OBJDIR)dgn_nomove.o: defs.h dgn_nomove.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+$(OBJDIR)dgn_voices.o: dgn_voices.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+$(OBJDIR)dlvl_file.o: defs.h dlvl_file.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+$(OBJDIR)lock.o: lock.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+$(OBJDIR)opr.o: defs.h opr.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+$(OBJDIR)spc.o: defs.h spc.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+$(OBJDIR)swb.o: defs.h data.h swb.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+$(OBJDIR)swb_file.o: defs.h swb_file.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+$(OBJDIR)trs.o: defs.h trs.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+$(OBJDIR)trs_cobjs.o: defs.h trs_cobjs.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+$(OBJDIR)unix.o: defs.h unix.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+$(OBJDIR)utl_pplot.o: defs.h utl_pplot.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+$(OBJDIR)utl_util.o: defs.h utl_util.c
+		@$(MKBIN)
+		$(CC) $(CFLAGS) -c -o $@ $(*F).c
