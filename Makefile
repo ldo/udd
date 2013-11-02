@@ -166,3 +166,5 @@ $(OBJDIR)utl_pplot.o: defs.h utl_pplot.c
 $(OBJDIR)utl_util.o: defs.h utl_util.c
 		@$(MKBIN)
 		$(CC) $(CFLAGS) -c -o $@ $(*F).c
+
+.PHONY : clean
