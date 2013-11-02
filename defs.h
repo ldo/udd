@@ -144,28 +144,29 @@ EXTERN int autosave;             /* try save if sighup */
 
 /* J. Random functions */
 
-extern int cbt_cast(), cbt_main(), cbt_ohitu(), cbt_ok(), cbt_uhitm();
-extern int chr_lck_nuke(), chr_load(), chr_save(), chr_new();
-extern void chr_rset();
-extern struct chr *chr_scan();
-extern int cs1(), cs2(), cs3(), cs3();
-extern int dgn_main(), dgn_nomove(), dgn_voices();
-extern int dlvl_choose(), dlvl_loadum();
-extern void dlvl_init(), dlvl_get_start();
-extern int fni(), fni1();
-extern char *fnp(), *fnp1();
-extern int lock_open(), lock_close();
-extern int ms1(), ms2(), ms3(), ms4();
-extern void opr_main();
-extern int optout(), roll();
-extern void sighup(), sigstop(), swb_note();
-extern int spc_main(), swb_ppnok(), swb_wiz(), trs_chest(), trs_main(), 
-  trs_obj();
-extern char *unix_date();
-extern void unix_exit(), unix_init(), unix_tty_cook(), unix_tty_dgn(),
-  unix_tty_pswd();
-extern int utl_adj_ex(), utl_chklvl(), utl_death(), utl_escape(), utl_exp(),
-  utl_populate(), utl_winner();
-extern void utl_adj_st(), utl_dtrp(), utl_eqp(), utl_inilvl(), utl_pplot(),
-  utl_prtspl(), utl_sprog(), utl_stat(), utl_status();
-
+int cbt_cast(void), cbt_main(void), cbt_ohitu(int dam), cbt_ok(void), cbt_uhitm(int dam);
+int chr_lck_nuke(int lock), chr_load(char * name, int lock), chr_save(int unlock), chr_new(void);
+void chr_rset(void);
+struct chr *chr_scan(void);
+int cs1(int s), cs2(int s), cs3(int s), cs4(int s);
+int dgn_main(void), dgn_nomove(int cmd);
+void dgn_voices(void);
+int dlvl_choose(void), dlvl_loadum(int dno, int lvl);
+void dlvl_init(void), dlvl_get_start(int dno);
+int fni(int r), fni1(int r, int s);
+char *fnp(char * a, char * b, int p), *fnp1(char * a, char * b, int p);
+int lock_open(char * file, int mode, char * lockdir, char * lockfile, int maxtime);
+int lock_close(int fd, char * lockdir, char * lockfile);
+int ms1(int s), ms2(int s), ms3(int s), ms4(int s);
+void opr_main(void);
+int optout(char * s), roll(int a, int b);
+void sighup(int), sigstop(int), swb_note(char * msg, char * file, int wiz);
+int spc_main(void), swb_ppnok(void), swb_wiz(void), trs_chest(void), trs_main(void),
+  trs_obj(void);
+char *unix_date(long dat);
+void unix_exit(int n), unix_init(void), unix_tty_cook(void), unix_tty_dgn(void),
+  unix_tty_pswd(void);
+int utl_adj_ex(void), utl_chklvl(void), utl_death(void), utl_escape(void), utl_exp(int lvl),
+  utl_populate(void), utl_winner(void);
+void utl_adj_st(void), utl_dtrp(void), utl_eqp(void), utl_inilvl(void), utl_pplot(int flag),
+  utl_prtspl(int c7, int lvl), utl_sprog(void), utl_stat(void), utl_status(void);

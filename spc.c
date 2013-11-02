@@ -372,7 +372,7 @@ trash:
     u.l[tmp][tmp2] = 16*u.i[5] + 4*u.i[2] + u.i[1];
     if (u.i[5] != SPC_ORB)
       break;
-    utl_pplot();
+    utl_pplot(NOPE/*guess*/);
   case SPC_ORB:
     u.i[5] = 0;
     u.l[u.c[16]][u.c[17]] = 4 * u.i[2] + u.i[1];

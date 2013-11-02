@@ -53,7 +53,10 @@ void unix_exit
   exit(n);
 }
 
-void sigstop(void)
+void sigstop
+  (
+	int signum
+  )
 {
   TTY_SET(&out);
   printf("[Suspending...]\r\n");
@@ -119,7 +122,10 @@ char *unix_date
   return(buf);
 }
 
-void sighup(void)
+void sighup
+  (
+	int signum
+  )
 {
   if (autosave != 0) {
 #ifdef L_STRICT
