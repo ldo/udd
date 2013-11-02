@@ -7,12 +7,13 @@
  *
  */
 
+#include <stdio.h>
 #include "defs.h"
 
-int dgn_nomove(cmd)
-
-int cmd;
-
+int dgn_nomove
+  (
+    int cmd
+  )
 {
   int in;
   switch (cmd) {

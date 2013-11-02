@@ -7,6 +7,7 @@
  *
  */
 
+#include <string.h>
 #include <stdio.h>
 #include "defs.h"
 
@@ -19,10 +20,10 @@ int cobps;         /* current end of obuf position */
 #define fnd1(c, z) ((fni1(u.p[c][z], 3) == 0) ? " " : "I")
 
 /* generate opt. output */
-int optout(s)
-
-char *s;
-
+int optout
+  (
+    char * s
+  )
 {
   char *sp;
   int firstc = 1, lcv;
@@ -68,10 +69,11 @@ char *s;
 }
 
 
-int fni(r)                       /* analize room into u.i */
-
-int r;
-
+int fni
+  (
+    int r
+  )
+  /* analyze room into u.i */
 {
   u.i[1] = u.i[3] = (r & 3);           /* sec/nonsec top */
   r = r >> 2;
@@ -90,10 +92,12 @@ int r;
   return(u.i[5]);
 }
 
-int fni1(r, a)                   /* analize into u.i1 */
-
-int r, a;
-
+int fni1
+  (
+    int r,
+    int a
+  )
+  /* analyze into u.i1 */
 {
   u.i1[1] = u.i1[3] = (r & 3);
   r = r >> 2;
@@ -117,11 +121,13 @@ int r, a;
 }
 
 
-char *fnp(a, b, p)                     /* put B in A at P */
-
-char *a, *b;
-int p;
-
+char *fnp
+  (
+    char * a,
+    char * b,
+    int p
+  )
+  /* put B in A at P */
 {
   int la, lb, lcv;
   la = strlen(a);
@@ -138,11 +144,13 @@ int p;
   return(a);
 }
     
-char *fnp1(a, b, p)                    /* cond put B in A at P */
-
-char *a, *b;
-int p;
-
+char *fnp1
+  (
+    char * a,
+    char * b,
+    int p
+  )
+  /* cond put B in A at P */
 {
   int la, lb, lcv, null;
   char *ap;
@@ -170,10 +178,10 @@ int p;
 }
 
 
-void utl_pplot(flag)
-
-int flag;
-
+void utl_pplot
+  (
+    int flag
+  )
 {
   int lcv, lcv3, x, y;
   if (flag == YEP) {

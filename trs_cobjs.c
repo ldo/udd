@@ -7,11 +7,11 @@
  *
  */
 
-#include "defs.h"
 #include <math.h>
+#include <stdio.h>
+#include "defs.h"
 
-int trs_chest()
-
+int trs_chest(void)
 {
   int tmp, trs;
   double adj;
@@ -47,8 +47,7 @@ int trs_chest()
   return(NOPE);
 }
 
-int trs_obj()
-
+int trs_obj(void)
 {
   int rl, tmp, trs;
   do {

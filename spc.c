@@ -7,16 +7,16 @@
  *
  */
 
-#include "defs.h"
-#include <stdio.h>
 #include <math.h>
 #include <ctype.h>
+#include <string.h>
+#include <stdio.h>
+#include "defs.h"
 
 /*char *color[] = { "white", "green", "blue", "red", "black" };*/
 char *color[] = { "white", "blue", "green", "red", "black" };
 
-int spc_main()
-
+int spc_main(void)
 {
   int sav, sav2, tmp, tmp2;
   double dtmp;

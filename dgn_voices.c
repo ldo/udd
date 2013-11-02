@@ -7,6 +7,8 @@
  *
  */
 
+#include <stdio.h>
+
 #define NVOCS 12
 #define ADDDIR 9
 
@@ -27,8 +29,7 @@ char *vocs[] = {
 
 char *dirs[] = { "north.", "east.", "south.", "west." };
 
-void dgn_voices() 
-
+void dgn_voices(void)
 {
   int i;
   if ((random() % 101) > 5)

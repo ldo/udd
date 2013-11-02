@@ -7,22 +7,26 @@
  *
  */
 
-#include "defs.h"
+#include <string.h>
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/param.h>
 #include <sys/stat.h>
+#include "defs.h"
 
 /* 
  * lock_open: open with simple link-based file locking.
  * on failure: -1 if fixed error, -2 if we should try again later.
  */
 
-int lock_open(file, mode, lockdir, lockfile, maxtime)
-
-char *file, *lockdir, *lockfile;
-int mode, maxtime;
-
+int lock_open
+  (
+	char * file,
+	int mode,
+	char * lockdir,
+	char * lockfile,
+	int maxtime
+  )
 {
   int fd, fd2, rv;
   char lfile[MAXPATHLEN], ltmpfile[MAXPATHLEN];
@@ -81,11 +85,12 @@ int mode, maxtime;
  * lock_close: close and unlock
  */
 
-int lock_close(fd, lockdir, lockfile)
-
-int fd;
-char *lockdir, *lockfile;
-
+int lock_close
+  (
+	int fd,
+	char * lockdir,
+	char * lockfile
+  )
 {
   char lfile[MAXPATHLEN];
   

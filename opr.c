@@ -8,17 +8,17 @@
  * Operator program version:  */
 #define VERS "OPR  V2.1C-03  26-Oct-89"
 
-#include "defs.h"
-#include <stdio.h>
 #include <ctype.h>
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/file.h>
+#include <string.h>
+#include <stdio.h>
+#include "defs.h"
 
 static int loaded = NOPE;
 
-opr_main()
-
+void opr_main(void)
 {
   int tmp, tmp2, tmp3;
   int newc;

@@ -7,15 +7,15 @@
  *
  */
 
-#include "defs.h"
 #include <math.h>
+#include <stdio.h>
+#include "defs.h"
 
 #define TRS_NORM  0
 #define TRS_CHEST 1
 #define TRS_OBJ   2
   
-int trs_main()
-
+int trs_main(void)
 {
   int l = u.c[63];
   int tmp, typ = TRS_NORM;

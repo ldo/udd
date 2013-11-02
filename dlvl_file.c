@@ -12,8 +12,7 @@
 #include <sys/types.h>
 #include <sys/file.h>
 
-void dlvl_init()
-
+void dlvl_init(void)
 {
   if (dfd >= 0)
     close(dfd);
@@ -32,8 +31,7 @@ void dlvl_init()
   n_dlvl = ntohl(n_dlvl);
 }
 
-int dlvl_choose()
-
+int dlvl_choose(void)
 {
   int tmp, tmp2;
   tmp2 = 0;
@@ -106,10 +104,11 @@ int dlvl_choose()
 }
 
 
-int dlvl_loadum(dno, lvl)
-
-int dno, lvl;
-
+int dlvl_loadum
+  (
+	int dno,
+	int lvl
+  )
 {
   int tmp, tmp2;
   if (dfd < 0)
@@ -128,10 +127,10 @@ int dno, lvl;
     return(tmp);
 }
 
-void dlvl_get_start(dno)
-
-int dno;
-
+void dlvl_get_start
+  (
+	int dno
+  )
 {
   int tmp;
   if (dfd < 0)

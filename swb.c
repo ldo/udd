@@ -11,18 +11,19 @@
 
 #define MAIN
 
-#include "defs.h"
-#include "data.h"
-#include <stdio.h>
-#include <strings.h>
+#include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
 #include <pwd.h>
+#include <stdio.h>
+#include "defs.h"
+#include "data.h"
 
-main(argc, argv)
-
-int argc;
-char **argv;
-
+int main
+  (
+	int argc,
+	char ** argv
+  )
 {
   int alevel = swb_ppnok();
   int done = NOPE;

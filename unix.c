@@ -7,11 +7,12 @@
  *
  */
 
-#include "defs.h"
-#include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <time.h>
 #include <signal.h>
+#include <stdio.h>
+#include "defs.h"
 
 #undef OLDTTY
 #ifdef OLDTTY
@@ -31,8 +32,7 @@ static struct termios out, cur;
 #endif
 
 
-void unix_init()
-
+void unix_init(void)
 {
   TTY_GET(&out);
   TTY_GET(&cur);
@@ -44,17 +44,16 @@ void unix_init()
 #endif
 }
 
-void unix_exit(n)
-
-int n;
-
+void unix_exit
+  (
+	int n
+  )
 {
   TTY_SET(&out);
   exit(n);
 }
 
-void sigstop()
-
+void sigstop(void)
 {
   TTY_SET(&out);
   printf("[Suspending...]\r\n");
@@ -63,8 +62,7 @@ void sigstop()
   TTY_SET(&cur);
 }
 
-void unix_tty_cook()
-
+void unix_tty_cook(void)
 {
 #ifdef OLDTTY
   cur.sg_flags |= ECHO|CRMOD;
@@ -77,8 +75,7 @@ void unix_tty_cook()
   TTY_SET(&cur);
 }
 
-void unix_tty_pswd()
-
+void unix_tty_pswd(void)
 {
 #ifdef OLDTTY
   cur.sg_flags |= CRMOD;
@@ -92,8 +89,7 @@ void unix_tty_pswd()
   TTY_SET(&cur);
 }
 
-void unix_tty_dgn()
-
+void unix_tty_dgn(void)
 {
 #ifdef OLDTTY
   cur.sg_flags |= CBREAK;
@@ -110,10 +106,10 @@ void unix_tty_dgn()
 char *month[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep",
 		  "Oct","Nov","Dec"};
 
-char *unix_date(dat)
-
-long dat;
-
+char *unix_date
+  (
+	long dat
+  )
 {
   struct tm *t;
   static char buf[12];
@@ -123,8 +119,7 @@ long dat;
   return(buf);
 }
 
-void sighup()
-
+void sighup(void)
 {
   if (autosave != 0) {
 #ifdef L_STRICT

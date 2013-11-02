@@ -12,6 +12,7 @@
 #include "cbt.h"
 #include <math.h>
 #include <ctype.h>
+#include <stdio.h>
 
 struct slev fns[4] = {
   {ms1, cs1},
@@ -21,7 +22,7 @@ struct slev fns[4] = {
 };
 
 
-int cbt_main()
+int cbt_main(void)
 
 {
   int ok, s1, tmp;
@@ -368,7 +369,7 @@ int cbt_main()
   return(NOPE);
 }
 
-int cbt_cast()
+int cbt_cast(void)
 
 {
   int in2, lvl = 0, spl = 0;

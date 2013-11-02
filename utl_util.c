@@ -7,15 +7,19 @@
  *
  */
 
-#include "defs.h"
 #include <math.h>
-#include <stdio.h>
 #include <sys/types.h>
 #include <sys/file.h>
 #include <ctype.h>
+#include <string.h>
+#include <stdio.h>
+#include "defs.h"
 
-int roll(a, b)
-
+int roll
+  (
+    int a,
+    int b
+  )
 {
   int tot = 0;
   if (b < 1)
@@ -25,8 +29,7 @@ int roll(a, b)
   return(tot);
 }
 
-void utl_inilvl()
-
+void utl_inilvl(void)
 {
   int lcv1, lcv2;
   int ptr = 0;
@@ -44,8 +47,7 @@ void utl_inilvl()
       u.l[lcv1][lcv2] = dd.dmap[ptr++] + utl_populate();
 }
 
-int utl_populate()
-
+int utl_populate(void)
 {
   if (rnd() > 0.4)
     return(0);
@@ -62,8 +64,7 @@ int utl_populate()
 }
 
     
-int utl_winner()
-
+int utl_winner(void)
 {
   int fd;
   if ((fd = open(FIL_ORB, O_CREAT|O_APPEND|O_RDWR, 0644)) < 0) {
@@ -91,8 +92,7 @@ int utl_winner()
 }
 
 
-int utl_escape()
-
+int utl_escape(void)
 {
   int i;
   printf("\r\n\n\nYou made it out of the dungeon!\r\n");
@@ -130,8 +130,7 @@ ask:
   return(chr_save(YEP));
 }
 
-int utl_death()
-
+int utl_death(void)
 {
   int i;
   while (u.c[7] == 1 && u.c[34] > 0) {    /* can he save himself? */
@@ -180,8 +179,7 @@ int utl_death()
 }
 
 
-void utl_stat()
-
+void utl_stat(void)
 {
   int i;
   printf("%s\r\n", u.n[0]);
@@ -189,8 +187,7 @@ void utl_stat()
     printf("%.3s  %02d\r\n", st + 3*i, u.c[i+1]);
 }
 
-void utl_status()
-
+void utl_status(void)
 {
   printf("\r\nLevel\t\t%d\r\n", u.c[8]);
   printf("Experience\t%d\r\n", u.c[9]);
@@ -203,8 +200,7 @@ void utl_status()
   printf("\n");
 }
 
-void utl_eqp()
-
+void utl_eqp(void)
 {
   printf("\r\nEquipment:\r\n\n");
   if (u.c[22] >= 0)
@@ -226,17 +222,17 @@ void utl_eqp()
   printf("\r\n");
 }
 
-void utl_dtrp()
-
+void utl_dtrp(void)
 {
   if (u.c[41] > 0 && u.i[8] == 1 && rnd() > 0.05)
     printf("You detect traps: ");
 }
 
-int utl_exp(lvl)   /* find exp for a level */
-
-int lvl;
-
+int utl_exp
+  (
+    int lvl
+  )
+  /* find exp for a level */
 {
   double z, z1, z2;
   int lcv;
@@ -259,8 +255,7 @@ int lvl;
 }
 
 
-int utl_chklvl()
-
+int utl_chklvl(void)
 {
   int i1;
   if (u.c[9] < utl_exp(u.c[8])) {
@@ -299,8 +294,7 @@ int utl_chklvl()
   return(NOPE);
 }
 
-void utl_sprog()
-
+void utl_sprog(void)
 {
   int lcv, tmp;
   if (u.c[7] == 0)
@@ -319,10 +313,11 @@ void utl_sprog()
   }
 }
 
-void utl_prtspl(c7, lvl)
-
-int c7, lvl;
-
+void utl_prtspl
+  (
+    int c7,
+    int lvl
+  )
 {
   int i = 0;
   int mx = 6;
@@ -335,8 +330,7 @@ int c7, lvl;
     printf("%d. %s\r\n", lcv, sp[i][lcv]);
 }
 
-void utl_adj_st()
-
+void utl_adj_st(void)
 {
   int i1, i2, i3;
   i1 = roll(1,2);
@@ -357,8 +351,7 @@ void utl_adj_st()
     printf("[Strange, I can't check point your character!]\n\r");
 }
 
-int utl_adj_ex()
-
+int utl_adj_ex(void)
 {
   int i1, i2;
   i1 = roll(1,2);

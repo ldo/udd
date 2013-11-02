@@ -156,7 +156,8 @@ extern int fni(), fni1();
 extern char *fnp(), *fnp1();
 extern int lock_open(), lock_close();
 extern int ms1(), ms2(), ms3(), ms4();
-extern int opr_main(), optout(), roll();
+extern void opr_main();
+extern int optout(), roll();
 extern void sighup(), sigstop(), swb_note();
 extern int spc_main(), swb_ppnok(), swb_wiz(), trs_chest(), trs_main(), 
   trs_obj();

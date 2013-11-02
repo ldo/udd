@@ -14,8 +14,7 @@
 
 char *cmdstr = "01234SWDXACR\r\n\033KQUH";   /* for pointer */
 
-int dgn_main()
-
+int dgn_main(void)
 {
   int i = u.c[63], x, y;
   int l, in, valid;

@@ -7,22 +7,23 @@
  *
  */
 
-#include "defs.h"
-#include <stdio.h>
 #include <sys/types.h>
 #include <sys/file.h>
 #include <signal.h>
+#include <string.h>
+#include <stdio.h>
+#include "defs.h"
 
 struct chr *c;
 int numc = -1;
 int numc2 = -1;
 int cfd = -1;
 
-int chr_load(name, lock)
-
-char *name;
-int lock;
-
+int chr_load
+  (
+	char * name,
+	int lock
+  )
 {
   int tmp;
   chr_rset();
@@ -43,8 +44,7 @@ int lock;
   return(NOPE);
 }
 
-void chr_rset()
-
+void chr_rset(void)
 {
   if (cfd >= 0)
     close(cfd);    /* always close in case of a char file clean */
@@ -64,8 +64,7 @@ void chr_rset()
 }
 
 
-struct chr *chr_scan()
-
+struct chr *chr_scan(void)
 {
   static struct chr ccc;
   if (numc2-- < 1)
@@ -77,10 +76,10 @@ struct chr *chr_scan()
   return(&ccc);
 }
 
-int chr_save(unlock)
-
-int unlock;
-
+int chr_save
+  (
+	int unlock
+  )
 {
   struct chr sav, *cp;
   int cwfp;
@@ -144,10 +143,11 @@ int unlock;
   return(YEP);
 }
 
-int chr_lck_nuke(lock)  /* lock/nuke spot n - 1 */
-
-int lock;
-
+int chr_lck_nuke
+  (
+	int lock
+  )
+  /* lock/nuke spot n - 1 */
 {
   int cwfp;
   int loc;
@@ -186,8 +186,8 @@ int lock;
 }
 
 
-int chr_new()      /* save u. in file, lock it */
-
+int chr_new(void)
+  /* save u. in file, lock it */
 {
   int cwfp, tmp;
   struct chr *cp, cpout;

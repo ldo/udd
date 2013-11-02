@@ -17,17 +17,16 @@ char buf[BUFSIZ];
  *
  */
 
-int swb_ppnok()    /* NOPE=can't run program, MAYBE=can't Create, Run or
-		           Kill, YEP=full access */
-
+int swb_ppnok(void)
+  /* NOPE=can't run program, MAYBE=can't Create, Run or Kill, YEP=full access */
 {
   return(YEP);
 }
 
 
-int swb_wiz()      /* 1=access to operator program and no password kill */
-		   /* 0=normal user */
-
+int swb_wiz(void)
+  /* 1=access to operator program and no password kill */
+  /* 0=normal user */
 {
   if (getuid() == 54171)       /* uid 54171 = chuck */
     return(1);
@@ -39,13 +38,14 @@ int swb_wiz()      /* 1=access to operator program and no password kill */
 
 /* DO NOT EDIT BELOW THIS LINE */
 
-void swb_note(msg, file, wiz)
-
-int wiz;
-char *msg, *file;
-
+void swb_note
+  (
+	char * msg,
+	char * file,
+	int wiz
+  )
 {
-  FILE *fopen(), *fp;
+  FILE *fp;
   if ((fp = fopen(file, "r")) == NULL)
     return;
   printf("%s\r\n", msg);

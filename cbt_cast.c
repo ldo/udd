@@ -16,8 +16,7 @@
 
 #define cbt_chk() if (cbt_ok() == NOPE) break
 
-int cbt_ok()
-
+int cbt_ok(void)
 {
   if (hflag == 1) {
     printf("Too bad you just wasted a combat spell!\r\n");
@@ -26,10 +25,11 @@ int cbt_ok()
   return(YEP);
 }
 
-int ms1(s)         /* MAGE lvl 1 */
-
-int s;
-
+int ms1
+  (
+	int s
+  )
+  /* MAGE lvl 1 */
 {
   int tmp;
   switch (s) {
@@ -119,10 +119,10 @@ int s;
   return(NOPE);
 }
 
-int ms2(s)
-
-int s;
-
+int ms2
+  (
+	int s
+  )
 {
   int tmp;
   switch(s) {
@@ -184,10 +184,10 @@ int s;
   return(NOPE);
 }
 
-int ms3(s)
-
-int s;
-
+int ms3
+  (
+	int s
+  )
 {
   int tmp, x1, y1;
   char *passcmd = "1234WDXA", *pc;
@@ -290,10 +290,10 @@ int s;
 }
 
 
-int ms4(s)
-
-int s;
-
+int ms4
+  (
+	int s
+  )
 {
   int tmp;
   switch(s) {
@@ -411,10 +411,10 @@ int s;
 }
 
 
-int cs1(s)
-
-int s;
-
+int cs1
+  (
+	int s
+  )
 {
   int tmp;
   switch (s) {
@@ -454,10 +454,10 @@ int s;
 }
 
 
-int cs2(s)
-
-int s;
-
+int cs2
+  (
+	int s
+  )
 {
   int tmp;
   switch (s) {
@@ -490,10 +490,10 @@ int s;
 }
 
 
-int cs3(s)
-
-int s;
-
+int cs3
+  (
+	int s
+  )
 {
   int tmp;
   switch (s) {
@@ -543,10 +543,10 @@ int s;
 }
 
 
-int cs4(s)
-
-int s;
-
+int cs4
+  (
+	int s
+  )
 {
   int tmp;
   switch (s) {

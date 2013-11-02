@@ -7,13 +7,14 @@
  *
  */
 
+#include <stdio.h>
 #include "defs.h"
 #include "cbt.h"
 
-int cbt_uhitm(dam)
-
-int dam;
-
+int cbt_uhitm
+  (
+    int dam
+  )
 {
   printf("You did %d point%s of damage.\r\n", dam, (dam == 1) ? "" : "s");
   m2 -= dam;
@@ -26,10 +27,10 @@ int dam;
   }
 }
 
-int cbt_ohitu(dam)
-
-int dam;
-
+int cbt_ohitu
+  (
+    int dam
+  )
 {
   int pts;
   pts = rnd() * ( l * (4 - u.c[7])) + 1;
