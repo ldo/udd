@@ -27,7 +27,7 @@ int cbt_ok(void)
 
 int ms1
   (
-	int s
+        int s
   )
   /* MAGE lvl 1 */
 {
@@ -53,7 +53,7 @@ int ms1
       break;
     }
     printf("The %s is charmed.  Press <CR> to kill, or <LF> to evade: ",
-	   mnam);
+           mnam);
     tmp = getchar();
     printf("\n\r");
     if (tmp == '\n') {
@@ -87,7 +87,7 @@ int ms1
       break;
     }
     printf("The %s is sleeping.  Press <CR> to kill, or <LF> to evade: ",
-	   mnam);
+           mnam);
     tmp = getchar();
     printf("\n\r");
     if (tmp == '\n') {
@@ -121,7 +121,7 @@ int ms1
 
 int ms2
   (
-	int s
+        int s
   )
 {
   int tmp;
@@ -186,7 +186,7 @@ int ms2
 
 int ms3
   (
-	int s
+        int s
   )
 {
   int tmp, x1, y1;
@@ -216,7 +216,7 @@ int ms3
     if (m2 < 1) {
       printf("It killed itself!\r\n");
       if (rnd() > 0.1)
-	u.i[8] = 0;
+        u.i[8] = 0;
       u.i[6] = 0;
       dead = 1;
     }
@@ -242,7 +242,7 @@ int ms3
     x1 = u.c[16] + q[tmp][1];
     y1 = u.c[17] + q[tmp][2];
     if (x1 < 1 || x1 > 20 || y1 < 1 || y1 > 20 ||
-	(u.l[x1][y1] & 240) == 240) {
+        (u.l[x1][y1] & 240) == 240) {
       printf("Only stone there...\r\n");
       break;
     }
@@ -263,10 +263,10 @@ int ms3
       tmp = getchar();
       printf("\r\n");
       if (tmp == '\n')
-	autoevade = mskip = 1;
+        autoevade = mskip = 1;
       else {
-	dead = 1;
-	printf("It died...\r\n");
+        dead = 1;
+        printf("It died...\r\n");
       }
     }
     break;
@@ -292,7 +292,7 @@ int ms3
 
 int ms4
   (
-	int s
+        int s
   )
 {
   int tmp;
@@ -312,9 +312,9 @@ int ms4
     if (roll(3,6) == 18) {
       tmp = 0.5 * u.c[11];
       if (tmp < 1)
-	tmp = 1;
+        tmp = 1;
       printf("It backfired: you suffer %d hit point%s.\n\r",
-	     u.c[11] - tmp, (u.c[11] - tmp == 1) ? "" : "s");
+             u.c[11] - tmp, (u.c[11] - tmp == 1) ? "" : "s");
       u.c[11] = tmp;
       break;
     }
@@ -357,14 +357,14 @@ int ms4
       tmp = mm[m].m * rnd() + m1;
       tmp *= 1.5;    /* XXX CDC - make more powerful than confuse */
       printf("It gave itself %d damage point%s.\r\n", tmp, 
-	     (tmp == 1) ? "" :"s");
+             (tmp == 1) ? "" :"s");
       m2 -= tmp;
       if (m2 < 1) {
-	printf("It killed itself!\r\n");
-	if (rnd() > 0.1)
-	  u.i[8] = 0;
-	u.i[6] = 0;
-	dead = 1;
+        printf("It killed itself!\r\n");
+        if (rnd() > 0.1)
+          u.i[8] = 0;
+        u.i[6] = 0;
+        dead = 1;
       }
       break;
     }
@@ -413,7 +413,7 @@ int ms4
 
 int cs1
   (
-	int s
+        int s
   )
 {
   int tmp;
@@ -429,7 +429,7 @@ int cs1
     if (u.c[11] > u.c[10]) 
       u.c[11] = u.c[10];
     printf("You now have %d hit point%s.\r\n", u.c[11], 
-	   (u.c[11] == 1) ? "" : "s");
+           (u.c[11] == 1) ? "" : "s");
     break;
   case 4:          /* turn undead */
     printf("GET YE HENCE VILE CREATURE!!!\r\n");
@@ -456,7 +456,7 @@ int cs1
 
 int cs2
   (
-	int s
+        int s
   )
 {
   int tmp;
@@ -492,7 +492,7 @@ int cs2
 
 int cs3
   (
-	int s
+        int s
   )
 {
   int tmp;
@@ -531,7 +531,7 @@ int cs3
     if (roll(1, 10) == 1 && u.c[11] > 1) {
       tmp = u.c[11] / 2.0;   /* XXX CDC used be auto-kill */
       printf("You caught it too!! You suffer %d hit point%s.\r\n",
-	     u.c[11] - tmp, (u.c[11] - tmp) == 1 ? "" : "s");
+             u.c[11] - tmp, (u.c[11] - tmp) == 1 ? "" : "s");
       u.c[11] = tmp;
     }
     break;
@@ -545,7 +545,7 @@ int cs3
 
 int cs4
   (
-	int s
+        int s
   )
 {
   int tmp;
@@ -567,7 +567,7 @@ int cs4
     break;
   case 4:          /* raise dead */
     printf("You can't throw this on yourself!  %s",
-	   "(You have to be dead first)\r\n");
+           "(You have to be dead first)\r\n");
     printf("Too bad you just wasted a combat spell!\r\n");
     break;
   default:

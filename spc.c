@@ -31,8 +31,8 @@ int spc_main(void)
     printf("You have found a circular stairway...\r\n");
   s_top:
     printf("Do you want to %s%sor stay on the (S)ame level: ",
-	   (spc != 1) ? "go (U)p, " : "",
-	   (spc != 2) ? "go (D)own, " : "");
+           (spc != 1) ? "go (U)p, " : "",
+           (spc != 2) ? "go (D)own, " : "");
     tmp2 = getchar();
     if (tmp2 < 0)
       tmp2 = 'S';
@@ -44,7 +44,7 @@ int spc_main(void)
       printf("Up\r\n");
       u.c[15]--;
       if (u.c[15] < 1)
-	return(utl_escape());
+        return(utl_escape());
       utl_inilvl();
       u.c[64] = DGN_NEWLOC;
       return(NOPE);
@@ -52,8 +52,8 @@ int spc_main(void)
     if (spc != 2 && (tmp2 == 'd' || tmp2 == 'D')) {
       printf("Down\r\n");
       if (u.c[15] >= 20) {
-	printf("You find the way is blocked by an iron gate...\r\n");
-	break;
+        printf("You find the way is blocked by an iron gate...\r\n");
+        break;
       }
       u.c[15]++;
       utl_inilvl();
@@ -100,10 +100,10 @@ int spc_main(void)
     u.c[16] = -1;
     for (tmp = 1 ; tmp <= 20; tmp++)
       for (tmp2 = 1 ; tmp2 <= 20 ; tmp2++)
-	if ((u.l[tmp][tmp2] & 240) == 64) {
-	  u.c[16] = tmp;
-	  u.c[17] = tmp2;
-	}
+        if ((u.l[tmp][tmp2] & 240) == 64) {
+          u.c[16] = tmp;
+          u.c[17] = tmp2;
+        }
     if (u.c[16] < 0) {
       u.c[16] = roll(1,20);
       u.c[17] = roll(1,20);
@@ -112,8 +112,8 @@ int spc_main(void)
     if (roll(3,7) > (u.c[2] + u.c[3]) / 2) {
       printf("The transporter malfunctioned!\r\n");
       if (cbt_ohitu((abs(sav - u.c[15])+0.5*(u.c[15] +sav)) *
-		     (rnd() * rnd() * rnd() / 2.0)) == YEP)
-	return(YEP);
+                     (rnd() * rnd() * rnd() / 2.0)) == YEP)
+        return(YEP);
     }
     u.c[64] = DGN_NEWLOC;
     return(NOPE);
@@ -123,9 +123,9 @@ int spc_main(void)
       printf("You are hovering over a pit...\r\n");
     else {
       if (roll(3,6) + 3 > u.c[5] && 
-	  (sqrt((double)u.c[52] /25.0) * 25.0) < roll(1,20)) {
-	printf("You fell in a pit!\r\n");
-	tmp = YEP;
+          (sqrt((double)u.c[52] /25.0) * 25.0) < roll(1,20)) {
+        printf("You fell in a pit!\r\n");
+        tmp = YEP;
       } else
       printf("You are on the brink of a pit...\r\n");
     }
@@ -139,12 +139,12 @@ int spc_main(void)
       tmp2 = getchar();
       printf("\r\n");
       if (tmp2 < 0)
-	tmp2 = 10;
+        tmp2 = 10;
       if (tmp2 == '\n')
-	break;
+        break;
       if (tmp2 != '\r') {
-	printf("Come on\007!\r\n");
-	goto pit_top;
+        printf("Come on\007!\r\n");
+        goto pit_top;
       }
     }
     if (u.c[15] == 20) {
@@ -153,9 +153,9 @@ int spc_main(void)
     }
     if (tmp == YEP || (u.c[43] < 1 && roll(3,6)+1 >= u.c[5])) {
       if (tmp != YEP)
-	printf("You slipped down the side!\r\n");
+        printf("You slipped down the side!\r\n");
       if (cbt_ohitu(u.c[15]) == YEP)
-	return(YEP);
+        return(YEP);
     } else
       printf("You made it!\r\n");
     u.c[15]++;
@@ -211,16 +211,16 @@ int spc_main(void)
       printf("It tastes good!\r\n");
       u.c[11] += roll(1, 3 * u.c[15]);
       if (u.c[11] > u.c[10])
-	u.c[11] = u.c[10];
+        u.c[11] = u.c[10];
       printf("You now have %d hit points.\r\n", u.c[11]);
       break;
     }
     if (dtmp <= 0.1 * tmp) {
       printf("Poison!  Gurgle..  ..  ..   .\r\n");
       if (cbt_ohitu(u.c[15]) == YEP)
-	return(YEP);
+        return(YEP);
       printf("You only have %d hit point%s.\r\n", u.c[11], 
-	     (u.c[11] == 1) ? "" : "s");
+             (u.c[11] == 1) ? "" : "s");
       break;
     }
     if (dtmp > 0.6) {
@@ -229,7 +229,7 @@ int spc_main(void)
     }
     if (rnd() > 0.5) {
       if (utl_adj_ex() == YEP) 
-	return(YEP);
+        return(YEP);
     } else 
       utl_adj_st();
     break;
@@ -239,7 +239,7 @@ int spc_main(void)
     tmp = roll(1,20);        /* desc ok if = 1 */
   alt_top2:
     printf("Do you wish to (W)orship%s or (I)gnore it? ",
-	   (tmp == 1) ? ", (D)esicrate," : "");
+           (tmp == 1) ? ", (D)esicrate," : "");
     sav2 = getchar();
     if (sav2 < 0)
       sav2 = 'I';
@@ -249,34 +249,34 @@ int spc_main(void)
       printf("Desecrate\r\n");
       printf("You do vile and unspeakable things to the altar.\r\n");
       if (roll(1,4) != 2) {
-	printf("Nothing happens here.\r\n");
-	if (roll(1,10) == 7)
-	  printf("{Hope that made you feel better.}\r\n");
-	break;
+        printf("Nothing happens here.\r\n");
+        if (roll(1,10) == 7)
+          printf("{Hope that made you feel better.}\r\n");
+        break;
       }
       if (roll(1,20) <= 3) {
-	printf("A Voice booms out \"I shall be avenged.\"\r\n");
-	u.c[63] = spc;
-	u.c[64] = CBT_NORM;
-	if (cbt_main() == YEP)
-	  return(YEP);
-	goto alt_top1;
+        printf("A Voice booms out \"I shall be avenged.\"\r\n");
+        u.c[63] = spc;
+        u.c[64] = CBT_NORM;
+        if (cbt_main() == YEP)
+          return(YEP);
+        goto alt_top1;
       }
       printf("The sound of thunder shatters the air.\r\n");
       printf("The altar crumbles to dust before your eyes.\r\n");
       u.i[5] = 0;
       if (roll(1,10) < 3)
-	u.i[5] = SPC_PIT;
+        u.i[5] = SPC_PIT;
       u.l[u.c[16]][u.c[17]] = 16*u.i[5] + 4*u.i[2] + u.i[1];
       if (roll(1,4) != 4) {
-	u.c[64] = DGN_NEWLOC;
-	return(NOPE);
+        u.c[64] = DGN_NEWLOC;
+        return(NOPE);
       }
       printf("Something seems to be left behind...\r\n");
       u.c[63] = u.c[15] + 10;
       u.i[7] = 1;
       if (roll(1,10) == 3)
-	u.i[8] = 1;
+        u.i[8] = 1;
       return(trs_main());
     }
     if (sav2 == 'W') {
@@ -284,65 +284,65 @@ int spc_main(void)
       printf("Press <CR> to give money, <LF> to just pray: ");
       tmp = getchar();
       if (tmp < 0 || (tmp == '\n' && rnd() > 0.4)) {
-	printf("\r\n");
-	break;
+        printf("\r\n");
+        break;
       }
       if (tmp == '\n')
-	sav2 = 'I';
+        sav2 = 'I';
       if (tmp == '\r') {
-	printf("\r\n");
+        printf("\r\n");
       alt_top3:
-	printf("How much of your %d gold ? ", u.c[12]);
-	unix_tty_cook();
+        printf("How much of your %d gold ? ", u.c[12]);
+        unix_tty_cook();
         if (!fgets(tmpbuf, NAMELEN, stdin))
           strcpy(tmpbuf, "\n");
         sav = sscanf(tmpbuf, "%d", &tmp2);
-	unix_tty_dgn();
-	fflush(stdin);
-	if (sav != 1 || tmp2 < 0 || tmp2 < 50 || tmp2 < 0.1 * u.c[12]) {
-	  printf("How dare you insult us, you ");
+        unix_tty_dgn();
+        fflush(stdin);
+        if (sav != 1 || tmp2 < 0 || tmp2 < 50 || tmp2 < 0.1 * u.c[12]) {
+          printf("How dare you insult us, you ");
           goto trash;
-	} else {
-	  if (tmp2 > u.c[12]) {
-	    printf("You don't have that much!\r\n");
-	    goto alt_top3;
-	  }
-	  u.c[12] -= tmp2;
-	  if (rnd() > 0.9) {
-	    if (utl_adj_ex() == YEP)
-	      return(YEP);
-	    break;
-	  }
-	  if (rnd() > 0.9) {
-	    utl_adj_st();
-	    break;
-	  }
-	  if (rnd() > 0.5) {
-	    printf("Thank you for your donation.\r\n");
-	    break;
-	  }
-	  tmp = rnd() * rnd() * 11.0 + 1;
-	  tmp2 = rnd() * (tmp2 / ((double)u.c[12] + 1.0)) * 20.0 + 
-	    rnd() * 20.0 + 1;
-	  if (u.c[36+tmp] < 0)
-	    u.c[36+tmp] = tmp2;
-	  else
-	    u.c[36+tmp] += tmp2;
-	  printf("You've been heard.\r\n");
-	  break;
-	}
+        } else {
+          if (tmp2 > u.c[12]) {
+            printf("You don't have that much!\r\n");
+            goto alt_top3;
+          }
+          u.c[12] -= tmp2;
+          if (rnd() > 0.9) {
+            if (utl_adj_ex() == YEP)
+              return(YEP);
+            break;
+          }
+          if (rnd() > 0.9) {
+            utl_adj_st();
+            break;
+          }
+          if (rnd() > 0.5) {
+            printf("Thank you for your donation.\r\n");
+            break;
+          }
+          tmp = rnd() * rnd() * 11.0 + 1;
+          tmp2 = rnd() * (tmp2 / ((double)u.c[12] + 1.0)) * 20.0 + 
+            rnd() * 20.0 + 1;
+          if (u.c[36+tmp] < 0)
+            u.c[36+tmp] = tmp2;
+          else
+            u.c[36+tmp] += tmp2;
+          printf("You've been heard.\r\n");
+          break;
+        }
       } /* tmp == '\r' (worship) */
     } /* sav2 == 'W' */
     if (sav2 == 'I') {
       printf("Ignore\r\n");
       if (rnd() > 0.7)
-	break;
+        break;
 trash:
       printf("Dirty Pagan Trash!\r\n");
       u.c[64] = CBT_ALTR;
       u.c[63] = 0;
       if (cbt_main() == YEP)
-	return(YEP);
+        return(YEP);
       goto alt_top1;
     }
     printf("\r\nIgnorant pagan\007!\r\n");
@@ -361,13 +361,13 @@ trash:
       return(YEP);
     if (u.c[15] == sav && u.c[16] == tmp && u.c[17] == tmp2) {
       if (spc == SPC_DGN2)
-	sav2 = SPC_ORB;
+        sav2 = SPC_ORB;
     } else {
       u.i[7] = 0;
     }
     if (u.i[7] != 0) 
       if (trs_main() == YEP)
-	return(YEP);         /* this is safe because u.i[5] == 0 */
+        return(YEP);         /* this is safe because u.i[5] == 0 */
     u.i[5] = sav2;
     u.l[tmp][tmp2] = 16*u.i[5] + 4*u.i[2] + u.i[1];
     if (u.i[5] != SPC_ORB)
@@ -421,41 +421,41 @@ trash:
       printf("Sit down\r\n");
       sleep(1);
       if (rnd() < 0.05) {
-	u.c[9] = utl_exp(u.c[8]+1);
-	printf("A loud gong sounds.\r\n");
-	utl_chklvl();
-	break;
+        u.c[9] = utl_exp(u.c[8]+1);
+        printf("A loud gong sounds.\r\n");
+        utl_chklvl();
+        break;
       }
       if (rnd() < 0.9) {
-	printf("Nothing happens...\r\n");
-	break;
+        printf("Nothing happens...\r\n");
+        break;
       }
       if (rnd() <= 0.1) {
-	u.c[64] = SPC_TPTNOW;
-	printf("Z\007ZAP!  You've been teleported!\r\n");
-	return(spc_main());
+        u.c[64] = SPC_TPTNOW;
+        printf("Z\007ZAP!  You've been teleported!\r\n");
+        return(spc_main());
       }
       printf("The Dwarven King returns....\r\n");
       u.c[63] = spc;
       u.c[64] = CBT_NORM;
       if (cbt_main() == YEP)
-	return(YEP);
+        return(YEP);
       break;
     }
     if (tmp2 == 'P') {
       printf("Pry\r\n");
       sleep(1);
       if (rnd() < 0.1) {
-	printf("The Dwarven King returns....\r\n");
-	u.c[63] = spc;
-	u.c[64] = CBT_NORM;
-	if (cbt_main() == YEP)
-	  return(YEP);
-	break;
+        printf("The Dwarven King returns....\r\n");
+        u.c[63] = spc;
+        u.c[64] = CBT_NORM;
+        if (cbt_main() == YEP)
+          return(YEP);
+        break;
       }
       if (rnd() > 0.3) {
-	printf("They won't come off!\r\n");
-	break;
+        printf("They won't come off!\r\n");
+        break;
       }
       printf("They pop into your greedy hands!\r\n");
       tmp = 6000.0 * rnd() * rnd() * u.c[15] + 500.0;
@@ -463,7 +463,7 @@ trash:
       u.c[12] += tmp;
       dtmp = u.c[15] / (double) u.c[8];
       if (dtmp > 1.0)
-	dtmp = 1.0;
+        dtmp = 1.0;
       u.c[21] += tmp * dtmp;
       break;
     }
@@ -481,7 +481,7 @@ trash:
       u.c[63] = spc;
       u.c[64] = CBT_NORM;
       if (cbt_main() == YEP)
-	return(YEP);
+        return(YEP);
       break;
     }
     printf("The letters blur before your eyes.\r\n");
@@ -520,28 +520,28 @@ trash:
     while (tmp < 2 && tmp != -1) {
       tmp2 = getchar();
       if (islower(tmp2))
-	tmp2 = toupper(tmp2);
+        tmp2 = toupper(tmp2);
       switch(tmp2) {
       case 'R':
-	printf("Red ");
-	sav += 1;
-	break;
+        printf("Red ");
+        sav += 1;
+        break;
       case 'G':
-	printf("Green ");
-	sav += 2;
-	break;
+        printf("Green ");
+        sav += 2;
+        break;
       case 'B':
-	printf("Blue ");
-	sav += 3;
-	break;
+        printf("Blue ");
+        sav += 3;
+        break;
       case 'O':
-	printf("Orange ");
-	sav += 4;
-	break;
+        printf("Orange ");
+        sav += 4;
+        break;
       default:
-	printf("\r\nThat's not a legal color\007!\r\n");
-	printf("Try red, green, blue, or orange.\r\n");
-	tmp = -2;
+        printf("\r\nThat's not a legal color\007!\r\n");
+        printf("Try red, green, blue, or orange.\r\n");
+        tmp = -2;
       }
       tmp++;
       sav *= 10;
@@ -556,7 +556,7 @@ trash:
       u.c[12] += tmp;
       dtmp = u.c[15] / (double) u.c[8];
       if (dtmp > 1.0)
-	dtmp = 1.0;
+        dtmp = 1.0;
       u.c[21] += tmp * dtmp;
       u.c[64] = DGN_NEWLOC;
       return(NOPE);

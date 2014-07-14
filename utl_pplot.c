@@ -163,13 +163,13 @@ char *fnp1
     ap = a + (p - 1);
     for (lcv = 0 ; lcv < lb ; lcv++)
       if (p + lcv > la)
-	*ap++ = *b++;
+        *ap++ = *b++;
       else {
-	if (*ap != ' ') {
-	  ap++;
-	  b++;
-	} else 
-	  *ap++ = *b++;
+        if (*ap != ' ') {
+          ap++;
+          b++;
+        } else 
+          *ap++ = *b++;
       }
     if (null != 0)
       *ap = '\0';
@@ -187,9 +187,9 @@ void utl_pplot
   if (flag == YEP) {
     for (lcv = 37; lcv <= 47 ; lcv++)
       if (u.c[lcv] > 0)
-	u.c[lcv]--;
+        u.c[lcv]--;
       if (u.c[51] < 0)
-	u.c[51] = 0;
+        u.c[51] = 0;
       u.c[11] += u.c[51];
   }
   printf("\r\n\n");
@@ -203,9 +203,9 @@ void utl_pplot
   for (lcv = -1 ; lcv <= 2 ; lcv++)
     for (lcv3 = -1 ; lcv3 <= 2 ; lcv3++) 
       if (x+lcv > 21 || y+lcv3 > 21)
-	u.p[lcv+2][lcv3+2] = 0;
+        u.p[lcv+2][lcv3+2] = 0;
       else
-	u.p[lcv+2][lcv3+2] = u.l[x+lcv][y+lcv3];
+        u.p[lcv+2][lcv3+2] = u.l[x+lcv][y+lcv3];
   ccpos = 1;
   cobps = 0;
   if (x != 1 && fni1(u.p[2][2], 4) == 0) {       /* print top if one */
@@ -222,7 +222,7 @@ void utl_pplot
     strcat(tbuf2, fnd2(1,3));
     if (u.c[37] > 0) 
       if (fni1(u.p[1][2], 9) != 0)     /* light spell */
-	tbuf2[9] = '*';
+        tbuf2[9] = '*';
     optout(tbuf);
     optout(tbuf2);
     optout(tbuf);

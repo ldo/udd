@@ -21,8 +21,8 @@ int cfd = -1;
 
 int chr_load
   (
-	char * name,
-	int lock
+        char * name,
+        int lock
   )
 {
   int tmp;
@@ -32,11 +32,11 @@ int chr_load
       strncpy(u.n[0], c->nam[0], NAMELEN);
       strncpy(u.n[1], c->nam[1], NAMELEN);
       for (tmp = 0 ; tmp < 65; tmp++)
-	u.c[tmp] = ntohl(c->c[tmp]);
+        u.c[tmp] = ntohl(c->c[tmp]);
       if (lock == LOCK && u.c[57] != 0) 
-	return(MAYBE);       /* lock failed! */
+        return(MAYBE);       /* lock failed! */
       if (lock == LOCK && chr_lck_nuke(LOCK) == NOPE)
-	return(MAYBE);       /* lock failed! */
+        return(MAYBE);       /* lock failed! */
       if (lock == LOCK)
         u.c[57] = 1;
       return(YEP);
@@ -78,7 +78,7 @@ struct chr *chr_scan(void)
 
 int chr_save
   (
-	int unlock
+        int unlock
   )
 {
   struct chr sav, *cp;
@@ -92,7 +92,7 @@ int chr_save
   signal(SIGTSTP, SIG_IGN);
 #endif
   while((cwfp = lock_open(FIL_CHR, O_RDWR, FIL_CHR_LD, FIL_CHR_LK, 3)) < 0
-	&& (cwfp == -2)) {
+        && (cwfp == -2)) {
     printf("[File busy - please wait]\r\n");
     sleep(roll(1,2));
   }
@@ -145,7 +145,7 @@ int chr_save
 
 int chr_lck_nuke
   (
-	int lock
+        int lock
   )
   /* lock/nuke spot n - 1 */
 {
@@ -162,7 +162,7 @@ int chr_lck_nuke
     for (cwfp = 0 ; cwfp < 65 ; cwfp++)
       zap.c[cwfp] = 0;
   while((cwfp = lock_open(FIL_CHR, O_RDWR, FIL_CHR_LD, FIL_CHR_LK, 3)) < 0
-	&& (cwfp == -2)) {
+        && (cwfp == -2)) {
     printf("[File busy - please wait]\r\n");
     sleep(roll(1,2));
   }
@@ -193,7 +193,7 @@ int chr_new(void)
   struct chr *cp, cpout;
   chr_rset();
   while((cwfp = lock_open(FIL_CHR, O_RDWR, FIL_CHR_LD, FIL_CHR_LK, 3)) < 0
-	&& (cwfp == -2)) {
+        && (cwfp == -2)) {
     printf("[File busy - please wait]\r\n");
     sleep(roll(1,2));
   }

@@ -41,12 +41,12 @@ int dlvl_choose(void)
   printf("The choices are:\r\n");
   for (tmp = 0 ; tmp < n_dlvl ; tmp++) {
     lseek(dfd, sizeof(n_dlvl) + tmp * (DNAM_SZ + sizeof(dd.dstart) + 8000), 
-	  L_SET);
+          L_SET);
     read(dfd, dd.dnam, DNAM_SZ);
     read(dfd, (char *) &(dd.dstart), sizeof(dd.dstart));
     dd.dstart = ntohs(dd.dstart);
     printf("[%d] %s%s\r\n", tmp + 1, dd.dnam,
-	   (dd.dstart == 400) ? " (closed for repairs)" : "");
+           (dd.dstart == 400) ? " (closed for repairs)" : "");
     if (dd.dstart == 400)
       tmp2++;
   }
@@ -72,13 +72,13 @@ int dlvl_choose(void)
     while (dd.dstart == 400) { 
       tmp2 = roll(1, n_dlvl);
       lseek(dfd, sizeof(n_dlvl) + (tmp2 - 1) * (DNAM_SZ + 8000 + 
-						sizeof(dd.dstart)), L_SET);
+                                                sizeof(dd.dstart)), L_SET);
       read(dfd, dd.dnam, DNAM_SZ);
       read(dfd, (char *) &(dd.dstart), sizeof(dd.dstart));
       dd.dstart = ntohs(dd.dstart);
       if (dd.dstart != 400) {
-	printf("%s\r\n", dd.dnam);
-	return(tmp2);
+        printf("%s\r\n", dd.dnam);
+        return(tmp2);
       }
     }
   tmp = tmp - '1' + 1;
@@ -87,7 +87,7 @@ int dlvl_choose(void)
     goto ctop;
   }
   lseek(dfd, sizeof(n_dlvl) + (tmp - 1) * (DNAM_SZ + 8000 + 
-					   sizeof(dd.dstart)), L_SET);
+                                           sizeof(dd.dstart)), L_SET);
   read(dfd, dd.dnam, DNAM_SZ);
   read(dfd, (char *) &(dd.dstart), sizeof(dd.dstart));
   dd.dstart = ntohs(dd.dstart);
@@ -106,8 +106,8 @@ int dlvl_choose(void)
 
 int dlvl_loadum
   (
-	int dno,
-	int lvl
+        int dno,
+        int lvl
   )
 {
   int tmp, tmp2;
@@ -129,7 +129,7 @@ int dlvl_loadum
 
 void dlvl_get_start
   (
-	int dno
+        int dno
   )
 {
   int tmp;

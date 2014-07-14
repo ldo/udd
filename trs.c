@@ -45,20 +45,20 @@ int trs_main(void)
       trs = 100 * rnd() * l + 10;
     } else 
       if (tmp <= 40) {
-	printf("You see a pile of gold...\r\n");
-	trs = 500 * rnd() * l + 50;
+        printf("You see a pile of gold...\r\n");
+        trs = 500 * rnd() * l + 50;
       } else
-	if (tmp <= 60) {
-	  printf("You see a pile of platinum...\r\n");
-	  trs = 1000 * rnd() * l + 100;
-	} else
-	  if (tmp <= 72) {
-	    printf("You see some gems...\r\n");
-	    trs = 500.0 * sqrt((double)rnd()) * l + 150.0;
-	  } else {
-	    printf("You see a jewel...\r\n");
-	    trs = 6000.0 * rnd() * rnd() * rnd() * l + 500;
-	  }
+        if (tmp <= 60) {
+          printf("You see a pile of platinum...\r\n");
+          trs = 1000 * rnd() * l + 100;
+        } else
+          if (tmp <= 72) {
+            printf("You see some gems...\r\n");
+            trs = 500.0 * sqrt((double)rnd()) * l + 150.0;
+          } else {
+            printf("You see a jewel...\r\n");
+            trs = 6000.0 * rnd() * rnd() * rnd() * l + 500;
+          }
   trs_top:
     utl_dtrp();
     printf("Press <CR> to pick it up, <LF> to leave it behind: ");
@@ -76,7 +76,7 @@ int trs_main(void)
     }
     if (u.i[8] == 1)
       if (cbt_ohitu((int) (u.c[15] / 1.2)) == YEP)
-	return(YEP);
+        return(YEP);
     printf("The treasure is worth %d gold.\r\n", trs);
     u.c[12] += trs;
     u.c[64] = XXX_NORM;

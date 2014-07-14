@@ -21,11 +21,11 @@
 
 int lock_open
   (
-	char * file,
-	int mode,
-	char * lockdir,
-	char * lockfile,
-	int maxtime
+        char * file,
+        int mode,
+        char * lockdir,
+        char * lockfile,
+        int maxtime
   )
 {
   int fd, fd2, rv;
@@ -58,7 +58,7 @@ int lock_open
     }
     /* stale lock... (shouldn't happen often) */
     unlink(lfile);
-    sleep(5 + (getpid() % 64));	/* semi-random backoff */
+    sleep(5 + (getpid() % 64)); /* semi-random backoff */
     close(fd);
     goto ReTry;
   }
@@ -87,9 +87,9 @@ int lock_open
 
 int lock_close
   (
-	int fd,
-	char * lockdir,
-	char * lockfile
+        int fd,
+        char * lockdir,
+        char * lockfile
   )
 {
   char lfile[MAXPATHLEN];

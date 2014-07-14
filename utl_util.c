@@ -342,7 +342,7 @@ void utl_adj_st(void)
     while (u.c[i2] - i3 < 1)
       i3--;
   printf("Your %.3s just went %s by %d.\r\n", st + ((i2 - 1) * 3), 
-	 (i1 == 1) ? "down" : "up", i3);
+         (i1 == 1) ? "down" : "up", i3);
   if (i1 == 1)
     i3 = -i3;
   u.c[i2] += i3;
@@ -357,7 +357,7 @@ int utl_adj_ex(void)
   i1 = roll(1,2);
   i2 = (rnd() * 500 + 2) * u.c[15];
   printf("You just %s %d experience points.\r\n",
-	 (i1 == 1) ? "lost" : "gained", i2);
+         (i1 == 1) ? "lost" : "gained", i2);
   if (i1 == 1)
     i2 = -i2;
   u.c[9] += i2;
