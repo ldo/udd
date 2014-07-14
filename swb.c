@@ -26,7 +26,6 @@ int main
   )
   {
     int alevel = swb_ppnok();
-    int done = NOPE;
     int tmp, tmp2, sts[7];
     int sav, sav2;
     int wiz = swb_wiz();
@@ -55,7 +54,7 @@ int main
     swb_note("Current note:", FIL_NOT, 0);
     swb_note("ORB finders:", FIL_ORB, 1);
     printf("\r\n");
-    while (done == NOPE)
+    for (;;)
       {
         printf("Hit \"L\" for a list of options.\r\n");
 prompt_top:
@@ -534,6 +533,6 @@ find_top:
         default:
             printf("\r\n%d: This can't happen!\r\n", ddd);
           } /*switch*/
-        } /*while*/
+      } /*for*/
   } /*main*/
 
