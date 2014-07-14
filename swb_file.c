@@ -7,19 +7,25 @@
  *
  */
 
+#include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 #include "defs.h"
 
-char buf[BUFSIZ];
-
-/*
- * stuff you might want to change...
- *
- */
+static char buf[BUFSIZ];
 
 int swb_ppnok(void)
   /* NOPE=can't run program, MAYBE=can't Create, Run or Kill, YEP=full access */
 {
+    const char * const str = getenv("UDD_PLAYER");
+    const int priv = str != NULL ? atoi(str) : 2;
+    return
+        priv == 2 ?
+            YEP
+        : priv == 1 ?
+            MAYBE
+        :
+            NOPE;
   return(YEP);
 }
 
@@ -28,15 +34,12 @@ int swb_wiz(void)
   /* 1=access to operator program and no password kill */
   /* 0=normal user */
 {
-  if (getuid() == 54171)       /* uid 54171 = chuck */
-    return(1);
-  else
-    return(0);
+    const char * const str = getenv("UDD_WIZ");
+    return
+        str != NULL && strlen(str) != 0;
 }
 
 
-
-/* DO NOT EDIT BELOW THIS LINE */
 
 void swb_note
   (
