@@ -114,8 +114,8 @@ int dgn_nomove
       printf("5, S\tstay and wait a turn\n\r");
       printf("8, W\tMove north\n\r");
       printf("6, D\tMove east\n\r");
-      printf("4, A\tMove south\n\r");
-      printf("2, X\tMove west\n\r");
+      printf("4, A\tMove west\n\r");
+      printf("2, X\tMove south\n\r");
       printf("C\tCast spell\n\r");
       printf("R\tDrop the ORB if you've got it\n\r");
       printf("<CR>\tList stats and equipment\n\r");
