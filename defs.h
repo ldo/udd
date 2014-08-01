@@ -7,6 +7,8 @@
  *
  */
 
+#include <stdbool.h>
+
 #ifdef MAIN
 #define EXTERN
 #else
