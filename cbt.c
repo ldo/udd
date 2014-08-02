@@ -23,7 +23,6 @@ struct slev fns[4] = {
 
 
 int cbt_main(void)
-
 {
   int ok, s1, tmp;
   int aflag = 0;
@@ -370,7 +369,6 @@ int cbt_main(void)
 }
 
 int cbt_cast(void)
-
 {
   int in2, lvl = 0, spl = 0;
   if (u.c[64] == CBT_CAST) {
@@ -417,5 +415,3 @@ s_top:
     return( (*fns[lvl - 1].cs)(spl) );
   }
 }
-
-

@@ -43,9 +43,9 @@ int swb_wiz(void)
 
 void swb_note
   (
-        char * msg,
-        char * file,
-        int wiz
+    char * msg,
+    char * file,
+    int wiz
   )
 {
   FILE *fp;

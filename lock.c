@@ -21,11 +21,11 @@
 
 int lock_open
   (
-        char * file,
-        int mode,
-        char * lockdir,
-        char * lockfile,
-        int maxtime
+    char * file,
+    int mode,
+    char * lockdir,
+    char * lockfile,
+    int maxtime
   )
 {
   int fd, fd2, rv;
@@ -87,9 +87,9 @@ int lock_open
 
 int lock_close
   (
-        int fd,
-        char * lockdir,
-        char * lockfile
+    int fd,
+    char * lockdir,
+    char * lockfile
   )
 {
   char lfile[MAXPATHLEN];

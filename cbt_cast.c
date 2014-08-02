@@ -27,7 +27,7 @@ int cbt_ok(void)
 
 int ms1
   (
-        int s
+    int s
   )
   /* MAGE lvl 1 */
 {
@@ -121,7 +121,7 @@ int ms1
 
 int ms2
   (
-        int s
+    int s
   )
 {
   int tmp;
@@ -186,7 +186,7 @@ int ms2
 
 int ms3
   (
-        int s
+    int s
   )
 {
   int tmp, x1, y1;
@@ -292,7 +292,7 @@ int ms3
 
 int ms4
   (
-        int s
+    int s
   )
 {
   int tmp;
@@ -413,7 +413,7 @@ int ms4
 
 int cs1
   (
-        int s
+    int s
   )
 {
   int tmp;
@@ -456,7 +456,7 @@ int cs1
 
 int cs2
   (
-        int s
+    int s
   )
 {
   int tmp;
@@ -492,7 +492,7 @@ int cs2
 
 int cs3
   (
-        int s
+    int s
   )
 {
   int tmp;
@@ -545,7 +545,7 @@ int cs3
 
 int cs4
   (
-        int s
+    int s
   )
 {
   int tmp;

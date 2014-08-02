@@ -239,7 +239,7 @@ int spc_main(void)
     tmp = roll(1,20);        /* desc ok if = 1 */
   alt_top2:
     printf("Do you wish to (W)orship%s or (I)gnore it? ",
-           (tmp == 1) ? ", (D)esicrate," : "");
+           (tmp == 1) ? ", (D)esecrate," : "");
     sav2 = getchar();
     if (sav2 < 0)
       sav2 = 'I';

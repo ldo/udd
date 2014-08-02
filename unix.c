@@ -46,7 +46,7 @@ void unix_init(void)
 
 void unix_exit
   (
-        int n
+    int n
   )
 {
   TTY_SET(&out);
@@ -55,7 +55,7 @@ void unix_exit
 
 void sigstop
   (
-        int signum
+    int signum
   )
 {
   TTY_SET(&out);
@@ -111,7 +111,7 @@ char *month[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep",
 
 char *unix_date
   (
-        long dat
+    long dat
   )
 {
   struct tm *t;
@@ -124,7 +124,7 @@ char *unix_date
 
 void sighup
   (
-        int signum
+    int signum
   )
 {
   if (autosave != 0) {

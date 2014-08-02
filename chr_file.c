@@ -21,8 +21,8 @@ int cfd = -1;
 
 int chr_load
   (
-        char * name,
-        int lock
+    char * name,
+    int lock
   )
 {
   int tmp;
@@ -78,7 +78,7 @@ struct chr *chr_scan(void)
 
 int chr_save
   (
-        int unlock
+    int unlock
   )
 {
   struct chr sav, *cp;
@@ -145,7 +145,7 @@ int chr_save
 
 int chr_lck_nuke
   (
-        int lock
+    int lock
   )
   /* lock/nuke spot n - 1 */
 {

@@ -212,5 +212,3 @@ int trs_obj(void)
   u.c[64] = XXX_NORM;
   return(NOPE);
 }
-
-

@@ -106,8 +106,8 @@ int dlvl_choose(void)
 
 int dlvl_loadum
   (
-        int dno,
-        int lvl
+    int dno,
+    int lvl
   )
 {
   int tmp, tmp2;
@@ -129,7 +129,7 @@ int dlvl_loadum
 
 void dlvl_get_start
   (
-        int dno
+    int dno
   )
 {
   int tmp;
