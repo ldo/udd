@@ -188,13 +188,13 @@ void utl_pplot
     for (lcv = 37; lcv <= 47 ; lcv++)
       if (u.c[lcv] > 0)
         u.c[lcv]--;
-      if (u.c[51] < 0)
-        u.c[51] = 0;
-      u.c[11] += u.c[51];
+      if (u.c[UC_RING] < 0)
+        u.c[UC_RING] = 0;
+      u.c[UC_CURHIT] += u.c[UC_RING];
   }
   printf("\r\n\n");
-  x = u.c[16];
-  y = u.c[17];
+  x = u.c[UC_DGN_X];
+  y = u.c[UC_DGN_Y];
   for (lcv = 0 ; lcv < 11 ; lcv++) {
     if (u.c[SPLBASE+lcv] > 0)
       printf("%.4s:", lcv*4 + "LGHTPROTSHLDPRAYDTRPSLNCLEVTSTRGFEARINVSTMST");

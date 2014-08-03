@@ -115,6 +115,44 @@ struct chr {
   int c[65];
 };
 
+/* usage of "various stuff" array */
+#define UC_ALIVE 0 /* character is actually alive */
+#define UC_STRENGTH 1 /* strength attribute */
+#define UC_INTEL 2 /* intelligence attribute */
+#define UC_WISDOM 3 /* wisdom attribute */
+#define UC_CONSTIT 4 /* constitution attribute */
+#define UC_DEX 5 /* dexterity attribute */
+#define UC_CHARISMA 6 /* charisma attribute */
+#define UC_CLASS 7 /* character class */
+#define UC_LEVEL 8 /* character level */
+#define UC_EXP 9 /* experience */
+#define UC_MAXHIT 10 /* max hit points */
+#define UC_CURHIT 11 /* current hit points */
+#define UC_GOLDFOUND 12 /* how much gold character is carrying in dungeon */
+#define UC_TOTALGOLD 13 /* how much gold character has brought out of dungeon */
+/* 14 not used */
+#define UC_DGNLVL 15 /* number of level within dungeon */
+#define UC_DGN_X 16 /* x-coordinate within dungeon */
+#define UC_DGN_Y 17 /* y-coordinate within dungeon */
+#define UC_DGNNR 18 /* number of dungeon */
+/* 19 and 20 initialized in swb.c, but not used anywhere else? */
+#define UC_EXPGAIN 21 /* how much experience user will gain on successfully leaving the dungeon */
+#define UC_WEAPON 22 /* weapon power, -1 for none, >0 for magic (actual weapon is class-dependent) */
+#define UC_ARMOR 23 /* armour power, -1 for none, >0 for magic (actual armour type is class-dependent) */
+#define UC_SHIELD 24 /* type of shield, if any: 0 none, -1 non-magic, 1 magic */
+#define UC_GID 48 /* group ID of user owning character */
+#define UC_UID 49 /* user ID of user owning character */
+#define UC_HASORB 50 /* player has orb */
+#define UC_RING 51 /* power of ring of regeneration, if any */
+#define UC_ELVEN_CLOAK 52 /* power of elven cloak, if any */
+#define UC_ELVEN_BOOTS 53 /* power of elven boots, if any */
+#define UC_LOCKED 57 /* character is locked (in use) */
+#define UC_CREATED 59 /* timestamp when character was created */
+#define UC_LASTRUN 60 /* timestamp when character was last run */
+#define UC_DEBUGCHR 61 /* character created for debugging only */
+#define UC_WIZONLY 62 /* character only accessible to wizard players */
+#define UC_STATE 64 /* controls what to do with character next */
+
 struct dgnstr {
   char dnam[DNAM_SZ];
   short int dstart;

@@ -19,22 +19,22 @@ int dgn_nomove
   switch (cmd) {
     case 1:
       printf("Cast\r\n");
-      u.c[64] = CBT_CAST;
+      u.c[UC_STATE] = CBT_CAST;
       return(cbt_main());
     case 2:
       printf("Return ORB\r\n");
-      if (u.c[50] != 1)
+      if (u.c[UC_HASORB] != 1)
         printf("You don't have an orb to drop, stupid!\r\n");
       else {
         printf("Are you sure? ");
         in = getchar();
         if (in == 'y' || in == 'Y') {
           printf("Yes\r\nThe ORB disappears as you drop it.\r\n");
-          u.c[50] = 0;
+          u.c[UC_HASORB] = 0;
         } else
         printf("No\r\nI didn't think so!\r\n");
       }
-      u.c[64] = DGN_PROMPT;
+      u.c[UC_STATE] = DGN_PROMPT;
       return(NOPE);
     case 3:
       printf("Stats\r\n");
@@ -58,7 +58,7 @@ int dgn_nomove
         return(utl_death());
       } else
       printf("No\r\nIt's not all that bad...I guess.\r\n");
-      u.c[64] = DGN_PROMPT;
+      u.c[UC_STATE] = DGN_PROMPT;
       return(NOPE);
     case 7:
       printf("Quit\r\n");
@@ -66,26 +66,26 @@ int dgn_nomove
       in = getchar();
       if (in == 'y' || in == 'Y') {
         printf("Yes\r\nSaving your position sire...\r\n");
-        u.c[64] = XXX_NORM;
+        u.c[UC_STATE] = XXX_NORM;
         return(chr_save(YEP)); 
       } else
       printf("No\r\n");
-      u.c[64] = DGN_PROMPT;
+      u.c[UC_STATE] = DGN_PROMPT;
       return(NOPE);
     case 8:
       printf("Utter\r\n");
       printf("\"Oh, Great Ghod!  Get me the F___ out of here!\"\r\n");
-      u.c[12] *= 1 - (rnd() * rnd());  /* steal gold */
+      u.c[UC_GOLDFOUND] *= 1 - (rnd() * rnd());  /* steal gold */
       if (rnd() > 0.25) {              /* do we hate it? */
         printf("\"F___ off little twerp!\"\r\n\n");  /* tell it */
-        if (--u.c[11] < 1)             /* give a hit. Did we kill it? */
+        if (--u.c[UC_CURHIT] < 1)             /* give a hit. Did we kill it? */
           return(utl_death());         /* ***YES*** */
-        u.c[64] = DGN_PROMPT;          /* too bad */
+        u.c[UC_STATE] = DGN_PROMPT;          /* too bad */
         return(NOPE);
       }
-      u.c[4]--;                        /* CON -- */
-      u.c[11]*= 2/3.0;                 /* get hits */
-      if (u.c[4] < 1 || u.c[11] < 1)
+      u.c[UC_CONSTIT]--;                        /* CON -- */
+      u.c[UC_CURHIT]*= 2/3.0;                 /* get hits */
+      if (u.c[UC_CONSTIT] < 1 || u.c[UC_CURHIT] < 1)
         return(utl_death());
       in = roll(1,10);
       if (in < 4)
@@ -95,7 +95,7 @@ int dgn_nomove
           u.c[50 + in - 3] = 0;
         else
           if (in == 8)
-            u.c[51] = 0;
+            u.c[UC_RING] = 0;
       for (in = 15 ; in <= 17 ; in++) {
         u.c[in] += roll(1,5) - 3;
         if (u.c[in] < 1)
@@ -106,7 +106,7 @@ int dgn_nomove
       }
       utl_inilvl();
       printf("\"Well, I can always try, but it will cost you.\"\r\n");
-      u.c[64] = DGN_NEWLOC;
+      u.c[UC_STATE] = DGN_NEWLOC;
       return(NOPE);
     case 9:
       printf("Help\r\n");
@@ -126,7 +126,7 @@ int dgn_nomove
       printf("\t (it will be restarted where you left)\n\r");
       printf("U\tUtter a pray for escape to the Nameless God\n\r");
       printf("H\tHelp (type this list)\n\r");
-      u.c[64] = DGN_PROMPT;
+      u.c[UC_STATE] = DGN_PROMPT;
       return(NOPE);
     default:
       printf("panic: nomove invalid command: %d\n", cmd);

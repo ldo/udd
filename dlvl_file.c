@@ -56,7 +56,7 @@ int dlvl_choose(void)
     return;
   }
   printf("Press the number of the dungeon, or <CR> to ");
-  if (u.c[18] == 0)
+  if (u.c[UC_DGNNR] == 0)
     printf("let me choose.\r\n");
   else
     printf("continue in the same dungeon.\r\n");
@@ -66,8 +66,8 @@ int dlvl_choose(void)
   if (tmp < 0)
     tmp = '1';
   dd.dstart = 400;
-  if (u.c[18] != 0 && tmp == '\r')
-    tmp = u.c[18] + '1' - 1;
+  if (u.c[UC_DGNNR] != 0 && tmp == '\r')
+    tmp = u.c[UC_DGNNR] + '1' - 1;
   if (tmp == '\r') 
     while (dd.dstart == 400) { 
       tmp2 = roll(1, n_dlvl);
@@ -94,7 +94,7 @@ int dlvl_choose(void)
   printf("%s\r\n", dd.dnam);
   if (dd.dstart == 400) {
     printf("That dungeon is CLOSED for repairs.\r\n");
-    if (u.c[61] == 1) {
+    if (u.c[UC_DEBUGCHR] == 1) {
       printf("However, since you are in debug mode, you may enter...\r\n");
       dd.dstart = 0;
     } else

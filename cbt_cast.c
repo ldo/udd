@@ -48,7 +48,7 @@ int ms1
       printf("%s is magic resistant\007!\r\n", mnam);
       break;
     }
-    if (2*(roll(3,6) - u.c[8] + m1) > u.c[2] + u.c[6]) {
+    if (2*(roll(3,6) - u.c[UC_LEVEL] + m1) > u.c[UC_INTEL] + u.c[UC_CHARISMA]) {
       printf("Your charm failed!\r\n");
       break;
     }
@@ -60,7 +60,7 @@ int ms1
       autoevade = mskip = 1;
       break;
     }
-    if (roll(3,6) - u.c[8] + m1 <= u.c[6]) {
+    if (roll(3,6) - u.c[UC_LEVEL] + m1 <= u.c[UC_CHARISMA]) {
       printf("It dies...\r\n");
       dead = 1;
     } else
@@ -82,7 +82,7 @@ int ms1
       printf("%s is magic resistant\007!\r\n", mnam);
       break;
     }
-    if (roll(3,6) - u.c[8] + m1 > u.c[2]) {
+    if (roll(3,6) - u.c[UC_LEVEL] + m1 > u.c[UC_INTEL]) {
       printf("It wont sleep!\r\n");
       break;
     }
@@ -94,7 +94,7 @@ int ms1
       autoevade = mskip = 1;
       break;
     }
-    if (roll(3,6) - u.c[8] + m1 < u.c[2]) {
+    if (roll(3,6) - u.c[UC_LEVEL] + m1 < u.c[UC_INTEL]) {
       printf("It dies...\r\n");
       dead = 1;
     } else
@@ -128,7 +128,7 @@ int ms2
   switch(s) {
   case 1:          /* phant force */
     cbt_chk();
-    if (roll(3,6) + m1 - u.c[8] + 1 < u.c[2]) {
+    if (roll(3,6) + m1 - u.c[UC_LEVEL] + 1 < u.c[UC_INTEL]) {
       printf("The %s believed...!\r\n", mnam);
       dead = 1;
     } else {
@@ -137,7 +137,7 @@ int ms2
     break;
   case 2:          /* web */
     cbt_chk();
-    if (roll(3,6) * 2 > u.c[2] + u.c[5]) {
+    if (roll(3,6) * 2 > u.c[UC_INTEL] + u.c[UC_DEX]) {
       printf("You missed the %s!\r\n", mnam);
       break;
     }
@@ -153,8 +153,8 @@ int ms2
     break;
   case 3:          /* l. bolt */
     cbt_chk();
-    tmp = roll(u.c[8], 6);
-    if (roll(1,10) - m1 + u.c[8]  < 6)
+    tmp = roll(u.c[UC_LEVEL], 6);
+    if (roll(1,10) - m1 + u.c[UC_LEVEL]  < 6)
       tmp = (int) (tmp / 2.0 + 0.5);
     printf("ZZAAAPPPP!!!!!!!\007\r\n");
     cbt_uhitm(tmp);
@@ -194,8 +194,8 @@ int ms3
   switch (s) {
   case 1:          /* fireball */
     cbt_chk();
-    tmp = roll(u.c[8], 10);
-    if (roll(1, 10) - m1 + u.c[8] < 6)
+    tmp = roll(u.c[UC_LEVEL], 10);
+    if (roll(1, 10) - m1 + u.c[UC_LEVEL] < 6)
       tmp = (int) (tmp / 2.0 + 0.5);
     printf("The %s is burning...\r\n", mnam);
     cbt_uhitm(tmp);
@@ -206,7 +206,7 @@ int ms3
       printf("%s is magic resistant!\r\n", mnam);
       break;
     }
-    if (roll(3,6) > u.c[2]) {
+    if (roll(3,6) > u.c[UC_INTEL]) {
       printf("The spell failed...\r\n");
       break;
     }
@@ -239,15 +239,15 @@ int ms3
     tmp = pc - passcmd + 1;
     if (tmp > 4)
       tmp -= 4;
-    x1 = u.c[16] + q[tmp][1];
-    y1 = u.c[17] + q[tmp][2];
+    x1 = u.c[UC_DGN_X] + q[tmp][1];
+    y1 = u.c[UC_DGN_Y] + q[tmp][2];
     if (x1 < 1 || x1 > 20 || y1 < 1 || y1 > 20 ||
         (u.l[x1][y1] & 240) == 240) {
       printf("Only stone there...\r\n");
       break;
     }
     printf("*POOF*\b\b\b\b\b\b++++++\b\b\b\b\b\b******\n\r");
-    u.c[64] = DGN_AMOVE;
+    u.c[UC_STATE] = DGN_AMOVE;
     u.c[63] = tmp;
     break;
   case 4:          /* hold monst */
@@ -256,7 +256,7 @@ int ms3
       printf("%s is magic resistant!\007\r\n", mnam);
       break;
     }
-    if (roll(3,6) -u.c[8] + m1 > u.c[6]) 
+    if (roll(3,6) -u.c[UC_LEVEL] + m1 > u.c[UC_CHARISMA]) 
       printf("The %s breaks free...\r\n", mnam);
     else {
       printf("The %s is held.  Press <CR> to kill, <LF> to evade: ", mnam);
@@ -298,31 +298,31 @@ int ms4
   int tmp;
   switch(s) {
   case 1:          /* tpt */
-    if (roll(3,6) + 1 > u.c[2]) {
+    if (roll(3,6) + 1 > u.c[UC_INTEL]) {
       printf("It failed!\r\n");        /* used to be auto-death - CDC */
       break;
     }
-    u.c[15] = roll(1,20);
-    u.c[16] = roll(1,20);
-    u.c[17] = roll(1,20);
+    u.c[UC_DGNLVL] = roll(1,20);
+    u.c[UC_DGN_X] = roll(1,20);
+    u.c[UC_DGN_Y] = roll(1,20);
     utl_inilvl();
-    u.c[64] = DGN_NEWLOC;
+    u.c[UC_STATE] = DGN_NEWLOC;
     break;
   case 2:          /* p. word kill */
     if (roll(3,6) == 18) {
-      tmp = 0.5 * u.c[11];
+      tmp = 0.5 * u.c[UC_CURHIT];
       if (tmp < 1)
         tmp = 1;
       printf("It backfired: you suffer %d hit point%s.\n\r",
-             u.c[11] - tmp, (u.c[11] - tmp == 1) ? "" : "s");
-      u.c[11] = tmp;
+             u.c[UC_CURHIT] - tmp, (u.c[UC_CURHIT] - tmp == 1) ? "" : "s");
+      u.c[UC_CURHIT] = tmp;
       break;
     }
     if (m == 15 && rnd() > 0.5) {
       printf("%s is magic resistant\007!\r\n", mnam);
       break;
     }
-    if (roll(3,6) < u.c[2]) {
+    if (roll(3,6) < u.c[UC_INTEL]) {
       printf("It is affected.\r\nIt died...\r\n");
       dead = 1;
     } else
@@ -378,7 +378,7 @@ int ms4
     break;
   case 6:          /* summon demon */
     cbt_chk();     /* XXX CDC, too painful to do right */
-    if (roll(3,6) + 1 > u.c[2]) {
+    if (roll(3,6) + 1 > u.c[UC_INTEL]) {
       printf("The demon is taking a bath.\r\n");
       break;
     }
@@ -388,14 +388,14 @@ int ms4
       gone = dead = 1;
     }
     sleep(2);
-    if (roll(3,6) + 1 <= u.c[2])
+    if (roll(3,6) + 1 <= u.c[UC_INTEL])
       printf("You dispelled the demon.\r\n");
     else {
       printf("It attacks you!!\r\n");
       mnam = "Demon";
       hflag = 0;
       m = 20;
-      m1 = u.c[8] + 5;
+      m1 = u.c[UC_LEVEL] + 5;
       m2,m2_old = roll(m1, 16);
       m_str = roll(1, mm[m].m);
       m_arm = roll(1,m1) - 1;
@@ -425,11 +425,11 @@ int cs1
     ms1(6);
     break;
   case 3:          /* cure light */
-    u.c[11] += roll(1,6) + 1;
-    if (u.c[11] > u.c[10]) 
-      u.c[11] = u.c[10];
-    printf("You now have %d hit point%s.\r\n", u.c[11], 
-           (u.c[11] == 1) ? "" : "s");
+    u.c[UC_CURHIT] += roll(1,6) + 1;
+    if (u.c[UC_CURHIT] > u.c[UC_MAXHIT]) 
+      u.c[UC_CURHIT] = u.c[UC_MAXHIT];
+    printf("You now have %d hit point%s.\r\n", u.c[UC_CURHIT], 
+           (u.c[UC_CURHIT] == 1) ? "" : "s");
     break;
   case 4:          /* turn undead */
     printf("GET YE HENCE VILE CREATURE!!!\r\n");
@@ -438,7 +438,7 @@ int cs1
       printf("The %s feels insulted at being called undead.\r\n", mnam);
       break;
     }
-    if (roll(3,6) + 3 + m1 - u.c[8] > u.c[3]) 
+    if (roll(3,6) + 3 + m1 - u.c[UC_LEVEL] > u.c[UC_WISDOM]) 
       printf("The %s listens with deaf ears.\r\n", mnam);
     else {
       printf("The %s runs in terror!\r\n", mnam);
@@ -498,10 +498,10 @@ int cs3
   int tmp;
   switch (s) {
   case 1:          /* cure serious */
-    u.c[11] += roll(2,6) + 2;
-    if (u.c[11] > u.c[10])
-      u.c[11] = u.c[10];
-    printf("You now have %d hit points.\r\n", u.c[11]);
+    u.c[UC_CURHIT] += roll(2,6) + 2;
+    if (u.c[UC_CURHIT] > u.c[UC_MAXHIT])
+      u.c[UC_CURHIT] = u.c[UC_MAXHIT];
+    printf("You now have %d hit points.\r\n", u.c[UC_CURHIT]);
     break;
   case 2:          /* dispell */
     cbt_chk();
@@ -509,7 +509,7 @@ int cs3
       printf("The %s feels insulted at being called undead.\r\n", mnam);
       break;
     }
-    if (roll(3,6) + 2 > u.c[3]) 
+    if (roll(3,6) + 2 > u.c[UC_WISDOM]) 
       printf("The %s scorns your words.\r\n", mnam);
     else {
       printf("The %s is dispelled into thin air!\r\n", mnam);
@@ -521,18 +521,18 @@ int cs3
     break;
   case 4:          /* plague */
     cbt_chk();
-    if (roll(3,6) + 2 > u.c[3]) {
+    if (roll(3,6) + 2 > u.c[UC_WISDOM]) {
       printf("The %s just had its penicillin shot!\r\n", mnam);
       break;
     }
     printf("The %s dies of the black plague!!\r\n", mnam);
     u.i[6] = 0;
     dead = 1;
-    if (roll(1, 10) == 1 && u.c[11] > 1) {
-      tmp = u.c[11] / 2.0;   /* XXX CDC used be auto-kill */
+    if (roll(1, 10) == 1 && u.c[UC_CURHIT] > 1) {
+      tmp = u.c[UC_CURHIT] / 2.0;   /* XXX CDC used be auto-kill */
       printf("You caught it too!! You suffer %d hit point%s.\r\n",
-             u.c[11] - tmp, (u.c[11] - tmp) == 1 ? "" : "s");
-      u.c[11] = tmp;
+             u.c[UC_CURHIT] - tmp, (u.c[UC_CURHIT] - tmp) == 1 ? "" : "s");
+      u.c[UC_CURHIT] = tmp;
     }
     break;
   default:
@@ -556,7 +556,7 @@ int cs4
   case 2:          /* fing. of death */
     cbt_chk();
     printf("Die %s!! ZZAAAPPP!!!!\r\n", mnam);
-    if (roll(1,20) <= u.c[3]) {
+    if (roll(1,20) <= u.c[UC_WISDOM]) {
       printf("It died...\r\n");
       dead = 1;
     } else

@@ -33,10 +33,10 @@ int cbt_ohitu
   )
 {
   int pts;
-  pts = rnd() * ( l * (4 - u.c[7])) + 1;
+  pts = rnd() * ( l * (4 - u.c[UC_CLASS])) + 1;
   printf("You suffer %d hit point%s.\r\n", pts, (pts == 1) ? "" : "s");
-  u.c[11] -= pts;
-  if (u.c[11] < 1) {
+  u.c[UC_CURHIT] -= pts;
+  if (u.c[UC_CURHIT] < 1) {
     printf("Your life has been terminated.\r\n");
     return(utl_death());
   }

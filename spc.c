@@ -22,7 +22,7 @@ int spc_main(void)
   double dtmp;
   char tmpbuf[NAMELEN];
   int spc = u.i[5];
-  if (u.c[64] == SPC_TPTNOW)
+  if (u.c[UC_STATE] == SPC_TPTNOW)
     spc = SPC_TPTNOW;
   switch (spc) {
   case SPC_UPS:
@@ -42,29 +42,29 @@ int spc_main(void)
     }
     if (spc != 1 && (tmp2 == 'u' || tmp2 == 'U')) {
       printf("Up\r\n");
-      u.c[15]--;
-      if (u.c[15] < 1)
+      u.c[UC_DGNLVL]--;
+      if (u.c[UC_DGNLVL] < 1)
         return(utl_escape());
       utl_inilvl();
-      u.c[64] = DGN_NEWLOC;
+      u.c[UC_STATE] = DGN_NEWLOC;
       return(NOPE);
     }
     if (spc != 2 && (tmp2 == 'd' || tmp2 == 'D')) {
       printf("Down\r\n");
-      if (u.c[15] >= 20) {
+      if (u.c[UC_DGNLVL] >= 20) {
         printf("You find the way is blocked by an iron gate...\r\n");
         break;
       }
-      u.c[15]++;
+      u.c[UC_DGNLVL]++;
       utl_inilvl();
-      u.c[64] = DGN_NEWLOC;
+      u.c[UC_STATE] = DGN_NEWLOC;
       return(NOPE);
     }
     printf("\r\nDo you have a hearing problem\007?\r\n");
     goto s_top;
   case SPC_EXC:
     printf("You have found the Excelsior Transporter...\r\n");
-    if (u.c[50] == 1) {
+    if (u.c[UC_HASORB] == 1) {
       printf("But the controls just went dead!\r\n");
       break;
     }
@@ -87,49 +87,49 @@ int spc_main(void)
       printf("Try again bird brain\007!\r\n");
       goto exc_top;
     }
-    tmp = (abs(u.c[15] - tmp2) + 1) * ((tmp2 * u.c[15])/2.0) * 25;
-    if (tmp > u.c[12]) {
+    tmp = (abs(u.c[UC_DGNLVL] - tmp2) + 1) * ((tmp2 * u.c[UC_DGNLVL])/2.0) * 25;
+    if (tmp > u.c[UC_GOLDFOUND]) {
       printf("You need %d gold for that trip.\r\n", tmp);
       break;
     }
-    u.c[12] -= tmp;
-    printf("It cost %d gold, you have %d left.\r\n", tmp, u.c[12]);
-    sav = u.c[15];
-    u.c[15] = tmp2;
+    u.c[UC_GOLDFOUND] -= tmp;
+    printf("It cost %d gold, you have %d left.\r\n", tmp, u.c[UC_GOLDFOUND]);
+    sav = u.c[UC_DGNLVL];
+    u.c[UC_DGNLVL] = tmp2;
     utl_inilvl();
-    u.c[16] = -1;
+    u.c[UC_DGN_X] = -1;
     for (tmp = 1 ; tmp <= 20; tmp++)
       for (tmp2 = 1 ; tmp2 <= 20 ; tmp2++)
         if ((u.l[tmp][tmp2] & 240) == 64) {
-          u.c[16] = tmp;
-          u.c[17] = tmp2;
+          u.c[UC_DGN_X] = tmp;
+          u.c[UC_DGN_Y] = tmp2;
         }
-    if (u.c[16] < 0) {
-      u.c[16] = roll(1,20);
-      u.c[17] = roll(1,20);
+    if (u.c[UC_DGN_X] < 0) {
+      u.c[UC_DGN_X] = roll(1,20);
+      u.c[UC_DGN_Y] = roll(1,20);
     }
     u.c[63] = fni(u.l[tmp][tmp2]);
-    if (roll(3,7) > (u.c[2] + u.c[3]) / 2) {
+    if (roll(3,7) > (u.c[UC_INTEL] + u.c[UC_WISDOM]) / 2) {
       printf("The transporter malfunctioned!\r\n");
-      if (cbt_ohitu((abs(sav - u.c[15])+0.5*(u.c[15] +sav)) *
+      if (cbt_ohitu((abs(sav - u.c[UC_DGNLVL])+0.5*(u.c[UC_DGNLVL] +sav)) *
                      (rnd() * rnd() * rnd() / 2.0)) == YEP)
         return(YEP);
     }
-    u.c[64] = DGN_NEWLOC;
+    u.c[UC_STATE] = DGN_NEWLOC;
     return(NOPE);
   case SPC_PIT:
     tmp = NOPE;
     if (u.c[43] > 0)
       printf("You are hovering over a pit...\r\n");
     else {
-      if (roll(3,6) + 3 > u.c[5] && 
-          (sqrt((double)u.c[52] /25.0) * 25.0) < roll(1,20)) {
+      if (roll(3,6) + 3 > u.c[UC_DEX] && 
+          (sqrt((double)u.c[UC_ELVEN_CLOAK] /25.0) * 25.0) < roll(1,20)) {
         printf("You fell in a pit!\r\n");
         tmp = YEP;
       } else
       printf("You are on the brink of a pit...\r\n");
     }
-    if (u.c[15] == 20 && tmp == NOPE) {
+    if (u.c[UC_DGNLVL] == 20 && tmp == NOPE) {
       printf("It's bottomless, watch out!\r\n");
       break;
     }
@@ -147,20 +147,20 @@ int spc_main(void)
         goto pit_top;
       }
     }
-    if (u.c[15] == 20) {
+    if (u.c[UC_DGNLVL] == 20) {
       printf("It's bottomless\007!!!  IIIEEEEEEEEEEEEE!!!!!!... .  .   .\r\n");
       return(utl_death());
     }
-    if (tmp == YEP || (u.c[43] < 1 && roll(3,6)+1 >= u.c[5])) {
+    if (tmp == YEP || (u.c[43] < 1 && roll(3,6)+1 >= u.c[UC_DEX])) {
       if (tmp != YEP)
         printf("You slipped down the side!\r\n");
-      if (cbt_ohitu(u.c[15]) == YEP)
+      if (cbt_ohitu(u.c[UC_DGNLVL]) == YEP)
         return(YEP);
     } else
       printf("You made it!\r\n");
-    u.c[15]++;
+    u.c[UC_DGNLVL]++;
     utl_inilvl();
-    u.c[64] = DGN_NEWLOC;
+    u.c[UC_STATE] = DGN_NEWLOC;
     return(NOPE);
   case SPC_TPT:
   case SPC_TPTNOW:
@@ -168,28 +168,28 @@ int spc_main(void)
       printf("Z\007ZAP!  You've been teleported!\r\n");
     sleep(2);
   tpt_top:
-    tmp = u.c[16];
-    tmp2 = u.c[17];
+    tmp = u.c[UC_DGN_X];
+    tmp2 = u.c[UC_DGN_Y];
     if (((tmp + tmp2) & 1) == 0)
-      u.c[15]--;
+      u.c[UC_DGNLVL]--;
     else
-      u.c[15]++;
-    if (u.c[15] < 1)
-      u.c[15] = 1;
-    else if (u.c[15] > 20)
-      u.c[15] = 20;
-    tmp = tmp + u.c[15] * 7 + tmp2 * 13;
-    tmp2 = tmp2 + u.c[15] * 6 + tmp * 17;
+      u.c[UC_DGNLVL]++;
+    if (u.c[UC_DGNLVL] < 1)
+      u.c[UC_DGNLVL] = 1;
+    else if (u.c[UC_DGNLVL] > 20)
+      u.c[UC_DGNLVL] = 20;
+    tmp = tmp + u.c[UC_DGNLVL] * 7 + tmp2 * 13;
+    tmp2 = tmp2 + u.c[UC_DGNLVL] * 6 + tmp * 17;
     while (tmp > 20)
       tmp -= 20;
     while (tmp2 > 20)
       tmp2 -= 20;
-    u.c[16] = tmp;
-    u.c[17] = tmp2;
+    u.c[UC_DGN_X] = tmp;
+    u.c[UC_DGN_Y] = tmp2;
     if (rnd() > 0.8)
       goto tpt_top;
     utl_inilvl();
-    u.c[64] = DGN_NEWLOC;
+    u.c[UC_STATE] = DGN_NEWLOC;
     return(NOPE);
   case SPC_FTN:
     tmp = roll(1,5);
@@ -209,18 +209,18 @@ int spc_main(void)
     dtmp = rnd();
     if (dtmp  >= 0.4 + (0.1 * tmp)) {
       printf("It tastes good!\r\n");
-      u.c[11] += roll(1, 3 * u.c[15]);
-      if (u.c[11] > u.c[10])
-        u.c[11] = u.c[10];
-      printf("You now have %d hit points.\r\n", u.c[11]);
+      u.c[UC_CURHIT] += roll(1, 3 * u.c[UC_DGNLVL]);
+      if (u.c[UC_CURHIT] > u.c[UC_MAXHIT])
+        u.c[UC_CURHIT] = u.c[UC_MAXHIT];
+      printf("You now have %d hit points.\r\n", u.c[UC_CURHIT]);
       break;
     }
     if (dtmp <= 0.1 * tmp) {
       printf("Poison!  Gurgle..  ..  ..   .\r\n");
-      if (cbt_ohitu(u.c[15]) == YEP)
+      if (cbt_ohitu(u.c[UC_DGNLVL]) == YEP)
         return(YEP);
-      printf("You only have %d hit point%s.\r\n", u.c[11], 
-             (u.c[11] == 1) ? "" : "s");
+      printf("You only have %d hit point%s.\r\n", u.c[UC_CURHIT], 
+             (u.c[UC_CURHIT] == 1) ? "" : "s");
       break;
     }
     if (dtmp > 0.6) {
@@ -257,7 +257,7 @@ int spc_main(void)
       if (roll(1,20) <= 3) {
         printf("A Voice booms out \"I shall be avenged.\"\r\n");
         u.c[63] = spc;
-        u.c[64] = CBT_NORM;
+        u.c[UC_STATE] = CBT_NORM;
         if (cbt_main() == YEP)
           return(YEP);
         goto alt_top1;
@@ -267,13 +267,13 @@ int spc_main(void)
       u.i[5] = 0;
       if (roll(1,10) < 3)
         u.i[5] = SPC_PIT;
-      u.l[u.c[16]][u.c[17]] = 16*u.i[5] + 4*u.i[2] + u.i[1];
+      u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 16*u.i[5] + 4*u.i[2] + u.i[1];
       if (roll(1,4) != 4) {
-        u.c[64] = DGN_NEWLOC;
+        u.c[UC_STATE] = DGN_NEWLOC;
         return(NOPE);
       }
       printf("Something seems to be left behind...\r\n");
-      u.c[63] = u.c[15] + 10;
+      u.c[63] = u.c[UC_DGNLVL] + 10;
       u.i[7] = 1;
       if (roll(1,10) == 3)
         u.i[8] = 1;
@@ -292,22 +292,22 @@ int spc_main(void)
       if (tmp == '\r') {
         printf("\r\n");
       alt_top3:
-        printf("How much of your %d gold ? ", u.c[12]);
+        printf("How much of your %d gold ? ", u.c[UC_GOLDFOUND]);
         unix_tty_cook();
         if (!fgets(tmpbuf, NAMELEN, stdin))
           strcpy(tmpbuf, "\n");
         sav = sscanf(tmpbuf, "%d", &tmp2);
         unix_tty_dgn();
         fflush(stdin);
-        if (sav != 1 || tmp2 < 0 || tmp2 < 50 || tmp2 < 0.1 * u.c[12]) {
+        if (sav != 1 || tmp2 < 0 || tmp2 < 50 || tmp2 < 0.1 * u.c[UC_GOLDFOUND]) {
           printf("How dare you insult us, you ");
           goto trash;
         } else {
-          if (tmp2 > u.c[12]) {
+          if (tmp2 > u.c[UC_GOLDFOUND]) {
             printf("You don't have that much!\r\n");
             goto alt_top3;
           }
-          u.c[12] -= tmp2;
+          u.c[UC_GOLDFOUND] -= tmp2;
           if (rnd() > 0.9) {
             if (utl_adj_ex() == YEP)
               return(YEP);
@@ -322,7 +322,7 @@ int spc_main(void)
             break;
           }
           tmp = rnd() * rnd() * 11.0 + 1;
-          tmp2 = rnd() * (tmp2 / ((double)u.c[12] + 1.0)) * 20.0 + 
+          tmp2 = rnd() * (tmp2 / ((double)u.c[UC_GOLDFOUND] + 1.0)) * 20.0 + 
             rnd() * 20.0 + 1;
           if (u.c[36+tmp] < 0)
             u.c[36+tmp] = tmp2;
@@ -339,7 +339,7 @@ int spc_main(void)
         break;
 trash:
       printf("Dirty Pagan Trash!\r\n");
-      u.c[64] = CBT_ALTR;
+      u.c[UC_STATE] = CBT_ALTR;
       u.c[63] = 0;
       if (cbt_main() == YEP)
         return(YEP);
@@ -349,17 +349,17 @@ trash:
     goto alt_top2;
   case SPC_DGN1:
   case SPC_DGN2:
-    sav = u.c[15];
-    tmp = u.c[16];
-    tmp2 = u.c[17];
+    sav = u.c[UC_DGNLVL];
+    tmp = u.c[UC_DGN_X];
+    tmp2 = u.c[UC_DGN_Y];
     sav2 = u.i[5] = 0;
     u.i[7] = 1;
     u.c[63] = spc;
-    u.c[64] = CBT_NORM;
+    u.c[UC_STATE] = CBT_NORM;
     printf("You have encountered a Dragon in it's lair\007!\r\n");
     if (cbt_main() == YEP)
       return(YEP);
-    if (u.c[15] == sav && u.c[16] == tmp && u.c[17] == tmp2) {
+    if (u.c[UC_DGNLVL] == sav && u.c[UC_DGN_X] == tmp && u.c[UC_DGN_Y] == tmp2) {
       if (spc == SPC_DGN2)
         sav2 = SPC_ORB;
     } else {
@@ -375,7 +375,7 @@ trash:
     utl_pplot(NOPE/*guess*/);
   case SPC_ORB:
     u.i[5] = 0;
-    u.l[u.c[16]][u.c[17]] = 4 * u.i[2] + u.i[1];
+    u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 4 * u.i[2] + u.i[1];
     printf("You have found the \007ORB!!!!\r\n");
   orb_top:
     printf("Press <CR> to pick it up, <LF> to leave it: ");
@@ -385,7 +385,7 @@ trash:
     printf("\r\n");
     if (tmp2 == '\r') {
       printf("You've got it!\r\n");
-      u.c[50] = 1;
+      u.c[UC_HASORB] = 1;
       break;
     }
     if (tmp2 != '\n') {
@@ -396,11 +396,11 @@ trash:
     break;
   case SPC_ELV:
     printf("You feel heavy for a moment, but the sensation disappears...\r\n");
-    if (u.c[15] == 1)
+    if (u.c[UC_DGNLVL] == 1)
       return(utl_escape());
-    u.c[15]--;
+    u.c[UC_DGNLVL]--;
     utl_inilvl();
-    u.c[64] = DGN_NEWLOC;
+    u.c[UC_STATE] = DGN_NEWLOC;
     return(NOPE);
   case SPC_THR:
     printf("You see a massive throne covered with jewels and\r\n");
@@ -421,7 +421,7 @@ trash:
       printf("Sit down\r\n");
       sleep(1);
       if (rnd() < 0.05) {
-        u.c[9] = utl_exp(u.c[8]+1);
+        u.c[UC_EXP] = utl_exp(u.c[UC_LEVEL]+1);
         printf("A loud gong sounds.\r\n");
         utl_chklvl();
         break;
@@ -431,13 +431,13 @@ trash:
         break;
       }
       if (rnd() <= 0.1) {
-        u.c[64] = SPC_TPTNOW;
+        u.c[UC_STATE] = SPC_TPTNOW;
         printf("Z\007ZAP!  You've been teleported!\r\n");
         return(spc_main());
       }
       printf("The Dwarven King returns....\r\n");
       u.c[63] = spc;
-      u.c[64] = CBT_NORM;
+      u.c[UC_STATE] = CBT_NORM;
       if (cbt_main() == YEP)
         return(YEP);
       break;
@@ -448,7 +448,7 @@ trash:
       if (rnd() < 0.1) {
         printf("The Dwarven King returns....\r\n");
         u.c[63] = spc;
-        u.c[64] = CBT_NORM;
+        u.c[UC_STATE] = CBT_NORM;
         if (cbt_main() == YEP)
           return(YEP);
         break;
@@ -458,13 +458,13 @@ trash:
         break;
       }
       printf("They pop into your greedy hands!\r\n");
-      tmp = 6000.0 * rnd() * rnd() * u.c[15] + 500.0;
+      tmp = 6000.0 * rnd() * rnd() * u.c[UC_DGNLVL] + 500.0;
       printf("They are worth %d gold!\r\n", tmp);
-      u.c[12] += tmp;
-      dtmp = u.c[15] / (double) u.c[8];
+      u.c[UC_GOLDFOUND] += tmp;
+      dtmp = u.c[UC_DGNLVL] / (double) u.c[UC_LEVEL];
       if (dtmp > 1.0)
         dtmp = 1.0;
-      u.c[21] += tmp * dtmp;
+      u.c[UC_EXPGAIN] += tmp * dtmp;
       break;
     }
     if (tmp2 != 'R') {
@@ -479,7 +479,7 @@ trash:
     if (rnd() > 0.5) {
       printf("The Dwarven King returns...\r\n");
       u.c[63] = spc;
-      u.c[64] = CBT_NORM;
+      u.c[UC_STATE] = CBT_NORM;
       if (cbt_main() == YEP)
         return(YEP);
       break;
@@ -496,7 +496,7 @@ trash:
   case SPC_SAF:
     if (u.c[58] == 0)
       u.c[58] = roll(1,4) + 10 * roll(1,4);
-    if(u.c[61] == 1) {
+    if(u.c[UC_DEBUGCHR] == 1) {
       printf("[Combo = %d]\r\n", u.c[58]);
     }
   saf_top1:
@@ -551,18 +551,18 @@ trash:
     if (sav == u.c[58] * 10) {
       printf("\r\nYou got it\007!\r\n");
       u.c[58] = 0;
-      tmp = 5000 * rnd() * u.c[15] + 1000;
+      tmp = 5000 * rnd() * u.c[UC_DGNLVL] + 1000;
       printf("%d worth in gems and jewels pour out\007!\r\n", tmp);
-      u.c[12] += tmp;
-      dtmp = u.c[15] / (double) u.c[8];
+      u.c[UC_GOLDFOUND] += tmp;
+      dtmp = u.c[UC_DGNLVL] / (double) u.c[UC_LEVEL];
       if (dtmp > 1.0)
         dtmp = 1.0;
-      u.c[21] += tmp * dtmp;
-      u.c[64] = DGN_NEWLOC;
+      u.c[UC_EXPGAIN] += tmp * dtmp;
+      u.c[UC_STATE] = DGN_NEWLOC;
       return(NOPE);
     }
     printf("\r\nAn electric shock jolts your body\007!\r\n");
-    if (cbt_ohitu(u.c[15] * 2) == YEP)
+    if (cbt_ohitu(u.c[UC_DGNLVL] * 2) == YEP)
       return(YEP);
     goto saf_top1;
   case SPC_RCK:
@@ -574,6 +574,6 @@ trash:
     printf("spc: unknown special %d!\r\n", spc);
     unix_exit(1);
   }
-  u.c[64] = DGN_PROMPT;
+  u.c[UC_STATE] = DGN_PROMPT;
   return(NOPE);
 }

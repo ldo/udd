@@ -28,17 +28,17 @@ int chr_load
   int tmp;
   chr_rset();
   while ((c = chr_scan()) != NULL) 
-    if (c->c[0] != 0 && strcmp(c->nam[0], name) == 0) {
+    if (c->c[UC_ALIVE] != 0 && strcmp(c->nam[0], name) == 0) {
       strncpy(u.n[0], c->nam[0], NAMELEN);
       strncpy(u.n[1], c->nam[1], NAMELEN);
       for (tmp = 0 ; tmp < 65; tmp++)
         u.c[tmp] = ntohl(c->c[tmp]);
-      if (lock == LOCK && u.c[57] != 0) 
+      if (lock == LOCK && u.c[UC_LOCKED] != 0) 
         return(MAYBE);       /* lock failed! */
       if (lock == LOCK && chr_lck_nuke(LOCK) == NOPE)
         return(MAYBE);       /* lock failed! */
       if (lock == LOCK)
-        u.c[57] = 1;
+        u.c[UC_LOCKED] = 1;
       return(YEP);
     }
   return(NOPE);
@@ -84,7 +84,7 @@ int chr_save
   struct chr sav, *cp;
   int cwfp;
   int tmp;
-  if (u.c[57] == 0) {
+  if (u.c[UC_LOCKED] == 0) {
     printf("%s: internal error!  Tried to save unlocked char!\r\n", ddd);
     return(NOPE);
   }
@@ -98,7 +98,7 @@ int chr_save
   }
   chr_rset();
   while ((cp = chr_scan()) != NULL) 
-    if (cp->c[0] != 0 && strcmp(u.n[0], cp->nam[0]) == 0)
+    if (cp->c[UC_ALIVE] != 0 && strcmp(u.n[0], cp->nam[0]) == 0)
       break;
   if (cp == NULL) {
     printf("%s: Can't find you in the file!  Save failed!\r\n", ddd);
@@ -108,7 +108,7 @@ int chr_save
 #endif
     return(NOPE);
   }
-  if (cp->c[57] == 0) {
+  if (cp->c[UC_LOCKED] == 0) {
     printf("%s: Internal error!  Char in file is not locked!!\r\n");
     lock_close(cwfp, FIL_CHR_LD, FIL_CHR_LK);
 #ifdef SIGTSTP
@@ -123,7 +123,7 @@ int chr_save
   for (tmp = 0 ; tmp < 65 ; tmp++)
     sav.c[tmp] = htonl(u.c[tmp]);
   if (unlock == YEP)
-    u.c[57] = sav.c[57] = 0;   /* save forces unlock! */
+    u.c[UC_LOCKED] = sav.c[UC_LOCKED] = 0;   /* save forces unlock! */
   if (write(cwfp, (char *) &sav, sizeof(struct chr)) < 0) {
     fprintf(stderr,"Error saving char: ");
     perror("write");
@@ -170,10 +170,10 @@ int chr_lck_nuke
   lseek(cwfp, loc, L_SET);
   if (lock == LOCK) {
     read(cwfp, (char *) &zold, sizeof(struct chr));
-    if (zold.c[57] == 0) {   /* not locked */
+    if (zold.c[UC_LOCKED] == 0) {   /* not locked */
       retval = YEP;
-      zap.c[57] = 1;
-      c->c[57] = 1;
+      zap.c[UC_LOCKED] = 1;
+      c->c[UC_LOCKED] = 1;
       lseek(cwfp, loc, L_SET);
       write(cwfp, (char *) &zap, sizeof(struct chr));
     }
@@ -202,16 +202,16 @@ int chr_new(void)
     return(NOPE);
   }
   while ((cp = chr_scan()) != NULL)
-    if (cp->c[0] != 0 && strcmp(u.n[0], cp->nam[0]) == 0) /* name steal */
+    if (cp->c[UC_ALIVE] != 0 && strcmp(u.n[0], cp->nam[0]) == 0) /* name steal */
       break;
   if (cp != NULL) {
     lock_close(cwfp, FIL_CHR_LD, FIL_CHR_LK);
     return(NOPE);
   }
-  u.c[57] = 1;
+  u.c[UC_LOCKED] = 1;
   chr_rset();
   while ((cp = chr_scan()) != NULL) 
-    if (cp->c[0] == 0)
+    if (cp->c[UC_ALIVE] == 0)
       break;
   if (cp != NULL) {
     tmp = sizeof(int) + (numc - numc2 - 1) * sizeof(struct chr);

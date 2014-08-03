@@ -21,7 +21,7 @@ int trs_main(void)
   int tmp, typ = TRS_NORM;
   int trs;
   double adj;
-  if (u.c[61] == 1)
+  if (u.c[UC_DEBUGCHR] == 1)
     printf("trs: l = %d\r\n", l);
   tmp = roll(1, 100);
   if (tmp > 80 && tmp <= 90)
@@ -67,7 +67,7 @@ int trs_main(void)
     if (tmp < 0)
       tmp = '\n';
     if (tmp == '\n') {
-      u.c[64] = XXX_NORM;
+      u.c[UC_STATE] = XXX_NORM;
       break;
     }
     if (tmp != '\r') {
@@ -75,24 +75,24 @@ int trs_main(void)
       goto trs_top;
     }
     if (u.i[8] == 1)
-      if (cbt_ohitu((int) (u.c[15] / 1.2)) == YEP)
+      if (cbt_ohitu((int) (u.c[UC_DGNLVL] / 1.2)) == YEP)
         return(YEP);
     printf("The treasure is worth %d gold.\r\n", trs);
-    u.c[12] += trs;
-    u.c[64] = XXX_NORM;
-    adj = u.c[15] / (double) u.c[8];
+    u.c[UC_GOLDFOUND] += trs;
+    u.c[UC_STATE] = XXX_NORM;
+    adj = u.c[UC_DGNLVL] / (double) u.c[UC_LEVEL];
     if (adj > 1.0)
       adj = 1.0;
-    u.c[21] += trs * adj;
+    u.c[UC_EXPGAIN] += trs * adj;
     break;
   default:
     printf("trs: internal error\r\n");
     unix_exit(1);
   }
   u.i[6] = u.i[7] = u.i[8] = 0;
-  u.l[u.c[16]][u.c[17]] = 16*u.i[5] + 4*u.i[2] + u.i[1];
+  u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 16*u.i[5] + 4*u.i[2] + u.i[1];
   if (u.i[5] == 0) {
-    u.c[64] = DGN_PROMPT;
+    u.c[UC_STATE] = DGN_PROMPT;
     return(NOPE);
   }
   utl_pplot(NOPE);

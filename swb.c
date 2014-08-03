@@ -45,7 +45,7 @@ int main
         printf("?You are restricted from this program.\r\n");
         exit(1);
       } /*if*/
-    u.c[64] = 0;
+    u.c[UC_STATE] = 0;
     unix_init();
     unix_tty_dgn();
     printf("\n\n\n\n\rWelcome to %s!  This is  %s.\n\r", ddd, VERS);
@@ -119,22 +119,22 @@ prompt_top:
                 chr_save(YEP);                 /* will unlock char */
                 break;
               } /*if*/
-            u.c[64] = DGN_NEWADV;
+            u.c[UC_STATE] = DGN_NEWADV;
             autosave = 1;
-            if (u.c[15] == 0)
-                u.c[18] = dlvl_choose();
+            if (u.c[UC_DGNLVL] == 0)
+                u.c[UC_DGNNR] = dlvl_choose();
             else
-                dlvl_get_start(u.c[18]);
-            u.c[60] = time(0);
+                dlvl_get_start(u.c[UC_DGNNR]);
+            u.c[UC_LASTRUN] = time(0);
             printf("You are now descending into the dungeon:\r\n");
             printf("Please wait while we force open the main door..\r\n");
             printf("\n");
             dgn_main();
             autosave = 0;
-            if (u.c[64] != SWB_CREATE) 
+            if (u.c[UC_STATE] != SWB_CREATE) 
                 break;
             printf("\r\n%s> ", ddd);
-            u.c[64] = XXX_NORM;
+            u.c[UC_STATE] = XXX_NORM;
       /* FALLTHRU */
         case 'C':    /* Create */
             for (;;) /* until successfully managed to save created character or given up */
@@ -231,8 +231,9 @@ prompt_top:
                                   } /*if*/
                               } /*if*/
                             strcpy(u.n[0], nbuf);
-                            u.c[0] = 1;
+                            u.c[UC_ALIVE] = 1;
                             for (tmp = 1 ; tmp < 7 ; tmp++)
+                              /* UC_STRENGTH, UC_INTEL, UC_WISDOM, UC_CONSTIT, UC_DEX, UC_CHARISMA */
                                 u.c[tmp] = sts[tmp];
                             printf("What is %s's SECRET NAME : ", nbuf);
                             unix_tty_pswd();
@@ -242,9 +243,9 @@ prompt_top:
                             fflush(stdin);
                             printf("\r\n");
                             u.n[1][strlen(u.n[1]) - 1] = 0;
-                            u.c[57] = 0;
-                            u.c[48] = getgid();
-                            u.c[49] = getuid();
+                            u.c[UC_LOCKED] = 0;
+                            u.c[UC_GID] = getgid();
+                            u.c[UC_UID] = getuid();
                             if (chr_new() == NOPE)     /* try and claim a slot */
                               {
                                 printf("\"How dare you steal my name!\", quoth the mighty %s.",
@@ -267,11 +268,11 @@ prompt_top:
                         if (islower(reply))
                             reply = toupper(reply);
                         if (reply == 'F')
-                            u.c[7] = 0;
+                            u.c[UC_CLASS] = 0;
                         else if (reply == 'C')
-                            u.c[7] = 1;
+                            u.c[UC_CLASS] = 1;
                         else if (reply == 'M')
-                            u.c[7] = 2;
+                            u.c[UC_CLASS] = 2;
                         else
                           {
                             printf("\r\nWake up, Jose!!!\r\n");
@@ -280,28 +281,28 @@ prompt_top:
                         if (got_class)
                             break;
                       } /*for*/
-                    printf("%s\r\n", class2[u.c[7]]);
-                    u.c[11] = u.c[10] = 6 + 2 * (2 - u.c[7]);
-                    u.c[8] = 1;
+                    printf("%s\r\n", class2[u.c[UC_CLASS]]);
+                    u.c[UC_CURHIT] = u.c[UC_MAXHIT] = 6 + 2 * (2 - u.c[UC_CLASS]);
+                    u.c[UC_LEVEL] = 1;
                     for (tmp = 12 ; tmp < 65 ; tmp++)
                         u.c[tmp] = 0;
-                    u.c[57] = 1; /* don't let us unlock by mistake */
-                    u.c[59] = u.c[60] = time(0);
-                    if (u.c[4] > 14)
-                        u.c[10] = u.c[11] = u.c[10] + u.c[4] - 14;
-                    u.c[19] = 15;
-                    u.c[20] = 2;  /* ??? */
-                    u.c[18] = dlvl_choose();
-                    if (u.c[7] == 2)
+                    u.c[UC_LOCKED] = 1; /* don't let us unlock by mistake */
+                    u.c[UC_CREATED] = u.c[UC_LASTRUN] = time(0);
+                    if (u.c[UC_CONSTIT] > 14)
+                        u.c[UC_MAXHIT] = u.c[UC_CURHIT] = u.c[UC_MAXHIT] + u.c[UC_CONSTIT] - 14;
+                    u.c[19] = 15; /* not used anywhere? */
+                    u.c[20] = 2;  /* ??? */ /* not used anywhere? */
+                    u.c[UC_DGNNR] = dlvl_choose();
+                    if (u.c[UC_CLASS] == 2)
                       {
                         u.c[25] = u.c[31] = 3;
-                        u.c[24] = -1;
+                        u.c[UC_SHIELD] = -1;
                       } /*if*/
-                    if (u.c[7] == 1)
-                      u.c[25] = u.c[31] = 2;
-                    u.c[48] = getgid();
-                    u.c[49] = getuid();
-                    u.c[9] = 0;
+                    if (u.c[UC_CLASS] == 1)
+                        u.c[25] = u.c[31] = 2;
+                    u.c[UC_GID] = getgid();
+                    u.c[UC_UID] = getuid();
+                    u.c[UC_EXP] = 0;
                     if (chr_save(NOPE) != YEP)     /* should just update our slot */
                       {
                         printf("%s: Internal error: Can't update char file!\r\n", ddd);
@@ -311,11 +312,11 @@ prompt_top:
                       } /*if*/
                     printf("You are now descending into the dungeon:\r\n");
                     printf("Please wait while we force open the main door...\r\n");
-                    u.c[64] = DGN_NEWADV;
+                    u.c[UC_STATE] = DGN_NEWADV;
                     autosave = 1;
                     dgn_main();
                     autosave = 0;
-                    if (u.c[64] != SWB_CREATE)
+                    if (u.c[UC_STATE] != SWB_CREATE)
                       {
                         done_create = true;
                       } /*if*/
@@ -324,7 +325,7 @@ prompt_top:
                 if (done_create)
                     break;
                 printf("\r\n%s> ", ddd);
-                u.c[64] = XXX_NORM;
+                u.c[UC_STATE] = XXX_NORM;
               } /*for*/
         break;
         case 'P':
@@ -355,32 +356,33 @@ prompt_top:
                 while((cptr = chr_scan()) != NULL)
                   {
                     int tmp;
-                    if (cptr->c[0] == 0)   /* dead? */
+                    if (cptr->c[UC_ALIVE] == 0)   /* dead? */
                         continue;
-                    if (cptr->c[62] != 0 && wiz == 0)
+                    if (cptr->c[UC_WIZONLY] != 0 && wiz == 0)
                         continue;
-                    if (cmdch == 'M' && ntohl(cptr->c[49]) != getuid()) /* only me? */
+                    if (cmdch == 'M' && ntohl(cptr->c[UC_UID]) != getuid()) /* only me? */
                         continue;
-                    if (cmdch == 'D' && ntohl(cptr->c[18]) != dngnnr)      /* dungeon? */
+                    if (cmdch == 'D' && ntohl(cptr->c[UC_DGNNR]) != dngnnr)      /* dungeon? */
                         continue;
                     printf("%-10.10s ", cptr->nam[0]);
                     for (tmp = 1 ; tmp < 7; tmp++)
+                      /* UC_STRENGTH, UC_INTEL, UC_WISDOM, UC_CONSTIT, UC_DEX, UC_CHARISMA */
                         printf("%02d  ", ntohl(cptr->c[tmp]));
-                    printf("%02d   %1d  ", ntohl(cptr->c[8]), ntohl(cptr->c[18]));
-                    if (cptr->c[51] == 0)
+                    printf("%02d   %1d  ", ntohl(cptr->c[UC_LEVEL]), ntohl(cptr->c[UC_DGNNR]));
+                     if (cptr->c[UC_RING] == 0)
                         printf("none ");
                     else
-                        printf(" %02d  ", ntohl(cptr->c[51]));
-                    printf("%-11d ", ntohl(cptr->c[9]));
-                    if ((pptr = getpwuid(ntohl(cptr->c[49]))) == NULL)
-                        printf("u%-7d ", ntohl(cptr->c[49]));
+                        printf(" %02d  ", ntohl(cptr->c[UC_RING]));
+                    printf("%-11d ", ntohl(cptr->c[UC_EXP]));
+                    if ((pptr = getpwuid(ntohl(cptr->c[UC_UID]))) == NULL)
+                        printf("u%-7d ", ntohl(cptr->c[UC_UID]));
                     else
                         printf("%-8s ", pptr->pw_name);
-                    printf("%c%c%c%c ", (cptr->c[15] == 0) ? ' ' : '*', 
-                           (cptr->c[61] == 0) ? ' ' : '+',
-                           (cptr->c[62] == 0) ? ' ' : '@',
-                           (cptr->c[57] == 0) ? ' ' : 'L');
-                    int chrtype = ntohl(cptr->c[7]);
+                    printf("%c%c%c%c ", (cptr->c[UC_DGNLVL] == 0) ? ' ' : '*', 
+                           (cptr->c[UC_DEBUGCHR] == 0) ? ' ' : '+',
+                           (cptr->c[UC_WIZONLY] == 0) ? ' ' : '@',
+                           (cptr->c[UC_LOCKED] == 0) ? ' ' : 'L');
+                    int chrtype = ntohl(cptr->c[UC_CLASS]);
                     if (chrtype == 1) 
                         printf("CLRC\r\n");
                     else if (chrtype == 2)
@@ -413,7 +415,7 @@ prompt_top:
                 printf("%%No such character.\r\n");
                 break;
               } /*if*/
-            if (u.c[57] != 0)
+            if (u.c[UC_LOCKED] != 0)
               {
                 printf("That character is LOCKED (in use)!\r\n");
                 printf("Sorry, can't kill a locked character...\r\n");
@@ -508,17 +510,17 @@ find_top:
             if (chrtype == 'M')
               {
                 printf("Magician\r\n");
-                u.c[7] = 2;
+                u.c[UC_CLASS] = 2;
               }
             else if (chrtype == 'C')
               {
                 printf("Cleric\r\n");
-                u.c[7] = 1;
+                u.c[UC_CLASS] = 1;
               }
             else if (chrtype == 'F')
               {
                 printf("Fighter\r\n");
-                u.c[7] = 0;
+                u.c[UC_CLASS] = 0;
               }
             else
               {
@@ -545,23 +547,23 @@ find_top:
             printf("User          Type\r\n");
             while ((cptr = chr_scan()) != NULL)
               {
-                if (cptr->c[0] == 0)
+                if (cptr->c[UC_ALIVE] == 0)
                     continue;
-                if (cptr->c[62] != 0 && wiz == 0) 
+                if (cptr->c[UC_WIZONLY] != 0 && wiz == 0) 
                     continue;
-                printf("%-10.10s  %s  ", cptr->nam[0], unix_date(ntohl(cptr->c[59])));
-                printf("%s  ", unix_date(ntohl(cptr->c[60])));
-                printf("%-10d  ", ntohl(cptr->c[13]));
-                printf("%-10d    ", ntohl(cptr->c[9]));
-                if ((pptr = getpwuid(ntohl(cptr->c[49]))) == NULL)
-                    printf("u%-7d  ", ntohl(cptr->c[49]));
+                printf("%-10.10s  %s  ", cptr->nam[0], unix_date(ntohl(cptr->c[UC_CREATED])));
+                printf("%s  ", unix_date(ntohl(cptr->c[UC_LASTRUN])));
+                printf("%-10d  ", ntohl(cptr->c[UC_TOTALGOLD]));
+                printf("%-10d    ", ntohl(cptr->c[UC_EXP]));
+                if ((pptr = getpwuid(ntohl(cptr->c[UC_UID]))) == NULL)
+                    printf("u%-7d  ", ntohl(cptr->c[UC_UID]));
                 else
                     printf("%-8s ", pptr->pw_name);
-                printf("%c%c%c%c ", (cptr->c[15] == 0) ? ' ' : '*', 
-                       (cptr->c[61] == 0) ? ' ' : '+',
-                       (cptr->c[62] == 0) ? ' ' : '@',
-                       (cptr->c[57] == 0) ? ' ' : 'L');
-                int chrtype = ntohl(cptr->c[7]);
+                printf("%c%c%c%c ", (cptr->c[UC_DGNLVL] == 0) ? ' ' : '*', 
+                       (cptr->c[UC_DEBUGCHR] == 0) ? ' ' : '+',
+                       (cptr->c[UC_WIZONLY] == 0) ? ' ' : '@',
+                       (cptr->c[UC_LOCKED] == 0) ? ' ' : 'L');
+                int chrtype = ntohl(cptr->c[UC_CLASS]);
                 if (chrtype == 1) 
                     printf("CLRC\r\n");
                 else if (chrtype == 2)

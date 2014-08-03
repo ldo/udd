@@ -509,9 +509,9 @@ otop:
             write(tmp3, (char *) &newc, sizeof(newc));
             while ((cptr = chr_scan()) != NULL)
               {
-                if (cptr->c[0] == 0)
+                if (cptr->c[UC_ALIVE] == 0)
                     continue;
-                if (ntohl(cptr->c[60]) < tmp)
+                if (ntohl(cptr->c[UC_LASTRUN]) < tmp)
                   {
                     printf("%s is history!\r\n", cptr->nam[0]);
                     continue;
@@ -572,7 +572,7 @@ otop:
                       {
                         printf("Yes\r\n");
                         chr_load(buf, NOLOCK);
-                        u.c[57] = 1;
+                        u.c[UC_LOCKED] = 1;
                         chr_save(YEP);
                         printf("Lock broken...\r\n");
                         break;

@@ -24,7 +24,7 @@ int trs_chest(void)
   if (tmp < 0)
     tmp = '\n';
   if (tmp == '\n') {
-    u.c[64] = DGN_PROMPT;
+    u.c[UC_STATE] = DGN_PROMPT;
     return(MAYBE);
   }
   if (tmp != '\r') {
@@ -38,12 +38,12 @@ int trs_chest(void)
   }
   trs = 3000.0 * rnd() * u.c[63] + 500;
   printf("It hold %d in gold.\r\n", trs);
-  u.c[12] += trs;
-  adj = u.c[15] / (double) u.c[8];
+  u.c[UC_GOLDFOUND] += trs;
+  adj = u.c[UC_DGNLVL] / (double) u.c[UC_LEVEL];
   if (adj > 1.0)
     adj = 1.0;
-  u.c[21] += trs * adj;
-  u.c[64] = XXX_NORM;
+  u.c[UC_EXPGAIN] += trs * adj;
+  u.c[UC_STATE] = XXX_NORM;
   return(NOPE);
 }
 
@@ -54,7 +54,7 @@ int trs_obj(void)
     rl = roll(1,8);
     switch (rl) {
     case 1:        /* wepon */
-      printf("You have found a magic %s!\r\n", wep[u.c[7]]);
+      printf("You have found a magic %s!\r\n", wep[u.c[UC_CLASS]]);
     top1:
       printf("Press <CR> to pick it up, <LF> to leave it behind: ");
       tmp = getchar();
@@ -68,45 +68,45 @@ int trs_obj(void)
         goto top1;
       }
       if (rnd() > 0.833) {
-        printf("It's a hostile %s!\r\n", wep[u.c[7]]);
-        if (cbt_ohitu(u.c[22]) == YEP)
+        printf("It's a hostile %s!\r\n", wep[u.c[UC_CLASS]]);
+        if (cbt_ohitu(u.c[UC_WEAPON]) == YEP)
           return(YEP);
         break;
       }
-      if (u.c[22] > u.c[63]) {
-        printf("You already have a %s +%d.\r\n", wep[u.c[7]], u.c[22]);
+      if (u.c[UC_WEAPON] > u.c[63]) {
+        printf("You already have a %s +%d.\r\n", wep[u.c[UC_CLASS]], u.c[UC_WEAPON]);
         break;
       }
-      u.c[22]++;
+      u.c[UC_WEAPON]++;
       printf("You have found a %s%s +%d.\r\n", 
-             (u.c[22] > 0) ? "Magic " : "", wep[u.c[7]], u.c[22]);
+             (u.c[UC_WEAPON] > 0) ? "Magic " : "", wep[u.c[UC_CLASS]], u.c[UC_WEAPON]);
       break;
     case 2:        /* arm */
-      if (u.c[23] < u.c[63] + 2)
-        tmp = u.c[23] + 1;
+      if (u.c[UC_ARMOR] < u.c[63] + 2)
+        tmp = u.c[UC_ARMOR] + 1;
       else
-        tmp = u.c[23];
+        tmp = u.c[UC_ARMOR];
       printf("You have found %s%s Armor +%d.\r\n", 
-             (tmp > 0) ? "Magic " : "", arm[u.c[7]], tmp);
-      if (tmp == u.c[23])
+             (tmp > 0) ? "Magic " : "", arm[u.c[UC_CLASS]], tmp);
+      if (tmp == u.c[UC_ARMOR])
         printf("Too bad you already have one.\r\n");
       else
-        u.c[23]++;
+        u.c[UC_ARMOR]++;
       break;
     case 3:        /* shield */
-      if (u.c[24] < u.c[63] + 2)
-        tmp = u.c[24] + 1;
+      if (u.c[UC_SHIELD] < u.c[63] + 2)
+        tmp = u.c[UC_SHIELD] + 1;
       else
-        tmp = u.c[24];
+        tmp = u.c[UC_SHIELD];
       printf("You have found a %sShield +%d.\r\n",
              (tmp > 0) ? "Magic " : "", tmp);
-      if (u.c[7] == 2) {
+      if (u.c[UC_CLASS] == 2) {
         printf("Too bad you can't use it!\r\n");
         break;
       }
-      if (u.c[24] == tmp) 
+      if (u.c[UC_SHIELD] == tmp) 
         printf("You already have one of those.\r\n");
-      u.c[24] = tmp;
+      u.c[UC_SHIELD] = tmp;
       break;
     case 4:        /* book */
       printf("You have found a book...\r\n");
@@ -138,13 +138,13 @@ int trs_obj(void)
       u.i[7] = 0;
       if (u.i[5] == 0)
         utl_pplot(NOPE);
-      u.c[64] = XXX_NORM;
+      u.c[UC_STATE] = XXX_NORM;
       return(NOPE);
       break;
     case 6:        /* ring */
       trs = rnd() * rnd() * rnd() * u.c[63] + 1;
       printf("You have found a Ring of Regeneration +%d.\r\n", trs);
-      if (u.c[51] >= trs) {
+      if (u.c[UC_RING] >= trs) {
         printf("You already have a better one.\r\n");
         break;
       }
@@ -157,7 +157,7 @@ int trs_obj(void)
       if (tmp == '\n')
         break;
       if (tmp == '\r') {
-        u.c[51] = trs;
+        u.c[UC_RING] = trs;
         break;
       }
       printf("TRY AGAIN CHOWDERHEAD\007!\r\n");
@@ -165,7 +165,7 @@ int trs_obj(void)
     case 7:        /* cloak */
       trs = rnd() * rnd() * u.c[63] + 2;
       printf("You have found an Elven Cloak +%d.\r\n", trs);
-      if (u.c[52] >= trs) {
+      if (u.c[UC_ELVEN_CLOAK] >= trs) {
         printf("You already have a better one.\r\n");
         break;
       }
@@ -178,7 +178,7 @@ int trs_obj(void)
       if (tmp == '\n')
         break;
       if (tmp == '\r') {
-        u.c[52] = trs;
+        u.c[UC_ELVEN_CLOAK] = trs;
         break;
       }
       printf("Ever try a hearing aid?\r\n");
@@ -186,7 +186,7 @@ int trs_obj(void)
     case 8:        /* boots */
       trs = rnd() * rnd() * u.c[63] + 2;
       printf("You have found a pair of Elven Boots +%d.\r\n", trs);
-      if (u.c[53] >= trs) {
+      if (u.c[UC_ELVEN_BOOTS] >= trs) {
         printf("You already have a better pair.\r\n");
         break;
       }
@@ -199,7 +199,7 @@ int trs_obj(void)
       if (tmp == '\n')
         break;
       if (tmp == '\r') {
-        u.c[53] = trs;
+        u.c[UC_ELVEN_BOOTS] = trs;
         break;
       }
       printf("HEY, LISTEN STUPID\007!\r\n");
@@ -208,7 +208,7 @@ int trs_obj(void)
       printf("trs_cobjs: internal error!\r\n");
       unix_exit(1);
     }
-  } while (rnd() > 0.8 - 0.02 * (u.c[15] - 1));
-  u.c[64] = XXX_NORM;
+  } while (rnd() > 0.8 - 0.02 * (u.c[UC_DGNLVL] - 1));
+  u.c[UC_STATE] = XXX_NORM;
   return(NOPE);
 }
