@@ -127,12 +127,13 @@ void sighup
     int signum
   )
 {
-  if (autosave != 0) {
+  if (autosave)
+    {
 #ifdef L_STRICT
-    chr_save(NOPE);    /* try and save'em - XXX the old ^Z trick */
+      chr_save(NOPE);    /* try and save'em - XXX the old ^Z trick */
 #else
-    chr_save(YEP);
+      chr_save(YEP);
 #endif
-  }
+    } /*if*/
   unix_exit(0);
 }

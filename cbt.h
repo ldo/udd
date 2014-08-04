@@ -25,6 +25,7 @@ extern const struct slev spell_fns[4];
 
 CBT_EXTERN int monster_level, monster_type, min_monster_hits, m_str, m_arm, monster_hits, monster_hits_old;
 CBT_EXTERN const char *mnam;
-CBT_EXTERN int strike_force, dead;
+CBT_EXTERN int strike_force, monster_defeated;
 CBT_EXTERN bool autoevade, gone, not_in_combat, monster_skips_a_turn;
 
+void cbt_uhitm(int damage);

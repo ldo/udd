@@ -15,11 +15,12 @@
 #include <stdio.h>
 
 int cbt_main(void)
+  /* returns YEP/NOPE indicating if character died. */
   {
     bool ok;
     int s1, tmp;
     bool aflag = false;
-    dead = -1;
+    monster_defeated = -1; /* why? */
     if (u.c[UC_STATE] == CBT_ALTR)  /* ask for tough one! */
       {
         aflag = true;
@@ -103,9 +104,9 @@ int cbt_main(void)
                     sleep(2);
                     printf("You wake up feeling half dead.\r\n");
                     printf("It has stalked off.\r\n");
-                    u.i[6] = u.i[7] = u.i[8] = 0;
-                    u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 16*u.i[5] + 4*u.i[2] + u.i[1];
-                    if (u.i[5] == 0)
+                    u.i[ROOM_MONSTER] = u.i[ROOM_TREASURE] = u.i[ROOM_TREASURE_BOOBYTRAPPED] = 0;
+                    u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 16*u.i[ROOM_SPECIAL] + 4*u.i[ROOM_WALL_NORTH] + u.i[ROOM_WALL_WEST];
+                    if (u.i[ROOM_SPECIAL] == 0)
                       {
                         u.c[UC_STATE] = DGN_PROMPT;
                         return
@@ -120,7 +121,7 @@ int cbt_main(void)
         if (u.c[UC_DEBUGCHR] == 1)
             printf("STR: %2d, ARM: %2d, HITS: %2d, HDIE: %2d\r\n", m_str, m_arm, monster_hits, mm[monster_type].m);
         ok = false;
-        dead = 0;
+        monster_defeated = 0;
         if (u.c[UC_SPELL_SLNC] > 0 && roll(1,20) < 15+u.c[UC_LEVEL] - min_monster_hits)
             ok = true;
         /*if (roll(1,20) <= u.c[UC_INTEL] + u.c[UC_DEX] / 2.0)
@@ -130,7 +131,7 @@ int cbt_main(void)
         monster_skips_a_turn = false;     /* for spells */
         autoevade = false;
         gone = false;
-        while (dead == 0)
+        while (monster_defeated == 0)
           {
             if (ok)
               {
@@ -167,11 +168,12 @@ ask:
                       } /*if*/
                     if
                       (
-                            (u.i[1] == 1 || u.c[UC_STRENGTH] == 3)
+                      /* not letting player evade through rubble? */
+                            (u.i[ROOM_WALL_WEST] == 1 || u.c[ROOM_WALL_WEST] == 3)
                         &&
-                            (u.i[2] == 1 || u.i[2] == 3)
+                            (u.i[ROOM_WALL_NORTH] == 1 || u.i[ROOM_WALL_NORTH] == 3)
                         &&
-                            ((u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]+1] & 1) == 1)
+                            ((u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y] + 1] & 1) == 1)
                         &&
                             ((u.l[u.c[UC_DGN_X]+1][u.c[UC_DGN_Y]] & 4) == 4)
                       )
@@ -191,28 +193,28 @@ ask:
                               {
                                 ok = true;
                                 in = roll(1,4);
-                                if (in == 1 && u.i[2] == 1)
+                                if (in == 1 && u.i[ROOM_WALL_NORTH] == 1)
                                   {
                                     ok = true;
                                     continue;
                                   } /*if*/
-                                if (in == 2  && fni1(u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]+1],1) == 1)
+                                if (in == 2  && fni1(u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]+1],ROOM_WALL_WEST) == 1)
                                   {
                                     ok = true;
                                     continue;
                                   } /*if*/
-                                if (in == 3  && fni1(u.l[u.c[UC_DGN_X]+1][u.c[UC_DGN_Y]],2) == 1)
+                                if (in == 3  && fni1(u.l[u.c[UC_DGN_X]+1][u.c[UC_DGN_Y]],ROOM_WALL_NORTH) == 1)
                                   {
                                     ok = true;
                                     continue;
                                   } /*if*/
-                                if (in == 4 && u.i[1] == 1)
+                                if (in == 4 && u.i[ROOM_WALL_WEST] == 1)
                                   {
                                     ok = true;
                                     continue;
                                   } /*if*/
                                 if (rnd() > 0.5)
-                                    u.i[6] = u.i[7] = u.i[8] = 0;
+                                    u.i[ROOM_MONSTER] = u.i[ROOM_TREASURE] = u.i[ROOM_TREASURE_BOOBYTRAPPED] = 0;
                                 u.c[UC_STATE] = DGN_AMOVE;
                                 u.c[UC_VALUE] = in;
                                 return
@@ -287,7 +289,7 @@ ask:
                 monster_skips_a_turn = false;
                 continue;            /* monst skips a turn */
               } /*if*/
-            if (dead == 0)
+            if (monster_defeated == 0)
               {
                 if (monster_type == 20)
                   {
@@ -324,7 +326,7 @@ ask:
                       {
                         printf("It missed%s.\r\n", (dice <= i1_old) ?
                                " due to its weakened condition" : "");
-                        continue;        /* for while (dead == 0) */
+                        continue;        /* for while (monster_defeated == 0) */
                       } /*if*/
                   } /*if*/
                 if (monster_type > 3 && monster_type < 7) /* high level undead ? */
@@ -371,7 +373,8 @@ ask:
                         if (u.c[UC_CURHIT] < 1)
                           {
                             printf("You died!\r\n");
-                            return(utl_death());
+                            return
+                                utl_death();
                           } /*if*/
                       } /*if*/
                   } /*if*/
@@ -401,7 +404,7 @@ ask:
                     } /*if*/
               } /*if*/
           } /*while*/
-        u.i[6] = 0;
+        u.i[ROOM_MONSTER] = 0;
         if (!gone)
           {
             strike_force = (mm[monster_type].m * min_monster_hits + m_str * m_arm) * 10 / (double) u.c[UC_LEVEL];
@@ -418,12 +421,12 @@ ask:
                 NOPE;          /* called from spc_main()? */
           } /*if*/
         u.c[UC_VALUE] = monster_level;
-        if (u.i[7] != 0)
+        if (u.i[ROOM_TREASURE] != 0)
             return
                 trs_main();
         u.c[UC_STATE] = 1;
-        u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 16 * u.i[5] + 4 * u.i[2] + u.i[1];
-        if (u.i[5] == 0)
+        u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 16 * u.i[ROOM_SPECIAL] + 4 * u.i[ROOM_WALL_NORTH] + u.i[ROOM_WALL_WEST];
+        if (u.i[ROOM_SPECIAL] == 0)
           {
             u.c[UC_STATE] = DGN_PROMPT;
             return
@@ -476,7 +479,8 @@ s_top:
         if (u.c[UC_SPELLS1 - 1 + lvl] < 1)
           {
             printf("You have no more level %d spells.\r\n", lvl);
-            return(NOPE);
+            return
+                NOPE;
           } /*if*/
         printf(" Spell # ");
         in2 = getchar();

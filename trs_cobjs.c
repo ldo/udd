@@ -31,7 +31,7 @@ int trs_chest(void)
     printf("STUPID DOLT\007!\r\n");
     goto trs_c_top;
   }
-  if (u.i[8] == 1 && rnd() > 0.5) {
+  if (u.i[ROOM_TREASURE_BOOBYTRAPPED] == 1 && rnd() > 0.5) {
     printf("CHEST EXPLODES\007!\r\n");
     if (cbt_ohitu(u.c[UC_VALUE] + 5) == YEP)
       return(YEP);
@@ -135,8 +135,8 @@ int trs_obj(void)
         u.c[UC_SPELL_LIGHT] = roll(3,10);
       else
         u.c[UC_SPELL_LIGHT] += roll(3,10);
-      u.i[7] = 0;
-      if (u.i[5] == 0)
+      u.i[ROOM_TREASURE] = 0;
+      if (u.i[ROOM_SPECIAL] == 0)
         utl_pplot(NOPE);
       u.c[UC_STATE] = XXX_NORM;
       return(NOPE);

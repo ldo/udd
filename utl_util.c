@@ -93,6 +93,7 @@ int utl_winner(void)
 
 
 int utl_escape(void)
+/* returns YEP/NOPE indicating that game is to stop. */
 {
   int i;
   printf("\r\n\n\nYou made it out of the dungeon!\r\n");
@@ -108,7 +109,7 @@ int utl_escape(void)
   u.c[UC_CURHIT] = u.c[UC_MAXHIT];
   u.c[UC_EXP] +=  u.c[UC_EXPGAIN];
   u.c[UC_TOTALGOLD] += u.c[UC_GOLDFOUND];
-  for (i = 31; i <= 36 ; i++)
+  for (i = 31; i <= 36 ; i++) /* reset UC_SPELLSxxx to UC_SPELLSADJxxx */
     u.c[i] = u.c[i - 6];
   utl_chklvl();
   printf("\n\r\n");
@@ -131,6 +132,8 @@ ask:
 }
 
 int utl_death(void)
+/* returns YEP/NOPE indicating character has really died and not been resurrected.
+   Doesn't return if player doesn't wish to continue playing. */
 {
   int i;
   while (u.c[UC_CLASS] == CHRCLASS_CLERIC && u.c[UC_SPELLS4] > 0) {    /* can he save himself? */
@@ -224,7 +227,7 @@ void utl_eqp(void)
 
 void utl_dtrp(void)
 {
-  if (u.c[UC_SPELL_DTRP] > 0 && u.i[8] == 1 && rnd() > 0.05)
+  if (u.c[UC_SPELL_DTRP] > 0 && u.i[ROOM_TREASURE_BOOBYTRAPPED] == 1 && rnd() > 0.05)
     printf("You detect traps: ");
 }
 

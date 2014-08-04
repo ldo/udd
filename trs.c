@@ -59,7 +59,7 @@ int trs_main(void)
             printf("You see a jewel...\r\n");
             trs = 6000.0 * rnd() * rnd() * rnd() * value + 500;
           }
-  trs_top:
+trs_top:
     utl_dtrp();
     printf("Press <CR> to pick it up, <LF> to leave it behind: ");
     tmp = getchar();
@@ -74,7 +74,7 @@ int trs_main(void)
       printf("DUMMY!\007\r\n");
       goto trs_top;
     }
-    if (u.i[8] == 1)
+    if (u.i[ROOM_TREASURE_BOOBYTRAPPED] == 1)
       if (cbt_ohitu((int) (u.c[UC_DGNLVL] / 1.2)) == YEP)
         return(YEP);
     printf("The treasure is worth %d gold.\r\n", trs);
@@ -89,9 +89,9 @@ int trs_main(void)
     printf("trs: internal error\r\n");
     unix_exit(1);
   }
-  u.i[6] = u.i[7] = u.i[8] = 0;
-  u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 16*u.i[5] + 4*u.i[2] + u.i[1];
-  if (u.i[5] == 0) {
+  u.i[ROOM_MONSTER] = u.i[ROOM_TREASURE] = u.i[ROOM_TREASURE_BOOBYTRAPPED] = 0;
+  u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 16*u.i[ROOM_SPECIAL] + 4*u.i[ROOM_WALL_NORTH] + u.i[ROOM_WALL_WEST];
+  if (u.i[ROOM_SPECIAL] == 0) {
     u.c[UC_STATE] = DGN_PROMPT;
     return(NOPE);
   }

@@ -18,11 +18,12 @@ static const char * const color[] = { "white", "blue", "green", "red", "black" }
   /* colours of fountain water, in increasing order of potential toxicity */
 
 int spc_main(void)
+  /* returns YEP/NOPE indicating if character died. */
   {
     int sav, sav2, tmp, tmp2;
     double dtmp;
     char tmpbuf[NAMELEN];
-    int spc = u.i[5];
+    int spc = u.i[ROOM_SPECIAL];
     if (u.c[UC_STATE] == SPC_TPTNOW)
         spc = SPC_TPTNOW;
     switch (spc)
@@ -299,10 +300,10 @@ alt_top2:
               } /*if*/
             printf("The sound of thunder shatters the air.\r\n");
             printf("The altar crumbles to dust before your eyes.\r\n");
-            u.i[5] = 0;
+            u.i[ROOM_SPECIAL] = 0;
             if (roll(1,10) < 3)
-                u.i[5] = SPC_PIT;
-            u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 16*u.i[5] + 4*u.i[2] + u.i[1];
+                u.i[ROOM_SPECIAL] = SPC_PIT;
+            u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 16*u.i[ROOM_SPECIAL] + 4*u.i[ROOM_WALL_NORTH] + u.i[ROOM_WALL_WEST];
             if (roll(1,4) != 4)
               {
                 u.c[UC_STATE] = DGN_NEWLOC;
@@ -310,9 +311,9 @@ alt_top2:
               } /*if*/
             printf("Something seems to be left behind...\r\n");
             u.c[UC_VALUE] = u.c[UC_DGNLVL] + 10;
-            u.i[7] = 1;
+            u.i[ROOM_TREASURE] = 1;
             if (roll(1,10) == 3)
-                u.i[8] = 1;
+                u.i[ROOM_TREASURE_BOOBYTRAPPED] = 1;
             return(trs_main());
           } /*if*/
         if (sav2 == 'W')
@@ -401,8 +402,8 @@ trash:
         sav = u.c[UC_DGNLVL];
         tmp = u.c[UC_DGN_X];
         tmp2 = u.c[UC_DGN_Y];
-        sav2 = u.i[5] = 0;
-        u.i[7] = 1;
+        sav2 = u.i[ROOM_SPECIAL] = 0;
+        u.i[ROOM_TREASURE] = 1;
         u.c[UC_VALUE] = spc;
         u.c[UC_STATE] = CBT_NORM;
         printf("You have encountered a Dragon in its lair\007!\r\n");
@@ -415,20 +416,20 @@ trash:
           }
         else
           {
-            u.i[7] = 0;
+            u.i[ROOM_TREASURE] = 0;
           } /*if*/
-        if (u.i[7] != 0)
+        if (u.i[ROOM_TREASURE] != 0)
             if (trs_main() == YEP)
-                return(YEP);         /* this is safe because u.i[5] == 0 */
-        u.i[5] = sav2;
-        u.l[tmp][tmp2] = 16*u.i[5] + 4*u.i[2] + u.i[1];
-        if (u.i[5] != SPC_ORB)
+                return(YEP);         /* this is safe because u.i[ROOM_SPECIAL] == 0 */
+        u.i[ROOM_SPECIAL] = sav2;
+        u.l[tmp][tmp2] = 16*u.i[ROOM_SPECIAL] + 4*u.i[ROOM_WALL_NORTH] + u.i[ROOM_WALL_WEST];
+        if (u.i[ROOM_SPECIAL] != SPC_ORB)
             break;
         utl_pplot(NOPE/*guess*/);
   /* fallthru */
     case SPC_ORB:
-        u.i[5] = 0;
-        u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 4 * u.i[2] + u.i[1];
+        u.i[ROOM_SPECIAL] = 0;
+        u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 4 * u.i[ROOM_WALL_NORTH] + u.i[ROOM_WALL_WEST];
         printf("You have found the \007ORB!!!!\r\n");
 orb_top:
         printf("Press <CR> to pick it up, <LF> to leave it: ");

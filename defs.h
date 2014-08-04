@@ -107,9 +107,22 @@ struct state {
   char n[2][NAMELEN];                 /* name, secret name */
   int c[65];                /* various stuff */
   int l[22][22];                 /* current level map */
-  int i[9], i1[9];               /* room analysis */
-  int p[5][5];                   /* current pos */
+  int i[9], i1[9];               /* current room analysis */
+  int p[5][5];                   /* state of rooms surrounding current pos */
 };
+
+/* indexes into state.i and state.i1 arrays */
+/* 0 not used */
+#define ROOM_WALL_WEST 1 /* state of west side of room: 1 = wall, others = can pass (3 = rubble?) */
+#define ROOM_WALL_NORTH 2 /* state of north side of room: 1 = wall, others = can pass (3 = rubble?) */
+/* east side comes from west side of room to the east */
+/* south side comes from north side of room to the south */
+#define ROOM_WALL_VISIBLE_WEST 3 /* player can see exit to west */
+#define ROOM_WALL_VISIBLE_NORTH 4 /* player can see exit to north */
+#define ROOM_SPECIAL 5 /* if nonzero, contains SPC_xxx code indicating special item in room */
+#define ROOM_MONSTER 6 /* there is a monster in the room */
+#define ROOM_TREASURE 7 /* room has treasure */
+#define ROOM_TREASURE_BOOBYTRAPPED 8 /* treasure is booby-trapped */
 
 struct chr {
   char nam[2][NAMELEN];
@@ -133,8 +146,8 @@ struct chr {
 #define UC_TOTALGOLD 13 /* how much gold character has brought out of dungeon */
 /* 14 not used */
 #define UC_DGNLVL 15 /* number of level within dungeon */
-#define UC_DGN_X 16 /* x-coordinate within dungeon */
-#define UC_DGN_Y 17 /* y-coordinate within dungeon */
+#define UC_DGN_X 16 /* north/south coordinate within dungeon (increasing southwards) */
+#define UC_DGN_Y 17 /* east/west-coordinate within dungeon (increasing eastwards) */
 #define UC_DGNNR 18 /* number of dungeon */
 /* 19 and 20 initialized in swb.c, but not used anywhere else? */
 #define UC_EXPGAIN 21 /* how much experience user will gain on successfully leaving the dungeon */
@@ -212,24 +225,24 @@ EXTERN struct dgnstr dd;         /* current dungeon map */
 EXTERN char *ddd;                /* our name */
 EXTERN int n_dlvl;               /* # of dungeons (for operator prog) */
 EXTERN int dfd;                  /* RDONLY fd for lvl file */
-EXTERN int autosave;             /* try save if sighup */
+EXTERN bool autosave;             /* try save if sighup */
 
 /* J. Random functions */
 
-int cbt_cast(void), cbt_main(void), cbt_ohitu(int dam), cbt_uhitm(int dam);
+int cbt_main(void), cbt_ohitu(int dam);
 int chr_lck_nuke(int lock), chr_load(char * name, int lock), chr_save(int unlock), chr_new(void);
 void chr_rset(void);
 struct chr *chr_scan(void);
-int dgn_main(void), dgn_nomove(int cmd);
+void dgn_main(void);
+int dgn_nomove(int cmd);
 void dgn_voices(void);
 int dlvl_choose(void), dlvl_loadum(int dno, int lvl);
 void dlvl_init(void), dlvl_get_start(int dno);
 int fni(int r), fni1(int r, int s);
-char *fnp(char * a, const char * b, int p), *fnp1(char * a, const char * b, int p);
 int lock_open(char * file, int mode, char * lockdir, char * lockfile, int maxtime);
 int lock_close(int fd, char * lockdir, char * lockfile);
 void opr_main(void);
-int optout(char * s), roll(int a, int b);
+int roll(int a, int b);
 void sighup(int), sigstop(int), swb_note(char * msg, char * file, int wiz);
 int spc_main(void), swb_ppnok(void), swb_wiz(void), trs_chest(void), trs_main(void),
   trs_obj(void);

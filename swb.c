@@ -120,7 +120,7 @@ prompt_top:
                 break;
               } /*if*/
             u.c[UC_STATE] = DGN_NEWADV;
-            autosave = 1;
+            autosave = true;
             if (u.c[UC_DGNLVL] == 0)
                 u.c[UC_DGNNR] = dlvl_choose();
             else
@@ -130,7 +130,7 @@ prompt_top:
             printf("Please wait while we force open the main door..\r\n");
             printf("\n");
             dgn_main();
-            autosave = 0;
+            autosave = false;
             if (u.c[UC_STATE] != SWB_CREATE)
                 break;
             printf("\r\n%s> ", ddd);
@@ -313,9 +313,9 @@ prompt_top:
                     printf("You are now descending into the dungeon:\r\n");
                     printf("Please wait while we force open the main door...\r\n");
                     u.c[UC_STATE] = DGN_NEWADV;
-                    autosave = 1;
+                    autosave = true;
                     dgn_main();
-                    autosave = 0;
+                    autosave = false;
                     if (u.c[UC_STATE] != SWB_CREATE)
                       {
                         done_create = true;

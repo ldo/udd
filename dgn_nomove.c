@@ -14,6 +14,7 @@ int dgn_nomove
   (
     int cmd
   )
+  /* returns YEP/NOPE indicating if character died (or at least wants to exit game). */
 {
   int in;
   switch (cmd) {

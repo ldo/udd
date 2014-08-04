@@ -62,7 +62,7 @@ static int ms1
     }
     if (roll(3,6) - u.c[UC_LEVEL] + min_monster_hits <= u.c[UC_CHARISMA]) {
       printf("It dies...\r\n");
-      dead = 1;
+      monster_defeated = 1;
     } else
       printf("It broke your charm!\r\n");
     break;
@@ -96,7 +96,7 @@ static int ms1
     }
     if (roll(3,6) - u.c[UC_LEVEL] + min_monster_hits < u.c[UC_INTEL]) {
       printf("It dies...\r\n");
-      dead = 1;
+      monster_defeated = 1;
     } else
       printf("It woke up!\r\n");
     break;
@@ -131,7 +131,7 @@ static int ms2
     cbt_chk();
     if (roll(3,6) + min_monster_hits - u.c[UC_LEVEL] + 1 < u.c[UC_INTEL]) {
       printf("The %s believed...!\r\n", mnam);
-      dead = 1;
+      monster_defeated = 1;
     } else {
       printf("The %s does not believe you.\r\n", mnam);
     }
@@ -148,7 +148,7 @@ static int ms2
     if (tmp == '\n')
       autoevade = monster_skips_a_turn = true;
     else {
-      dead = 1;
+      monster_defeated = 1;
       printf("It died...\r\n");
     }
     break;
@@ -218,9 +218,9 @@ static int ms3
     if (monster_hits < 1) {
       printf("It killed itself!\r\n");
       if (rnd() > 0.1)
-        u.i[8] = 0;
-      u.i[6] = 0;
-      dead = 1;
+        u.i[ROOM_TREASURE_BOOBYTRAPPED] = 0;
+      u.i[ROOM_MONSTER] = 0;
+      monster_defeated = 1;
     }
     break;
   case 3:          /* pass wall */
@@ -267,7 +267,7 @@ pass_top:
       if (tmp == '\n')
         autoevade = monster_skips_a_turn = true;
       else {
-        dead = 1;
+        monster_defeated = 1;
         printf("It died...\r\n");
       }
     }
@@ -327,7 +327,7 @@ static int ms4
     }
     if (roll(3,6) < u.c[UC_INTEL]) {
       printf("It is affected.\r\nIt died...\r\n");
-      dead = 1;
+      monster_defeated = 1;
     } else
       printf("This isn't your day.\r\n");
     break;
@@ -337,8 +337,8 @@ static int ms4
     if (rnd() > 0.3) {
       printf(" is no longer there.\r\n");
       gone = true;
-      dead = 1;
-      u.i[6] = u.i[7] = 0;
+      monster_defeated = 1;
+      u.i[ROOM_MONSTER] = u.i[ROOM_TREASURE] = 0;
       break;
     }
     printf(" is waiting for you!\r\n");
@@ -350,8 +350,8 @@ static int ms4
       u.c[UC_SPELL_TMST] += roll(1,10);
     printf("Time is frozen, monsters cannot attack you.\r\n");
     gone = true;
-    dead = 1;
-    u.i[6] = 0;
+    monster_defeated = 1;
+    u.i[ROOM_MONSTER] = 0;
     break;
   case 5:          /* wall of fire */
     cbt_chk();
@@ -367,17 +367,17 @@ static int ms4
       if (monster_hits < 1) {
         printf("It killed itself!\r\n");
         if (rnd() > 0.1)
-          u.i[8] = 0;
-        u.i[6] = 0;
-        dead = 1;
+          u.i[ROOM_TREASURE_BOOBYTRAPPED] = 0;
+        u.i[ROOM_MONSTER] = 0;
+        monster_defeated = 1;
       }
       break;
     }
     if (rnd() > 0.4) {
       printf("The %s cannot stand the heat and leaves.\r\n", mnam);
       gone = true;
-      dead = 1;
-      u.i[6] = 0;
+      monster_defeated = 1;
+      u.i[ROOM_MONSTER] = 0;
       break;
     }
     printf("The %s is patient.\r\n", mnam);
@@ -389,10 +389,10 @@ static int ms4
       break;
     }
     if (!not_in_combat) {
-      u.i[6] = 0;
+      u.i[ROOM_MONSTER] = 0;
       printf("The demon demolishes the %s.\r\n", mnam);
       gone = true;
-      dead = 1;
+      monster_defeated = 1;
     }
     sleep(2);
     if (roll(3,6) + 1 <= u.c[UC_INTEL])
@@ -407,8 +407,8 @@ static int ms4
       m_str = roll(1, mm[monster_type].m);
       m_arm = roll(1,min_monster_hits) - 1;
       gone = false;
-      dead = 0;
-      u.i[6] = 1;
+      monster_defeated = 0;
+      u.i[ROOM_MONSTER] = 1;
     }
     break;
   default:
@@ -452,8 +452,8 @@ static int cs1
     else {
       printf("The %s runs in terror!\r\n", mnam);
       gone = true;
-      dead = 1;
-      u.i[6] = 0;
+      monster_defeated = 1;
+      u.i[ROOM_MONSTER] = 0;
     }
     break;
   default:
@@ -525,7 +525,7 @@ static int cs3
       printf("The %s scorns your words.\r\n", mnam);
     else {
       printf("The %s is dispelled into thin air!\r\n", mnam);
-      dead = 1;
+      monster_defeated = 1;
     }
     break;
   case 3:          /* cont light */
@@ -538,8 +538,8 @@ static int cs3
       break;
     }
     printf("The %s dies of the black plague!!\r\n", mnam);
-    u.i[6] = 0;
-    dead = 1;
+    u.i[ROOM_MONSTER] = 0;
+    monster_defeated = 1;
     if (roll(1, 10) == 1 && u.c[UC_CURHIT] > 1) {
       tmp = u.c[UC_CURHIT] / 2.0;   /* XXX CDC used be auto-kill */
       printf("You caught it too!! You suffer %d hit point%s.\r\n",
@@ -571,7 +571,7 @@ static int cs4
     printf("Die %s!! ZZAAAPPP!!!!\r\n", mnam);
     if (roll(1,20) <= u.c[UC_WISDOM]) {
       printf("It died...\r\n");
-      dead = 1;
+      monster_defeated = 1;
     } else
       printf("The %s dodges well.\r\n", mnam);
     break;
