@@ -149,8 +149,8 @@ struct chr {
 #define UC_SPELLS2 32 /* nr of spells available at level 2 */
 #define UC_SPELLS3 33 /* nr of spells available at level 3 */
 #define UC_SPELLS4 34 /* nr of spells available at level 4 */
-/* 35 not used */
-/* 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47? */
+/* 35, 36 not used */
+/* 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47? */
 #define UC_GID 48 /* group ID of user owning character */
 #define UC_UID 49 /* user ID of user owning character */
 #define UC_HASORB 50 /* player has orb */

@@ -324,10 +324,10 @@ int spc_main(void)
           tmp = rnd() * rnd() * 11.0 + 1;
           tmp2 = rnd() * (tmp2 / ((double)u.c[UC_GOLDFOUND] + 1.0)) * 20.0 + 
             rnd() * 20.0 + 1;
-          if (u.c[36+tmp] < 0)
-            u.c[36+tmp] = tmp2;
+          if (u.c[37 - 1 + tmp] < 0)
+            u.c[37 - 1 + tmp] = tmp2;
           else
-            u.c[36+tmp] += tmp2;
+            u.c[37 - 1 + tmp] += tmp2;
           printf("You've been heard.\r\n");
           break;
         }

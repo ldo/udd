@@ -18,7 +18,7 @@
 
 int cbt_ok(void)
 {
-  if (hflag == 1) {
+  if (hflag) {
     printf("Too bad you just wasted a combat spell!\r\n");
     return(NOPE);
   }
@@ -57,7 +57,7 @@ int ms1
     tmp = getchar();
     printf("\n\r");
     if (tmp == '\n') {
-      autoevade = mskip = 1;
+      autoevade = mskip = true;
       break;
     }
     if (roll(3,6) - u.c[UC_LEVEL] + m1 <= u.c[UC_CHARISMA]) {
@@ -91,7 +91,7 @@ int ms1
     tmp = getchar();
     printf("\n\r");
     if (tmp == '\n') {
-      autoevade = mskip = 1;
+      autoevade = mskip = true;
       break;
     }
     if (roll(3,6) - u.c[UC_LEVEL] + m1 < u.c[UC_INTEL]) {
@@ -145,7 +145,7 @@ int ms2
     tmp = getchar();
     printf("\r\n");
     if (tmp == '\n')
-      autoevade = mskip = 1;
+      autoevade = mskip = true;
     else {
       dead = 1;
       printf("It died...\r\n");
@@ -222,7 +222,7 @@ int ms3
     }
     break;
   case 3:          /* pass wall */
-    if (hflag == 0) {
+    if (!hflag) {
       printf("Not in the middle of a battle dolt!\r\n");
       break;
     }
@@ -263,7 +263,7 @@ int ms3
       tmp = getchar();
       printf("\r\n");
       if (tmp == '\n')
-        autoevade = mskip = 1;
+        autoevade = mskip = true;
       else {
         dead = 1;
         printf("It died...\r\n");
@@ -333,7 +333,8 @@ int ms4
     printf("You are protected, when you release it the %s", mnam);
     if (rnd() > 0.3) {
       printf(" is no longer there.\r\n");
-      gone = dead = 1;
+      gone = true;
+      dead = 1;
       u.i[6] = u.i[7] = 0;
       break;
     }
@@ -345,7 +346,8 @@ int ms4
     else
       u.c[47] += roll(1,10);
     printf("Time is frozen, monsters cannot attack you.\r\n");
-    gone = dead = 1;
+    gone = true;
+    dead = 1;
     u.i[6] = 0;
     break;
   case 5:          /* wall of fire */
@@ -370,7 +372,8 @@ int ms4
     }
     if (rnd() > 0.4) {
       printf("The %s cannot stand the heat and leaves.\r\n", mnam);
-      gone = dead = 1;
+      gone = true;
+      dead = 1;
       u.i[6] = 0;
       break;
     }
@@ -382,10 +385,11 @@ int ms4
       printf("The demon is taking a bath.\r\n");
       break;
     }
-    if (hflag == 0) {
+    if (!hflag) {
       u.i[6] = 0;
       printf("The demon demolishes the %s.\r\n", mnam);
-      gone = dead = 1;
+      gone = true;
+      dead = 1;
     }
     sleep(2);
     if (roll(3,6) + 1 <= u.c[UC_INTEL])
@@ -393,13 +397,14 @@ int ms4
     else {
       printf("It attacks you!!\r\n");
       mnam = "Demon";
-      hflag = 0;
+      hflag = false;
       m = 20;
       m1 = u.c[UC_LEVEL] + 5;
       m2,m2_old = roll(m1, 16);
       m_str = roll(1, mm[m].m);
       m_arm = roll(1,m1) - 1;
-      gone = dead = 0;
+      gone = false;
+      dead = 0;
       u.i[6] = 1;
     }
     break;
@@ -442,7 +447,8 @@ int cs1
       printf("The %s listens with deaf ears.\r\n", mnam);
     else {
       printf("The %s runs in terror!\r\n", mnam);
-      gone = dead = 1;
+      gone = true;
+      dead = 1;
       u.i[6] = 0;
     }
     break;
