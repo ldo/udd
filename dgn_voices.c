@@ -12,7 +12,7 @@
 #define NVOCS 12
 #define ADDDIR 9
 
-char *vocs[] = {
+static const char * const vocs[] = {
   "You hear a mysterious sound from behind....." ,
   "A voice says 'PLUGH'....." ,
   "Beware the Gulf of Nazguk!!!!   A voice screams in the distance." ,
@@ -27,7 +27,7 @@ char *vocs[] = {
   "You hear rustling noises from the "
 };
 
-char *dirs[] = { "north.", "east.", "south.", "west." };
+static const char * const dirs[] = { "north.", "east.", "south.", "west." };
 
 void dgn_voices(void)
 {

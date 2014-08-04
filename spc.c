@@ -13,8 +13,8 @@
 #include <stdio.h>
 #include "defs.h"
 
-/*char *color[] = { "white", "green", "blue", "red", "black" };*/
-char *color[] = { "white", "blue", "green", "red", "black" };
+/*static const char * const color[] = { "white", "green", "blue", "red", "black" };*/
+static const char * const color[] = { "white", "blue", "green", "red", "black" };
 
 int spc_main(void)
 {

@@ -12,7 +12,7 @@
 #include <ctype.h>
 #include "defs.h"
 
-char *cmdstr = "01234SWDXACR\r\n\033KQUH";   /* for pointer */
+static const char * const cmdstr = "01234SWDXACR\r\n\033KQUH";   /* for pointer */
 
 int dgn_main(void)
 {

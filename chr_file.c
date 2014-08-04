@@ -14,10 +14,10 @@
 #include <stdio.h>
 #include "defs.h"
 
-struct chr *c;
-int numc = -1;
-int numc2 = -1;
-int cfd = -1;
+static struct chr *c;
+static int numc = -1;
+static int numc2 = -1;
+static int cfd = -1;
 
 int chr_load
   (

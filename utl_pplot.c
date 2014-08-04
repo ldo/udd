@@ -11,9 +11,9 @@
 #include <stdio.h>
 #include "defs.h"
 
-char obuf[BUFSIZ], *obp = obuf, tbuf[80], tbuf2[80], tbuf3[80];
-int ccpos;         /* current cursor position */
-int cobps;         /* current end of obuf position */
+static char obuf[BUFSIZ], *obp = obuf, tbuf[80], tbuf2[80], tbuf3[80];
+static int ccpos;         /* current cursor position */
+static int cobps;         /* current end of obuf position */
 
 #define fnd3(c, z) vaz[fni1(u.p[c][z], 4) + 1]
 #define fnd2(c, z) maz[fni1(u.p[c][z], 3)]
