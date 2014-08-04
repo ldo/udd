@@ -23,7 +23,7 @@ int dgn_main(void)
   while (done == NOPE) {
     i = u.c[63];
     switch (u.c[UC_STATE]) {
-    case DGN_NEWADV: 
+    case DGN_NEWADV:
       u.c[UC_STATE] = DGN_NEWLOC;
       if (u.c[UC_DGNLVL] != 0) {   /* resume? */
         utl_inilvl();
@@ -64,7 +64,7 @@ int dgn_main(void)
           u.i[7] = 1;
           if (rnd() > 0.5)  /* CDC .1? */
             u.i[8] = 1;
-          else 
+          else
             u.i[8] = 0;
         }
       }
@@ -79,7 +79,7 @@ int dgn_main(void)
         printf("Press <CR> to approach, or <LF> to ignore it: ");
         in = getchar();
         printf("\r\n");
-        if (in != '\r') 
+        if (in != '\r')
           u.i[6] = u.i[7] = 0;
         else {
           if (u.c[47] > 0 || (u.c[46] > 0 && rnd() > 0.3))
@@ -114,7 +114,7 @@ int dgn_main(void)
         break;
       }
       u.i[6] = u.i[7] = u.i[8] = 0;
-      u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 
+      u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] =
         1024*u.i[8]+512*u.i[7]+256*u.i[6]+16*u.i[5]+4*u.i[2]+u.i[1];
       if (u.i[5] != 0) {
         done = spc_main();
@@ -189,14 +189,14 @@ int dgn_main(void)
       }
       if (valid == 0) {
         printf("\rNo\007\r");
-        goto dgn_no;         
+        goto dgn_no;
       }
     case DGN_AMOVE:
       u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] =
         1024*u.i[8]+512*u.i[7]+256*u.i[6]+16*u.i[5]+4*u.i[2]+u.i[1];
       u.c[UC_DGN_X] += q[i][1];
       u.c[UC_DGN_Y] += q[i][2];
-      if (u.c[UC_DGN_X] < 1 || u.c[UC_DGN_X] > 20 || u.c[UC_DGN_Y] < 1 || u.c[UC_DGN_Y] > 20) 
+      if (u.c[UC_DGN_X] < 1 || u.c[UC_DGN_X] > 20 || u.c[UC_DGN_Y] < 1 || u.c[UC_DGN_Y] > 20)
         done = utl_escape();
       else
         u.c[UC_STATE] = DGN_NEWLOC;

@@ -115,7 +115,7 @@ otop:
                 buf[strlen(buf) - 1] = 0;
                 if (strlen(buf) < 40)
                     strcat(buf,"                                        ");
-                if (tmp % 2 == 1) 
+                if (tmp % 2 == 1)
                   for (lcv = 1; lcv <= 39 ; lcv += 2)
                     {
                       switch(buf[lcv])
@@ -156,7 +156,7 @@ otop:
                         } /*switch*/
                       if (buf[lcv+1] != ' ')
                         {
-                          if (buf[lcv+1] < 'a' || buf[lcv+1] > 'o') 
+                          if (buf[lcv+1] < 'a' || buf[lcv+1] > 'o')
                               printf("opr: Warning: line %d, unknown special!\r\n", tmp);
                           else
                               dd.dmap[((tmp - 1) / 2) * 20 + lcv / 2] |= (buf[lcv+1] - 'a' + 1) * 16;
@@ -250,7 +250,7 @@ otop:
             dlvl_loadum(dgn, lvl);
             for (tmp = 1; tmp <= 20 ; tmp++)
               {
-                for (lcv = 1 ; lcv <= 20; lcv++) 
+                for (lcv = 1 ; lcv <= 20; lcv++)
                     if (tmp2 == 'X')
                         fprintf
                           (
@@ -281,7 +281,7 @@ otop:
                   } /*for*/
                 fprintf(fp, "| %d\r%s", tmp, (tmp2 == 'X') ? "\n" : "");
               } /*for*/
-            if (tmp2 == 'X') 
+            if (tmp2 == 'X')
                 fprintf(fp, " - - - - - - - - - - - - - - - - - - - -\r\n");
             else
                 fprintf(fp, " _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\r\n\n");
@@ -372,9 +372,9 @@ otop:
         case 'D':
             if (n_dlvl < 0)
                 dlvl_init();
-            if (tmp2 == 'S') 
+            if (tmp2 == 'S')
                 printf("Set dungeon\r\n");
-            else 
+            else
                 printf("Change number of dungeons\r\n");
             printf("Current number of dungeons is %d.\r\n", n_dlvl);
             printf("%sumber [1..9, or anything else to abort] : ", (tmp2 == 'D') ? "New n" : "N");
@@ -402,7 +402,7 @@ otop:
                 if (!fgets(buf, DNAM_SZ - 1, stdin))
                     strcpy(buf, "\n");
                 buf[strlen(buf) - 1] = 0;
-                if (buf[0] != 0) 
+                if (buf[0] != 0)
                     strcpy(dd.dnam, buf);
                 printf("The start code is formed by:\r\n");
                 printf("\t   code = 20 * (start_row - 1) + (start_col - 1)\r\n");
@@ -600,7 +600,7 @@ otop:
                 break;
               } /*if*/
             printf("Yes\r\n");
-            if (chr_save(YEP) == NOPE) 
+            if (chr_save(YEP) == NOPE)
                 printf("It failed!\r\n\n");
             else
               {
@@ -642,7 +642,7 @@ otop:
                 break;
               } /*if*/
             printf("Current value is:\r\n");
-            if (tmp2 == 'A') 
+            if (tmp2 == 'A')
                 printf("  u.c[%d] = %d\r\n", tmp, u.c[tmp]);
             else
                 printf("  u.n[%d] = %s\r\n", tmp, u.n[tmp]);

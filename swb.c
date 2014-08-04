@@ -7,7 +7,7 @@
  *
  * Current version/patchlevel: */
 /*#define VERS "UDD V5.1C-06  22-Oct-89" */
-#define VERS "UDD V5.1C-07  01-Feb-2001" 
+#define VERS "UDD V5.1C-07  01-Feb-2001"
 
 #define MAIN /* put globals here */
 
@@ -131,7 +131,7 @@ prompt_top:
             printf("\n");
             dgn_main();
             autosave = 0;
-            if (u.c[UC_STATE] != SWB_CREATE) 
+            if (u.c[UC_STATE] != SWB_CREATE)
                 break;
             printf("\r\n%s> ", ddd);
             u.c[UC_STATE] = XXX_NORM;
@@ -378,12 +378,12 @@ prompt_top:
                         printf("u%-7d ", ntohl(cptr->c[UC_UID]));
                     else
                         printf("%-8s ", pptr->pw_name);
-                    printf("%c%c%c%c ", (cptr->c[UC_DGNLVL] == 0) ? ' ' : '*', 
+                    printf("%c%c%c%c ", (cptr->c[UC_DGNLVL] == 0) ? ' ' : '*',
                            (cptr->c[UC_DEBUGCHR] == 0) ? ' ' : '+',
                            (cptr->c[UC_WIZONLY] == 0) ? ' ' : '@',
                            (cptr->c[UC_LOCKED] == 0) ? ' ' : 'L');
                     int chrtype = ntohl(cptr->c[UC_CLASS]);
-                    if (chrtype == CHRCLASS_CLERIC) 
+                    if (chrtype == CHRCLASS_CLERIC)
                         printf("CLRC\r\n");
                     else if (chrtype == CHRCLASS_MAGICIAN)
                         printf("MAGE\r\n");
@@ -456,7 +456,7 @@ prompt_top:
                 else
                     chr_save(YEP);             /* someone else char with same
                                                   name, created between the above
-                                                  two calls to chr_load... not 
+                                                  two calls to chr_load... not
                                                   very likely */
               }
             else
@@ -535,7 +535,7 @@ find_top:
             int levelnr = atoi(nbuf);
             unix_tty_dgn();
             fflush(stdin);
-            if (levelnr < 1 || levelnr > 1000) 
+            if (levelnr < 1 || levelnr > 1000)
                 printf("That's a little out of my range...\r\n");
             else
                 printf("You need %d experience for level %d.\r\n", utl_exp(levelnr), levelnr);
@@ -549,7 +549,7 @@ find_top:
               {
                 if (cptr->c[UC_ALIVE] == 0)
                     continue;
-                if (cptr->c[UC_WIZONLY] != 0 && wiz == 0) 
+                if (cptr->c[UC_WIZONLY] != 0 && wiz == 0)
                     continue;
                 printf("%-10.10s  %s  ", cptr->nam[0], unix_date(ntohl(cptr->c[UC_CREATED])));
                 printf("%s  ", unix_date(ntohl(cptr->c[UC_LASTRUN])));
@@ -559,12 +559,12 @@ find_top:
                     printf("u%-7d  ", ntohl(cptr->c[UC_UID]));
                 else
                     printf("%-8s ", pptr->pw_name);
-                printf("%c%c%c%c ", (cptr->c[UC_DGNLVL] == 0) ? ' ' : '*', 
+                printf("%c%c%c%c ", (cptr->c[UC_DGNLVL] == 0) ? ' ' : '*',
                        (cptr->c[UC_DEBUGCHR] == 0) ? ' ' : '+',
                        (cptr->c[UC_WIZONLY] == 0) ? ' ' : '@',
                        (cptr->c[UC_LOCKED] == 0) ? ' ' : 'L');
                 int chrtype = ntohl(cptr->c[UC_CLASS]);
-                if (chrtype == CHRCLASS_CLERIC) 
+                if (chrtype == CHRCLASS_CLERIC)
                     printf("CLRC\r\n");
                 else if (chrtype == CHRCLASS_MAGICIAN)
                     printf("MAGE\r\n");

@@ -137,7 +137,7 @@ int cbt_main(void)
         dead = 0;
         if (u.c[42] > 0 && roll(1,20) < 15+u.c[UC_LEVEL] - m1)
             ok = true;
-        /*if (roll(1,20) <= u.c[UC_INTEL] + u.c[UC_DEX] / 2.0) 
+        /*if (roll(1,20) <= u.c[UC_INTEL] + u.c[UC_DEX] / 2.0)
             ok = true;  */
         if (roll(1,20) + m1 <= ((u.c[UC_INTEL] + u.c[UC_DEX]) / 2.0) + u.c[UC_LEVEL])  /*CDC XXX???*/
             ok = true;
@@ -151,13 +151,13 @@ int cbt_main(void)
 ask:
                 if (!autoevade)
                   {
-                    printf("Press (F)ight%s or (E)vade: ", 
+                    printf("Press (F)ight%s or (E)vade: ",
                            (u.c[UC_SPELLS1]+u.c[UC_SPELLS2]+u.c[UC_SPELLS3]+u.c[UC_SPELLS4] == 0) ? ""  : ", (C)ast,");
                     in = getchar();
                     if (islower(in))
                       in = toupper(in);
                   }
-                else 
+                else
                     in = 'E';
                 if (in < 0)
                     in = 'E';
@@ -286,7 +286,7 @@ ask:
                             d -= roll(1, m_arm)+roll(1,m_arm);   /*one for ARM,one for shld*/
                         if (d < 1)
                             printf("It fends you off.\r\n");
-                        else 
+                        else
                             cbt_uhitm(d);
                       } /*if*/
                   } /*if*/
@@ -357,7 +357,7 @@ ask:
                 if (d == 0)
                     d = roll(1, mm[m].m) + m1;
                 if (m == 19)  /* balrog */
-                    if (roll(1,3) < 3) 
+                    if (roll(1,3) < 3)
                         printf("The %s uses it's sword!\r\n", mnam);
                     else
                       {
@@ -500,7 +500,7 @@ s_top:
                 in2 > '4' && u.c[UC_CLASS] == CHRCLASS_CLERIC
             ||
                 in2 > '6' && u.c[UC_CLASS] != CHRCLASS_CLERIC
-          ) 
+          )
             utl_prtspl(u.c[UC_CLASS], lvl);
         else
             spl = in2 - '0';

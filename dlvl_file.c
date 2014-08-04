@@ -40,7 +40,7 @@ int dlvl_choose(void)
   printf("You may now choose the Dungeon for your adventure.\r\n\n");
   printf("The choices are:\r\n");
   for (tmp = 0 ; tmp < n_dlvl ; tmp++) {
-    lseek(dfd, sizeof(n_dlvl) + tmp * (DNAM_SZ + sizeof(dd.dstart) + 8000), 
+    lseek(dfd, sizeof(n_dlvl) + tmp * (DNAM_SZ + sizeof(dd.dstart) + 8000),
           L_SET);
     read(dfd, dd.dnam, DNAM_SZ);
     read(dfd, (char *) &(dd.dstart), sizeof(dd.dstart));
@@ -68,10 +68,10 @@ int dlvl_choose(void)
   dd.dstart = 400;
   if (u.c[UC_DGNNR] != 0 && tmp == '\r')
     tmp = u.c[UC_DGNNR] + '1' - 1;
-  if (tmp == '\r') 
-    while (dd.dstart == 400) { 
+  if (tmp == '\r')
+    while (dd.dstart == 400) {
       tmp2 = roll(1, n_dlvl);
-      lseek(dfd, sizeof(n_dlvl) + (tmp2 - 1) * (DNAM_SZ + 8000 + 
+      lseek(dfd, sizeof(n_dlvl) + (tmp2 - 1) * (DNAM_SZ + 8000 +
                                                 sizeof(dd.dstart)), L_SET);
       read(dfd, dd.dnam, DNAM_SZ);
       read(dfd, (char *) &(dd.dstart), sizeof(dd.dstart));
@@ -86,7 +86,7 @@ int dlvl_choose(void)
     printf("Great.  Now how about a valid answer?\r\n");
     goto ctop;
   }
-  lseek(dfd, sizeof(n_dlvl) + (tmp - 1) * (DNAM_SZ + 8000 + 
+  lseek(dfd, sizeof(n_dlvl) + (tmp - 1) * (DNAM_SZ + 8000 +
                                            sizeof(dd.dstart)), L_SET);
   read(dfd, dd.dnam, DNAM_SZ);
   read(dfd, (char *) &(dd.dstart), sizeof(dd.dstart));

@@ -24,7 +24,7 @@ char *vocs[] = {
   "The room vibrates as if an army is passing by." ,
   "A resonant voice says \"May I take your hat and goat Sir?\"." ,
   "You hear slurping noises to the " ,
-  "You hear rustling noises from the " 
+  "You hear rustling noises from the "
 };
 
 char *dirs[] = { "north.", "east.", "south.", "west." };

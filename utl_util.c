@@ -63,7 +63,7 @@ int utl_populate(void)
   return(1536);
 }
 
-    
+
 int utl_winner(void)
 {
   int fd;
@@ -86,7 +86,7 @@ int utl_winner(void)
   close(fd);
   /* try to remove him from the file */
   chr_save(NOPE);
-  if (chr_load(u.n[0], NOLOCK) != NOPE) 
+  if (chr_load(u.n[0], NOLOCK) != NOPE)
     chr_lck_nuke(NUKE);
   return(YEP);
 }
@@ -121,7 +121,7 @@ ask:
     i = 10;
   u.c[UC_DGNLVL] = u.c[UC_DGN_X] = u.c[UC_DGN_Y] = 0;
   u.c[UC_STATE] = DGN_NEWADV;
-  if (i == 13) 
+  if (i == 13)
     return(NOPE);
   if (i != 10) {
     printf("Don't you listen?\r\n");
@@ -139,7 +139,7 @@ int utl_death(void)
     u.c[UC_SPELLS4]--;
     u.c[UC_CONSTIT]--;
     if (u.c[UC_CONSTIT] == 0 || roll(1,10) > u.c[UC_CONSTIT])
-      printf("It failed!! [%d spell%s left]\r\n", u.c[UC_SPELLS4], 
+      printf("It failed!! [%d spell%s left]\r\n", u.c[UC_SPELLS4],
              (u.c[UC_SPELLS4] == 1) ? "" : "s");
     else {
       u.c[UC_CURHIT] = roll(1,u.c[UC_MAXHIT]);
@@ -272,7 +272,7 @@ int utl_chklvl(void)
       return(utl_death());
     }
     utl_sprog();
-    if (chr_save(NOPE) != YEP) 
+    if (chr_save(NOPE) != YEP)
       printf("[Strange, I can't check point your character!]\n\r");
     return(NOPE);
   }
@@ -289,7 +289,7 @@ int utl_chklvl(void)
   if (u.c[UC_EXP] >= utl_exp(u.c[UC_LEVEL] + 1))
     u.c[UC_EXP] = utl_exp(u.c[UC_LEVEL] + 1) - 1;
   utl_sprog();
-    if (chr_save(NOPE) != YEP) 
+    if (chr_save(NOPE) != YEP)
       printf("[Strange, I can't check point your character!]\n\r");
   return(NOPE);
 }
@@ -324,7 +324,7 @@ void utl_prtspl
   int mx = 6;
   int lcv;
   printf("\r\n");
-  if (c7 == 1) 
+  if (c7 == 1)
     mx = i = 4;
   i += lvl;
   for (lcv = 1 ; lcv <= mx ; lcv++)
@@ -342,13 +342,13 @@ void utl_adj_st(void)
   if (i1 == 1)
     while (u.c[i2] - i3 < 1)
       i3--;
-  printf("Your %.3s just went %s by %d.\r\n", st + ((i2 - 1) * 3), 
+  printf("Your %.3s just went %s by %d.\r\n", st + ((i2 - 1) * 3),
          (i1 == 1) ? "down" : "up", i3);
   if (i1 == 1)
     i3 = -i3;
   u.c[i2] += i3;
   printf("It is now %d.\r\n", u.c[i2]);
-  if (chr_save(NOPE) != YEP) 
+  if (chr_save(NOPE) != YEP)
     printf("[Strange, I can't check point your character!]\n\r");
 }
 
@@ -362,7 +362,7 @@ int utl_adj_ex(void)
   if (i1 == 1)
     i2 = -i2;
   u.c[UC_EXP] += i2;
-  if (chr_save(NOPE) != YEP) 
+  if (chr_save(NOPE) != YEP)
     printf("[Strange, I can't check point your character!]\n\r");
   return(utl_chklvl());
 }

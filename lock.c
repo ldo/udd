@@ -14,7 +14,7 @@
 #include <sys/stat.h>
 #include "defs.h"
 
-/* 
+/*
  * lock_open: open with simple link-based file locking.
  * on failure: -1 if fixed error, -2 if we should try again later.
  */
@@ -52,7 +52,7 @@ int lock_open
   time(&now);
   if (stat(lfile, &st) >= 0) {
     /* infinite or under max? */
-    if (maxtime <= 0 || (now - st.st_mtime) <= maxtime) { 
+    if (maxtime <= 0 || (now - st.st_mtime) <= maxtime) {
       close(fd);
       return(-2);
     }
@@ -62,7 +62,7 @@ int lock_open
     close(fd);
     goto ReTry;
   }
-  
+
   fd2 = mkstemp(ltmpfile);
   if (fd2 < 0) {
     close(fd);
@@ -93,10 +93,10 @@ int lock_close
   )
 {
   char lfile[MAXPATHLEN];
-  
+
   if (strlen(lockdir) + strlen(lockfile) + 16 > MAXPATHLEN)
     return(-1);
-  
+
   strcpy(lfile, lockdir);
   strcat(lfile, "/");
   strcat(lfile, lockfile);

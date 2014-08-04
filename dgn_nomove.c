@@ -48,7 +48,7 @@ int dgn_nomove
     case 5:
       utl_pplot(NOPE);
       return(NOPE);
-    case 6: 
+    case 6:
       printf("Let me die!\r\n");
       printf("Are you sure? ");
       in = getchar();
@@ -67,7 +67,7 @@ int dgn_nomove
       if (in == 'y' || in == 'Y') {
         printf("Yes\r\nSaving your position sire...\r\n");
         u.c[UC_STATE] = XXX_NORM;
-        return(chr_save(YEP)); 
+        return(chr_save(YEP));
       } else
       printf("No\r\n");
       u.c[UC_STATE] = DGN_PROMPT;

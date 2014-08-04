@@ -25,13 +25,13 @@
  * state after a SIGHUP (default=undef).
  */
 
-#undef  L_STRICT 
+#undef  L_STRICT
 
 /*
  * file names: FIL_XXX     - full path of file
- *             FIL_XXX_LK  - if you are using links for locking this is the 
+ *             FIL_XXX_LK  - if you are using links for locking this is the
  *                           lock file name, otherwise it is ignored.
- *             FIL_XXX_LD  - if you are using links for locking this is the 
+ *             FIL_XXX_LD  - if you are using links for locking this is the
  *                           lock file directory, otherwise it is ignored.
  * files: CHR - Character file
  *        NOT - message of the day

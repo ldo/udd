@@ -27,13 +27,13 @@ int chr_load
 {
   int tmp;
   chr_rset();
-  while ((c = chr_scan()) != NULL) 
+  while ((c = chr_scan()) != NULL)
     if (c->c[UC_ALIVE] != 0 && strcmp(c->nam[0], name) == 0) {
       strncpy(u.n[0], c->nam[0], NAMELEN);
       strncpy(u.n[1], c->nam[1], NAMELEN);
       for (tmp = 0 ; tmp < 65; tmp++)
         u.c[tmp] = ntohl(c->c[tmp]);
-      if (lock == LOCK && u.c[UC_LOCKED] != 0) 
+      if (lock == LOCK && u.c[UC_LOCKED] != 0)
         return(MAYBE);       /* lock failed! */
       if (lock == LOCK && chr_lck_nuke(LOCK) == NOPE)
         return(MAYBE);       /* lock failed! */
@@ -97,7 +97,7 @@ int chr_save
     sleep(roll(1,2));
   }
   chr_rset();
-  while ((cp = chr_scan()) != NULL) 
+  while ((cp = chr_scan()) != NULL)
     if (cp->c[UC_ALIVE] != 0 && strcmp(u.n[0], cp->nam[0]) == 0)
       break;
   if (cp == NULL) {
@@ -210,7 +210,7 @@ int chr_new(void)
   }
   u.c[UC_LOCKED] = 1;
   chr_rset();
-  while ((cp = chr_scan()) != NULL) 
+  while ((cp = chr_scan()) != NULL)
     if (cp->c[UC_ALIVE] == 0)
       break;
   if (cp != NULL) {
@@ -223,7 +223,7 @@ int chr_new(void)
     write(cwfp, (char *) &tmp, sizeof(tmp));
     tmp = sizeof(int) + (numc - 1) * sizeof(struct chr);
     lseek(cwfp, tmp, L_SET);
-  } 
+  }
   strncpy(cpout.nam[0], u.n[0], NAMELEN);
   strncpy(cpout.nam[1], u.n[1], NAMELEN);
   for (tmp = 0 ; tmp < 65 ; tmp++)
@@ -239,4 +239,4 @@ int chr_new(void)
   lock_close(cwfp, FIL_CHR_LD, FIL_CHR_LK);
   chr_rset();
   return(YEP);
-} 
+}
