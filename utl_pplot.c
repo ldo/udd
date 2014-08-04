@@ -93,6 +93,10 @@ static void analyze_room
     r = r >> 2;
     flags[ROOM_WALL_NORTH] = flags[ROOM_WALL_VISIBLE_NORTH] = (r & 3);           /* sec/nonsec side */
     r = r >> 2;
+    if (u.c[UC_SPELL_LIGHT] < 1 && flags[ROOM_WALL_VISIBLE_WEST] == 3 && rnd() < 0.85)
+        flags[ROOM_WALL_VISIBLE_WEST] = 1;
+    if (u.c[UC_SPELL_LIGHT] < 1 && flags[ROOM_WALL_VISIBLE_NORTH] == 3 && rnd() < 0.85)
+        flags[ROOM_WALL_VISIBLE_NORTH] = 1;
     flags[ROOM_SPECIAL] = (r & 15);                   /* special */
     r = r >> 4;
     flags[ROOM_MONSTER] = (r & 1);
@@ -108,10 +112,6 @@ int enter_room
   /* analyzes the current room into u.i. */
   {
     analyze_room(r, u.i);
-    if (u.c[UC_SPELL_LIGHT] < 1 && u.i[ROOM_WALL_VISIBLE_WEST] == 3 && rnd() < 0.85)
-        u.i[ROOM_WALL_VISIBLE_WEST] = 1;
-    if (u.c[UC_SPELL_LIGHT] < 1 && u.i[ROOM_WALL_VISIBLE_NORTH] == 3 && rnd() < 0.85)
-        u.i[ROOM_WALL_VISIBLE_NORTH] = 1;
     return
         u.i[ROOM_SPECIAL];
   } /*enter_room*/
