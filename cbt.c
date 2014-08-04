@@ -348,10 +348,10 @@ ask:
                     strike_force = roll(1, mm[monster_type].m) + min_monster_hits;
                 if (monster_type == 19)  /* balrog */
                     if (roll(1,3) < 3)
-                        printf("The %s uses it's sword!\r\n", mnam);
+                        printf("The %s uses its sword!\r\n", mnam);
                     else
                       {
-                        printf("The %s uses it's whip!\007\r\n", mnam);
+                        printf("The %s uses its whip!\007\r\n", mnam);
                         strike_force *= 1.5;
                       } /*if*/
                 if (u.c[UC_DEBUGCHR] == 1)
@@ -432,13 +432,13 @@ ask:
         return
             spc_main();
     case CBT_CAST:
-       if (cbt_cast() == YEP)
-           return
-               YEP;
+        if (cbt_cast() == YEP)
+            return
+                YEP;
     break;
     default:
-       printf("cbt: unknown cmd\r\n");
-       unix_exit(1);
+        printf("cbt: unknown cmd\r\n");
+        unix_exit(1);
       } /*switch*/
     return
         NOPE;

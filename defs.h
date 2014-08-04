@@ -72,21 +72,21 @@
 #define DGN_AMOVE 3
 #define SPC_NORM 1
 #define SPC_TPTNOW 20   /* must be > 15 or < 1  to avoid conflict */
-#define SPC_DNS  1
-#define SPC_UPS  2
-#define SPC_UDS  3
-#define SPC_EXC  4
-#define SPC_PIT  5
-#define SPC_TPT  6
-#define SPC_FTN  7
-#define SPC_ALT  8
-#define SPC_DGN1 9
-#define SPC_DGN2 10
-#define SPC_ORB  11
-#define SPC_ELV  12
-#define SPC_THR  13
-#define SPC_SAF  14
-#define SPC_RCK  15
+#define SPC_DNS  1 /* down-only staircase */
+#define SPC_UPS  2 /* up-only staircase */
+#define SPC_UDS  3 /* up/down staircase */
+#define SPC_EXC  4 /* Excelsior transporter (goes to random location on selected level) */
+#define SPC_PIT  5 /* pit */
+#define SPC_TPT  6 /* teleport to random location elsewhere in dungeon */
+#define SPC_FTN  7 /* fountain */
+#define SPC_ALT  8 /* altar */
+#define SPC_DGN1 9 /* dragon */
+#define SPC_DGN2 10 /* dragon guarding Orb */
+#define SPC_ORB  11 /* Orb */
+#define SPC_ELV  12 /* elevator (takes you up a level) */
+#define SPC_THR  13 /* throne */
+#define SPC_SAF  14 /* safe */
+#define SPC_RCK  15 /* you find yourself in solid rock */
 #define SWB_CREATE 2
 #define XXX_NORM 1
 #define NOPE 1
@@ -166,7 +166,7 @@ struct chr {
 /* end spells in effect */
 #define UC_GID 48 /* group ID of user owning character */
 #define UC_UID 49 /* user ID of user owning character */
-#define UC_HASORB 50 /* player has orb */
+#define UC_HASORB 50 /* player has Orb */
 #define UC_RING 51 /* power of ring of regeneration, if any */
 #define UC_ELVEN_CLOAK 52 /* power of elven cloak, if any */
 #define UC_ELVEN_BOOTS 53 /* power of elven boots, if any */
