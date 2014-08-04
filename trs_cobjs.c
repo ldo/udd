@@ -100,7 +100,7 @@ int trs_obj(void)
         tmp = u.c[UC_SHIELD];
       printf("You have found a %sShield +%d.\r\n",
              (tmp > 0) ? "Magic " : "", tmp);
-      if (u.c[UC_CLASS] == 2) {
+      if (u.c[UC_CLASS] == CHRCLASS_MAGICIAN) {
         printf("Too bad you can't use it!\r\n");
         break;
       }

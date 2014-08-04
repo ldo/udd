@@ -128,7 +128,7 @@ int cbt_main(void)
       ask:
         if (autoevade == 0) {
           printf("Press (F)ight%s or (E)vade: ", 
-                 (u.c[31]+u.c[32]+u.c[33]+u.c[34] == 0) ? ""  : ", (C)ast,");
+                 (u.c[UC_SPELLS1]+u.c[UC_SPELLS2]+u.c[UC_SPELLS3]+u.c[UC_SPELLS4] == 0) ? ""  : ", (C)ast,");
           in = getchar();
           if (islower(in))
             in = toupper(in);
@@ -136,7 +136,7 @@ int cbt_main(void)
           in = 'E';
         if (in < 0)
           in = 'E';
-        if (in == 'C' && u.c[31]+u.c[32]+u.c[33]+u.c[34] == 0)
+        if (in == 'C' && u.c[UC_SPELLS1]+u.c[UC_SPELLS2]+u.c[UC_SPELLS3]+u.c[UC_SPELLS4] == 0)
           in = '?';
         if (in != 'F' && in != 'C' && in != 'E') {
           printf("The %s is not amused...\r\n", mnam);
@@ -392,7 +392,7 @@ s_top:
       goto s_top;
     }
     lvl = in2 - '0';
-    if (u.c[30+lvl] < 1) {
+    if (u.c[UC_SPELLS1 - 1 + lvl] < 1) {
       printf("You have no more level %d spells.\r\n", lvl);
       return(NOPE);
     }
@@ -400,14 +400,14 @@ s_top:
     in2 = getchar();
     if (in2 == '\r')
       return(NOPE);
-    if (in2 < '1' || (in2 > '4' && u.c[UC_CLASS] == 1) ||
-                     (in2 > '6' && u.c[UC_CLASS] != 1)) 
+    if (in2 < '1' || (in2 > '4' && u.c[UC_CLASS] == CHRCLASS_CLERIC) ||
+                     (in2 > '6' && u.c[UC_CLASS] != CHRCLASS_CLERIC)) 
       utl_prtspl(u.c[UC_CLASS], lvl);
     else
       spl = in2 - '0';
   }
-  u.c[30+lvl]--;
-  if (u.c[UC_CLASS] != 1) {
+  u.c[UC_SPELLS1 - 1 + lvl]--;
+  if (u.c[UC_CLASS] != CHRCLASS_CLERIC) {
     printf("%s\r\n", sp[lvl][spl]);
     return( (*fns[lvl - 1].ms)(spl) );
   } else {

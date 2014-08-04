@@ -133,14 +133,14 @@ ask:
 int utl_death(void)
 {
   int i;
-  while (u.c[UC_CLASS] == 1 && u.c[34] > 0) {    /* can he save himself? */
+  while (u.c[UC_CLASS] == CHRCLASS_CLERIC && u.c[UC_SPELLS4] > 0) {    /* can he save himself? */
     printf("RAISE DEAD!!!!\r\n");
     sleep(2);
-    u.c[34]--;
+    u.c[UC_SPELLS4]--;
     u.c[UC_CONSTIT]--;
     if (u.c[UC_CONSTIT] == 0 || roll(1,10) > u.c[UC_CONSTIT])
-      printf("It failed!! [%d spell%s left]\r\n", u.c[34], 
-             (u.c[34] == 1) ? "" : "s");
+      printf("It failed!! [%d spell%s left]\r\n", u.c[UC_SPELLS4], 
+             (u.c[UC_SPELLS4] == 1) ? "" : "s");
     else {
       u.c[UC_CURHIT] = roll(1,u.c[UC_MAXHIT]);
       printf("You're alive with %d hit points, and a constitution of %d.\r\n",
@@ -193,8 +193,8 @@ void utl_status(void)
   printf("Experience\t%d\r\n", u.c[UC_EXP]);
   printf("Gold found\t%d\r\n", u.c[UC_GOLDFOUND]);
   printf("Hit points\t%d\r\n\n", u.c[UC_CURHIT]);
-  if (u.c[31]+u.c[32]+u.c[33]+u.c[34] != 0)
-    printf("Spells: %d  %d  %d  %d\r\n", u.c[31], u.c[32], u.c[33], u.c[34]);
+  if (u.c[UC_SPELLS1]+u.c[UC_SPELLS2]+u.c[UC_SPELLS3]+u.c[UC_SPELLS4] != 0)
+    printf("Spells: %d  %d  %d  %d\r\n", u.c[UC_SPELLS1], u.c[UC_SPELLS2], u.c[UC_SPELLS3], u.c[UC_SPELLS4]);
   else
     printf("Spells: <none>\r\n");
   printf("\n");
@@ -242,9 +242,9 @@ int utl_exp
     z = utl_exp(10) + utl_exp(10) * z2;
     return((int) z);
   }
-  if (u.c[UC_CLASS] == 0)
+  if (u.c[UC_CLASS] == CHRCLASS_FIGHTER)
     z = 2000.0;
-      else if (u.c[UC_CLASS] == 2)
+      else if (u.c[UC_CLASS] == CHRCLASS_MAGICIAN)
         z = 2500.0;
           else z = 1500.0;
   for (lcv = 3 ; lcv <= lvl; lcv++)
@@ -295,21 +295,22 @@ int utl_chklvl(void)
 }
 
 void utl_sprog(void)
+/* increases the power of spells available to a non-fighter character, based on their level advancement. */
 {
   int lcv, tmp;
-  if (u.c[UC_CLASS] == 0)
+  if (u.c[UC_CLASS] == CHRCLASS_FIGHTER)
     return;
   for (lcv = 1 ; lcv < 5 ; lcv++) {
-    if (u.c[UC_CLASS] == 1)
+    if (u.c[UC_CLASS] == CHRCLASS_CLERIC)
       tmp = u.c[UC_LEVEL] - (lcv + 1.0) / 0.75 + 1;
-    else
+    else /* CHRCLASS_MAGICIAN */
       tmp = u.c[UC_LEVEL] - lcv / 0.8 + 1;
     if (tmp < 0)
       tmp = 0;
     if (lcv == 1)
       tmp += 2;
-    u.c[30+lcv] = u.c[30+lcv] + tmp - u.c[24+lcv];
-    u.c[24+lcv] = tmp;
+    u.c[UC_SPELLS1 - 1 + lcv] = u.c[UC_SPELLS1 - 1 + lcv] + tmp - u.c[UC_SPELLSADJ1 - 1 + lcv];
+    u.c[UC_SPELLSADJ1 - 1 + lcv] = tmp;
   }
 }
 

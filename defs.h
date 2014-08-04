@@ -140,17 +140,31 @@ struct chr {
 #define UC_WEAPON 22 /* weapon power, -1 for none, >0 for magic (actual weapon is class-dependent) */
 #define UC_ARMOR 23 /* armour power, -1 for none, >0 for magic (actual armour type is class-dependent) */
 #define UC_SHIELD 24 /* type of shield, if any: 0 none, -1 non-magic, 1 magic */
+#define UC_SPELLSADJ1 25 /* deduction from next spell advancement at level 1 */
+#define UC_SPELLSADJ2 26 /* deduction from next spell advancement at level 2 */
+#define UC_SPELLSADJ3 27 /* deduction from next spell advancement at level 3 */
+#define UC_SPELLSADJ4 28 /* deduction from next spell advancement at level 4 */
+/* 29, 30 not used */
+#define UC_SPELLS1 31 /* nr of spells available at level 1 */
+#define UC_SPELLS2 32 /* nr of spells available at level 2 */
+#define UC_SPELLS3 33 /* nr of spells available at level 3 */
+#define UC_SPELLS4 34 /* nr of spells available at level 4 */
+/* 35 not used */
+/* 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47? */
 #define UC_GID 48 /* group ID of user owning character */
 #define UC_UID 49 /* user ID of user owning character */
 #define UC_HASORB 50 /* player has orb */
 #define UC_RING 51 /* power of ring of regeneration, if any */
 #define UC_ELVEN_CLOAK 52 /* power of elven cloak, if any */
 #define UC_ELVEN_BOOTS 53 /* power of elven boots, if any */
+/* 54, 55, 56 not used */
 #define UC_LOCKED 57 /* character is locked (in use) */
+#define UC_SAFE_COMBN 58 /* secret combination to the safe */
 #define UC_CREATED 59 /* timestamp when character was created */
 #define UC_LASTRUN 60 /* timestamp when character was last run */
 #define UC_DEBUGCHR 61 /* character created for debugging only */
 #define UC_WIZONLY 62 /* character only accessible to wizard players */
+/* 63? */
 #define UC_STATE 64 /* controls what to do with character next */
 
 struct dgnstr {
@@ -167,11 +181,16 @@ extern char *vaz[5];             /* maze parts */
 extern char *maz[4];             /* more parts */
 extern char *st;                 /* stat names */
 extern char *spc[16];            /* specials */
-extern char *class[];            /* classes */
-extern char *class2[];           /* classes */
-extern char *arm[];              /* arm types */
-extern char *wep[];              /* weps */
+extern char *class[];            /* class names, indexed by class */
+extern char *class2[];           /* slightly different class names, for some reason */
+extern char *arm[];              /* arm types, indexed by class */
+extern char *wep[];              /* weaponry, indexed by class */
 extern char *sp[9][7];           /* spell names */
+
+/* character classes--note lots of code makes assumptions about these numbers */
+#define CHRCLASS_FIGHTER 0
+#define CHRCLASS_CLERIC 1
+#define CHRCLASS_MAGICIAN 2
 
 /* regular game state vars */
 

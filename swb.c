@@ -268,11 +268,11 @@ prompt_top:
                         if (islower(reply))
                             reply = toupper(reply);
                         if (reply == 'F')
-                            u.c[UC_CLASS] = 0;
+                            u.c[UC_CLASS] = CHRCLASS_FIGHTER;
                         else if (reply == 'C')
-                            u.c[UC_CLASS] = 1;
+                            u.c[UC_CLASS] = CHRCLASS_CLERIC;
                         else if (reply == 'M')
-                            u.c[UC_CLASS] = 2;
+                            u.c[UC_CLASS] = CHRCLASS_MAGICIAN;
                         else
                           {
                             printf("\r\nWake up, Jose!!!\r\n");
@@ -293,13 +293,13 @@ prompt_top:
                     u.c[19] = 15; /* not used anywhere? */
                     u.c[20] = 2;  /* ??? */ /* not used anywhere? */
                     u.c[UC_DGNNR] = dlvl_choose();
-                    if (u.c[UC_CLASS] == 2)
+                    if (u.c[UC_CLASS] == CHRCLASS_MAGICIAN)
                       {
-                        u.c[25] = u.c[31] = 3;
+                        u.c[UC_SPELLSADJ1] = u.c[UC_SPELLS1] = 3;
                         u.c[UC_SHIELD] = -1;
                       } /*if*/
-                    if (u.c[UC_CLASS] == 1)
-                        u.c[25] = u.c[31] = 2;
+                    if (u.c[UC_CLASS] == CHRCLASS_CLERIC)
+                        u.c[UC_SPELLSADJ1] = u.c[UC_SPELLS1] = 2;
                     u.c[UC_GID] = getgid();
                     u.c[UC_UID] = getuid();
                     u.c[UC_EXP] = 0;
@@ -383,13 +383,13 @@ prompt_top:
                            (cptr->c[UC_WIZONLY] == 0) ? ' ' : '@',
                            (cptr->c[UC_LOCKED] == 0) ? ' ' : 'L');
                     int chrtype = ntohl(cptr->c[UC_CLASS]);
-                    if (chrtype == 1) 
+                    if (chrtype == CHRCLASS_CLERIC) 
                         printf("CLRC\r\n");
-                    else if (chrtype == 2)
+                    else if (chrtype == CHRCLASS_MAGICIAN)
                         printf("MAGE\r\n");
-                    else if (cptr->c[25] + cptr->c[26] + cptr->c[27] + cptr->c[28] != 0)
+                    else if (cptr->c[UC_SPELLSADJ1] + cptr->c[UC_SPELLSADJ2] + cptr->c[UC_SPELLSADJ3] + cptr->c[UC_SPELLSADJ4] != 0)
                         printf("F/MU\r\n");
-                    else if (cptr->c[31] + cptr->c[32] + cptr->c[33] + cptr->c[34] != 0)
+                    else if (cptr->c[UC_SPELLS1] + cptr->c[UC_SPELLS2] + cptr->c[UC_SPELLS3] + cptr->c[UC_SPELLS4] != 0)
                         printf("HERO\r\n");
                     else
                         printf("FGTR\r\n");
@@ -510,17 +510,17 @@ find_top:
             if (chrtype == 'M')
               {
                 printf("Magician\r\n");
-                u.c[UC_CLASS] = 2;
+                u.c[UC_CLASS] = CHRCLASS_MAGICIAN;
               }
             else if (chrtype == 'C')
               {
                 printf("Cleric\r\n");
-                u.c[UC_CLASS] = 1;
+                u.c[UC_CLASS] = CHRCLASS_CLERIC;
               }
             else if (chrtype == 'F')
               {
                 printf("Fighter\r\n");
-                u.c[UC_CLASS] = 0;
+                u.c[UC_CLASS] = CHRCLASS_FIGHTER;
               }
             else
               {
@@ -564,13 +564,13 @@ find_top:
                        (cptr->c[UC_WIZONLY] == 0) ? ' ' : '@',
                        (cptr->c[UC_LOCKED] == 0) ? ' ' : 'L');
                 int chrtype = ntohl(cptr->c[UC_CLASS]);
-                if (chrtype == 1) 
+                if (chrtype == CHRCLASS_CLERIC) 
                     printf("CLRC\r\n");
-                else if (chrtype == 2)
+                else if (chrtype == CHRCLASS_MAGICIAN)
                     printf("MAGE\r\n");
-                else if (cptr->c[25] + cptr->c[26] + cptr->c[27] + cptr->c[28] != 0)
+                else if (cptr->c[UC_SPELLSADJ1] + cptr->c[UC_SPELLSADJ2] + cptr->c[UC_SPELLSADJ3] + cptr->c[UC_SPELLSADJ4] != 0)
                     printf("F/MU\r\n");
-                else if (cptr->c[31] + cptr->c[32] + cptr->c[33] + cptr->c[34] != 0)
+                else if (cptr->c[UC_SPELLS1] + cptr->c[UC_SPELLS2] + cptr->c[UC_SPELLS3] + cptr->c[UC_SPELLS4] != 0)
                     printf("HERO\r\n");
                 else
                     printf("FGTR\r\n");

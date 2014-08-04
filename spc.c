@@ -494,10 +494,10 @@ trash:
       u.c[tmp-6] += 1;
     break;
   case SPC_SAF:
-    if (u.c[58] == 0)
-      u.c[58] = roll(1,4) + 10 * roll(1,4);
+    if (u.c[UC_SAFE_COMBN] == 0)
+      u.c[UC_SAFE_COMBN] = roll(1,4) + 10 * roll(1,4);
     if(u.c[UC_DEBUGCHR] == 1) {
-      printf("[Combo = %d]\r\n", u.c[58]);
+      printf("[Combo = %d]\r\n", u.c[UC_SAFE_COMBN]);
     }
   saf_top1:
     printf("You see a small door with four colored lights in a row.\r\n");
@@ -548,9 +548,9 @@ trash:
     }
     if (tmp < 0)
       goto saf_top2;
-    if (sav == u.c[58] * 10) {
+    if (sav == u.c[UC_SAFE_COMBN] * 10) {
       printf("\r\nYou got it\007!\r\n");
-      u.c[58] = 0;
+      u.c[UC_SAFE_COMBN] = 0;
       tmp = 5000 * rnd() * u.c[UC_DGNLVL] + 1000;
       printf("%d worth in gems and jewels pour out\007!\r\n", tmp);
       u.c[UC_GOLDFOUND] += tmp;
