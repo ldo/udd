@@ -59,7 +59,7 @@
 
 /* generic constants */
 
-#define NMONST 21
+#define NMONST 21 /* number of monster types */
 #define NAMELEN 64
 #define SPLBASE 37
 #define DNAM_SZ 20
@@ -98,8 +98,9 @@
 #define rnd() ((random() % 1000) / 1000.0)  /* basic emulation */
 
 struct monst {
-  char *nam;
-  int m, mindunlvl, maxdunlvl, minmonlvl;
+  const char *nam;
+  int m; /* monster strength/resistance to death */
+  int mindunlvl, maxdunlvl, minmonlvl;
 };
 
 struct state {
@@ -175,17 +176,17 @@ struct dgnstr {
 
 
 /* pre-defined data structs in data.h */
-extern struct monst mm[NMONST];  /* monster matrix */
-extern int q[5][3];        /* direction vectors */
-extern char *vaz[5];             /* maze parts */
-extern char *maz[4];             /* more parts */
-extern char *st;                 /* stat names */
-extern char *spc[16];            /* specials */
-extern char *class[];            /* class names, indexed by class */
-extern char *class2[];           /* slightly different class names, for some reason */
-extern char *arm[];              /* arm types, indexed by class */
-extern char *wep[];              /* weaponry, indexed by class */
-extern char *sp[9][7];           /* spell names */
+extern const struct monst mm[NMONST];  /* monster matrix */
+extern const int q[5][3];        /* direction vectors */
+extern const char * const vaz[5];             /* maze parts */
+extern const char * const maz[4];             /* more parts */
+extern const char * const st;                 /* stat names */
+extern const char * const spc[16];            /* specials */
+extern const char * const class[];            /* class names, indexed by class */
+extern const char * const class2[];           /* slightly different class names, for some reason */
+extern const char * const arm[];              /* arm types, indexed by class */
+extern const char * const wep[];              /* weaponry, indexed by class */
+extern const char * const sp[9][7];           /* spell names */
 
 /* character classes--note lots of code makes assumptions about these numbers */
 #define CHRCLASS_FIGHTER 0
@@ -213,7 +214,7 @@ void dgn_voices(void);
 int dlvl_choose(void), dlvl_loadum(int dno, int lvl);
 void dlvl_init(void), dlvl_get_start(int dno);
 int fni(int r), fni1(int r, int s);
-char *fnp(char * a, char * b, int p), *fnp1(char * a, char * b, int p);
+char *fnp(char * a, const char * b, int p), *fnp1(char * a, const char * b, int p);
 int lock_open(char * file, int mode, char * lockdir, char * lockfile, int maxtime);
 int lock_close(int fd, char * lockdir, char * lockfile);
 int ms1(int s), ms2(int s), ms3(int s), ms4(int s);

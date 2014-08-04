@@ -124,7 +124,7 @@ int fni1
 char *fnp
   (
     char * a,
-    char * b,
+    const char * b,
     int p
   )
   /* put B in A at P */
@@ -147,7 +147,7 @@ char *fnp
 char *fnp1
   (
     char * a,
-    char * b,
+    const char * b,
     int p
   )
   /* cond put B in A at P */

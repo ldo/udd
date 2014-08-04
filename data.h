@@ -7,7 +7,7 @@
  *
  */
 
-struct monst mm[NMONST] = {  /* 21 = NMONST */
+const struct monst mm[NMONST] = {  /* 21 = NMONST */
 /*                       DEPTH  MIN         */
 /*  NAME            DIE MAX MIN LVL         */
   { "NULL",           1, 20,  1,  1 },
@@ -34,7 +34,7 @@ struct monst mm[NMONST] = {  /* 21 = NMONST */
 };
 
 
-int q[5][3] = {
+const int q[5][3] = {
   {  0,  0,  0 },
   {  0, -1,  0 },
   {  0,  0,  1 },
@@ -42,23 +42,23 @@ int q[5][3] = {
   {  0,  0, -1 }
 };
 
-char *vaz[5] = { " I :", "       ", "IIIIIII", "II---II", "II...II" };
-char *maz[4] = { " ", "I", " ", ":" };
+const char * const vaz[5] = { " I :", "       ", "IIIIIII", "II---II", "II...II" };
+const char * const maz[4] = { " ", "I", " ", ":" };
 
-char *st = "STRINTWISCONDEXCHA";
+const char * const st = "STRINTWISCONDEXCHA";
 
-char *spc[16] = { "  \\", "  /", "\\ /", "EXC", "PIT", "TPT",
+const char * const spc[16] = { "  \\", "  /", "\\ /", "EXC", "PIT", "TPT",
                     "FNT", "ALT", "DGN", "DGN", "ORB", "ELV",
                     "THR", "SAF", "RCK" };
 
-char *class[] = { "Warrior", "Cleric", "Magician" };
-char *class2[] = { "Fighter", "Cleric", "Magician" };
+const char * const class[] = { "Warrior", "Cleric", "Magician" };
+const char * const class2[] = { "Fighter", "Cleric", "Magician" };
 
-char *arm[] = { "Plate", "Chain", "Leather" };
+const char * const arm[] = { "Plate", "Chain", "Leather" };
 
-char *wep[] = { "Sword", "Mace", "Dagger" };
+const char * const wep[] = { "Sword", "Mace", "Dagger" };
 
-char *sp[9][7] = {
+const char * const sp[9][7] = {
   { "", "", "", "", "", "", "" },
   { "", "Magic missile", "Charm", "Shield", "Sleep", "Protection from Evil",
       "Light" },
