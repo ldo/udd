@@ -148,6 +148,7 @@ int cbt_main(void)
           {
             if (ok)
               {
+                int in;
 ask:
                 if (!autoevade)
                   {
@@ -244,6 +245,7 @@ ask:
                   } /*if*/
                 if (in == 'F')
                   {
+                    int i1, i1_old, dice;
                     printf("Fight\r\n");
                     i1 =
                             3 * u.c[UC_DEX]
@@ -272,6 +274,7 @@ ask:
                       }
                     else
                       {
+                        int i2;
                         strike_force = roll(1, 8 - 2* u.c[UC_CLASS] + u.c[UC_WEAPON]);/* base on class/wep */
                         i2 = u.c[UC_STRENGTH];     /* base STR */
                         if (u.c[UC_SPELL_STRG] > 0)
@@ -313,6 +316,7 @@ ask:
                   } /*if*/
                 if (strike_force == 0)
                   {
+                    int i1, i1_old, dice;
                     i1 = 50 + mm[monster_type].m + m_str + m_arm + u.c[UC_CLASS] * 10 +
                         min_monster_hits * (mm[monster_type].m / 2.0) - u.c[UC_LEVEL] * (5 - u.c[UC_CLASS]);
                     /* chance is 50% + monster, mage+20%, cleric+10%, +1..10% mlevel
@@ -339,7 +343,7 @@ ask:
                   } /*if*/
                 if (monster_type > 3 && monster_type < 7) /* high level undead ? */
                   {
-                    i2 = 10 * (monster_type - 3);
+                    int i2 = 10 * (monster_type - 3);
                     if (u.c[UC_SPELL_PROT] > 0)
                         i2 -= 5;         /* prot from evil */
                     if (u.c[UC_SPELL_PRAY] > 0)
