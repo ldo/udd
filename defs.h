@@ -151,7 +151,19 @@ struct chr {
 #define UC_SPELLS3 33 /* nr of spells available at level 3 */
 #define UC_SPELLS4 34 /* nr of spells available at level 4 */
 /* 35, 36 not used */
-/* 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47? */
+/* spells in effect: */
+#define UC_SPELL_LIGHT 37 /* light */
+#define UC_SPELL_PROT 38 /* protection against evil */
+#define UC_SPELL_SHLD 39 /* shield */
+#define UC_SPELL_PRAY 40 /* pray */
+#define UC_SPELL_DTRP 41 /* detect traps */
+#define UC_SPELL_SLNC 42 /* silence */
+#define UC_SPELL_LEVT 43 /* levitation (avoid falling down pits) */
+#define UC_SPELL_STRG 44 /* strength */
+#define UC_SPELL_FEAR 45 /* fear */
+#define UC_SPELL_INVS 46 /* invisibility */
+#define UC_SPELL_TMST 47 /* time-stop */
+/* end spells in effect */
 #define UC_GID 48 /* group ID of user owning character */
 #define UC_UID 49 /* user ID of user owning character */
 #define UC_HASORB 50 /* player has orb */

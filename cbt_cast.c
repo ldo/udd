@@ -67,10 +67,10 @@ int ms1
       printf("It broke your charm!\r\n");
     break;
   case 3:          /* shield */
-    if (u.c[39] < 0)
-      u.c[39] = roll(1,10);
+    if (u.c[UC_SPELL_SHLD] < 0)
+      u.c[UC_SPELL_SHLD] = roll(1,10);
     else
-      u.c[39] += roll(1,10);
+      u.c[UC_SPELL_SHLD] += roll(1,10);
     break;
   case 4:          /* sleep */
     cbt_chk();
@@ -101,16 +101,16 @@ int ms1
       printf("It woke up!\r\n");
     break;
   case 5:          /* prot/evil */
-    if (u.c[38] < 0)
-      u.c[38] = roll(1,10);
+    if (u.c[UC_SPELL_PROT] < 0)
+      u.c[UC_SPELL_PROT] = roll(1,10);
     else
-      u.c[38] += roll(1,10);
+      u.c[UC_SPELL_PROT] += roll(1,10);
     break;
   case 6:          /* light */
-    if (u.c[37] < 0)
-      u.c[37] = roll(1,10);
+    if (u.c[UC_SPELL_LIGHT] < 0)
+      u.c[UC_SPELL_LIGHT] = roll(1,10);
     else
-      u.c[37] += roll(1,10);
+      u.c[UC_SPELL_LIGHT] += roll(1,10);
     break;
   default:
     printf("ms1: unknown spell?\r\n");
@@ -160,22 +160,22 @@ int ms2
     cbt_uhitm(tmp);
     break;
   case 4:          /* str. */
-    if (u.c[44] < 0)
-      u.c[44] = roll(1, 10);
+    if (u.c[UC_SPELL_STRG] < 0)
+      u.c[UC_SPELL_STRG] = roll(1, 10);
     else
-      u.c[44] += roll(1, 10);
+      u.c[UC_SPELL_STRG] += roll(1, 10);
     break;
   case 5:          /* lev. */
-    if (u.c[43] < 0)
-      u.c[43] = roll(1, 10);
+    if (u.c[UC_SPELL_LEVT] < 0)
+      u.c[UC_SPELL_LEVT] = roll(1, 10);
     else
-      u.c[43] += roll(1, 10);
+      u.c[UC_SPELL_LEVT] += roll(1, 10);
     break;
   case 6:          /* invis. */
-    if (u.c[46] < 0)
-      u.c[46] = roll(1, 10);
+    if (u.c[UC_SPELL_INVS] < 0)
+      u.c[UC_SPELL_INVS] = roll(1, 10);
     else
-      u.c[46] += roll(1, 10);
+      u.c[UC_SPELL_INVS] += roll(1, 10);
     break;
   default:
     printf("ms2: unknown spell.\r\n");
@@ -271,16 +271,16 @@ int ms3
     }
     break;
   case 5:          /* fear */
-    if (u.c[45] < 0)
-      u.c[45] = roll(3,20);
+    if (u.c[UC_SPELL_FEAR] < 0)
+      u.c[UC_SPELL_FEAR] = roll(3,20);
     else
-      u.c[45] += roll(3,20);
+      u.c[UC_SPELL_FEAR] += roll(3,20);
     break;
   case 6:          /* cont. light */
-    if (u.c[37] < 0)
-      u.c[37] = roll(3,20);
+    if (u.c[UC_SPELL_LIGHT] < 0)
+      u.c[UC_SPELL_LIGHT] = roll(3,20);
     else
-      u.c[37] += roll(3,20);
+      u.c[UC_SPELL_LIGHT] += roll(3,20);
     break;
   default:
     printf("ms3: unknown spell?\r\n");
@@ -341,10 +341,10 @@ int ms4
     printf(" is waiting for you!\r\n");
     break;
   case 4:          /* time stop */
-    if (u.c[47] < 0)
-      u.c[47] = roll(1,10);
+    if (u.c[UC_SPELL_TMST] < 0)
+      u.c[UC_SPELL_TMST] = roll(1,10);
     else
-      u.c[47] += roll(1,10);
+      u.c[UC_SPELL_TMST] += roll(1,10);
     printf("Time is frozen, monsters cannot attack you.\r\n");
     gone = true;
     dead = 1;
@@ -468,22 +468,22 @@ int cs2
   int tmp;
   switch (s) {
   case 1:          /* dtrp */
-    if (u.c[41] < 1)
-      u.c[41] = roll(2,10);
+    if (u.c[UC_SPELL_DTRP] < 1)
+      u.c[UC_SPELL_DTRP] = roll(2,10);
     else
-      u.c[41] += roll(2,10);
+      u.c[UC_SPELL_DTRP] += roll(2,10);
     break;
   case 2:          /* silnce */
-    if (u.c[42] < 1)
-      u.c[42] = roll(2,10);
+    if (u.c[UC_SPELL_SLNC] < 1)
+      u.c[UC_SPELL_SLNC] = roll(2,10);
     else
-      u.c[42] += roll(2,10);
+      u.c[UC_SPELL_SLNC] += roll(2,10);
     break;
   case 3:          /* pray */
-    if (u.c[40] < 1)
-      u.c[40] = roll(2,10);
+    if (u.c[UC_SPELL_PRAY] < 1)
+      u.c[UC_SPELL_PRAY] = roll(2,10);
     else
-      u.c[40] += roll(2,10);
+      u.c[UC_SPELL_PRAY] += roll(2,10);
     break;
   case 4:          /* hold monst */
     ms3(4);

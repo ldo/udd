@@ -131,10 +131,10 @@ int trs_obj(void)
     case 5:        /* torch */
       printf("You found a magic torch.\r\nIt starts burning.\r\n");
       sleep(2);
-      if (u.c[37] < 0)
-        u.c[37] = roll(3,10);
+      if (u.c[UC_SPELL_LIGHT] < 0)
+        u.c[UC_SPELL_LIGHT] = roll(3,10);
       else
-        u.c[37] += roll(3,10);
+        u.c[UC_SPELL_LIGHT] += roll(3,10);
       u.i[7] = 0;
       if (u.i[5] == 0)
         utl_pplot(NOPE);

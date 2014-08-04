@@ -224,7 +224,7 @@ void utl_eqp(void)
 
 void utl_dtrp(void)
 {
-  if (u.c[41] > 0 && u.i[8] == 1 && rnd() > 0.05)
+  if (u.c[UC_SPELL_DTRP] > 0 && u.i[8] == 1 && rnd() > 0.05)
     printf("You detect traps: ");
 }
 

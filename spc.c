@@ -68,7 +68,7 @@ int spc_main(void)
       printf("But the controls just went dead!\r\n");
       break;
     }
-    if (u.c[47] > 0) {
+    if (u.c[UC_SPELL_TMST] > 0) {
       printf("But the controls seem frozen!\r\n");
       break;
     }
@@ -119,7 +119,7 @@ int spc_main(void)
     return(NOPE);
   case SPC_PIT:
     tmp = NOPE;
-    if (u.c[43] > 0)
+    if (u.c[UC_SPELL_LEVT] > 0)
       printf("You are hovering over a pit...\r\n");
     else {
       if (roll(3,6) + 3 > u.c[UC_DEX] &&
@@ -151,7 +151,7 @@ int spc_main(void)
       printf("It's bottomless\007!!!  IIIEEEEEEEEEEEEE!!!!!!... .  .   .\r\n");
       return(utl_death());
     }
-    if (tmp == YEP || (u.c[43] < 1 && roll(3,6)+1 >= u.c[UC_DEX])) {
+    if (tmp == YEP || (u.c[UC_SPELL_LEVT] < 1 && roll(3,6)+1 >= u.c[UC_DEX])) {
       if (tmp != YEP)
         printf("You slipped down the side!\r\n");
       if (cbt_ohitu(u.c[UC_DGNLVL]) == YEP)
@@ -324,10 +324,10 @@ int spc_main(void)
           tmp = rnd() * rnd() * 11.0 + 1;
           tmp2 = rnd() * (tmp2 / ((double)u.c[UC_GOLDFOUND] + 1.0)) * 20.0 +
             rnd() * 20.0 + 1;
-          if (u.c[37 - 1 + tmp] < 0)
-            u.c[37 - 1 + tmp] = tmp2;
+          if (u.c[UC_SPELL_LIGHT - 1 + tmp] < 0) /* UC_SPELL_xxx */
+            u.c[UC_SPELL_LIGHT - 1 + tmp] = tmp2;
           else
-            u.c[37 - 1 + tmp] += tmp2;
+            u.c[UC_SPELL_LIGHT - 1 + tmp] += tmp2;
           printf("You've been heard.\r\n");
           break;
         }

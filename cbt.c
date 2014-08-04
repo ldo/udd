@@ -135,7 +135,7 @@ int cbt_main(void)
             printf("STR: %2d, ARM: %2d, HITS: %2d, HDIE: %2d\r\n", m_str, m_arm, m2, mm[m].m);
         ok = false;
         dead = 0;
-        if (u.c[42] > 0 && roll(1,20) < 15+u.c[UC_LEVEL] - m1)
+        if (u.c[UC_SPELL_SLNC] > 0 && roll(1,20) < 15+u.c[UC_LEVEL] - m1)
             ok = true;
         /*if (roll(1,20) <= u.c[UC_INTEL] + u.c[UC_DEX] / 2.0)
             ok = true;  */
@@ -257,7 +257,7 @@ ask:
                             m1 * mm[m].m / 2.0;
                     /* 3% per DEX, 1% per STR, +1% * wep, +3,4,5% for level,
                        -1...10% per Mlevel */
-                    if (u.c[40] > 0)
+                    if (u.c[UC_SPELL_PRAY] > 0)
                         i1 += 5;         /* 5% for PRAY spell */
                     i1_old = i1;       /* save value */
                     i1 *= (u.c[UC_MAXHIT] + u.c[UC_CURHIT]) / (2.0 * (double) u.c[UC_MAXHIT]);
@@ -274,7 +274,7 @@ ask:
                       {
                         d = roll(1, 8 - 2* u.c[UC_CLASS] + u.c[UC_WEAPON]);/* base on class/wep */
                         i2 = u.c[UC_STRENGTH];     /* base STR */
-                        if (u.c[44] > 0)
+                        if (u.c[UC_SPELL_STRG] > 0)
                             i2 += 3;       /* STR spell */
                         if (i2 > 14)
                             d += roll(1, i2 - 14);   /* bonus! */
@@ -317,11 +317,11 @@ ask:
                         m1 * (mm[m].m / 2.0) - u.c[UC_LEVEL] * (5 - u.c[UC_CLASS]);
                     /* chance is 50% + monster, mage+20%, cleric+10%, +1..10% mlevel
                        - 3, 4, 5% per level */
-                    if (u.c[38] > 0)
+                    if (u.c[UC_SPELL_PROT] > 0)
                         i1 -= 10;        /* PROT spell */
-                    if (u.c[39] > 0)
+                    if (u.c[UC_SPELL_SHLD] > 0)
                         i1 -= 20;        /* shield */
-                    if (u.c[40] > 0)
+                    if (u.c[UC_SPELL_PRAY] > 0)
                         i1 -= 10;        /* pray */
                     if (u.c[UC_DEX] > 14)   /* dex bonus */
                         i1 -= (2 * (u.c[UC_DEX] - 14));
@@ -340,9 +340,9 @@ ask:
                 if (m > 3 && m < 7) /* high level undead ? */
                   {
                     i2 = 10 * (m - 3);
-                    if (u.c[38] > 0)
+                    if (u.c[UC_SPELL_PROT] > 0)
                         i2 -= 5;         /* prot from evil */
-                    if (u.c[40] > 0)
+                    if (u.c[UC_SPELL_PRAY] > 0)
                         i2 -= 5;         /* pray spell */
                     if (roll(1,100) <= i2)
                       {

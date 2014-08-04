@@ -73,7 +73,7 @@ int dgn_main(void)
       u.c[63] = 0;
       u.c[UC_STATE] = XXX_NORM;
       /* encounters */
-      if (u.i[6] == 1 && ( (u.c[46] > 0 && rnd() > 0.7) ||
+      if (u.i[6] == 1 && ( (u.c[UC_SPELL_INVS] > 0 && rnd() > 0.7) ||
                            (u.c[UC_ELVEN_BOOTS] / 30.0 > rnd()) )) {
         printf("You have not been seen...\r\n");
         printf("Press <CR> to approach, or <LF> to ignore it: ");
@@ -82,20 +82,20 @@ int dgn_main(void)
         if (in != '\r')
           u.i[6] = u.i[7] = 0;
         else {
-          if (u.c[47] > 0 || (u.c[46] > 0 && rnd() > 0.3))
+          if (u.c[UC_SPELL_TMST] > 0 || (u.c[UC_SPELL_INVS] > 0 && rnd() > 0.3))
             u.i[6] = 0;      /* TMST, or INVS */
           else {
-            if (u.c[45] > 0 && rnd() > 0.2)
+            if (u.c[UC_SPELL_FEAR] > 0 && rnd() > 0.2)
               u.i[7] = 1;    /* STRG for treasure */
             done = cbt_main(); /* XXX mand break? */
             break;
           }
         }
       } else if (u.i[6] == 1) {
-        if (u.c[47] > 0 || (u.c[46] > 0 && rnd() > 0.3))
+        if (u.c[UC_SPELL_TMST] > 0 || (u.c[UC_SPELL_INVS] > 0 && rnd() > 0.3))
           u.i[6] = 0;      /* TMST, or INVS */
         else {
-          if (u.c[45] > 0 && rnd() > 0.2)
+          if (u.c[UC_SPELL_FEAR] > 0 && rnd() > 0.2)
             u.i[7] = 1;    /* STRG for treasure */
           done = cbt_main(); /* XXX mand break? */
           break;
