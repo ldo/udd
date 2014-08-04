@@ -141,7 +141,7 @@ int cbt_main(void)
             ok = true;  */
         if (roll(1,20) + min_monster_hits <= ((u.c[UC_INTEL] + u.c[UC_DEX]) / 2.0) + u.c[UC_LEVEL])  /*CDC XXX???*/
             ok = true;
-        mskip = false;     /* for spells */
+        monster_skips_a_turn = false;     /* for spells */
         autoevade = false;
         gone = false;
         while (dead == 0)
@@ -296,9 +296,9 @@ ask:
               } /*if*/
             ok = true;
             strike_force = 0;
-            if (mskip)
+            if (monster_skips_a_turn)
               {
-                mskip = false;
+                monster_skips_a_turn = false;
                 continue;            /* monst skips a turn */
               } /*if*/
             if (dead == 0)
@@ -390,29 +390,29 @@ ask:
                       } /*if*/
                   } /*if*/
               if (monster_type == 15)           /* doppelganger */
-                if (roll(1,4) == 3)
-                  {
-                    printf("The %s looks just like you!\r\n", mnam);
-                    if (roll(1,20) < u.c[UC_INTEL] + u.c[UC_LEVEL] - min_monster_hits)
-                        printf("You see through its trick.\r\n");
-                    else
-                      {
-                        printf("You're confused!\r\n");
-                        ok = false;
-                      } /*if*/
-                  } /*if*/
+                  if (roll(1,4) == 3)
+                    {
+                      printf("The %s looks just like you!\r\n", mnam);
+                      if (roll(1,20) < u.c[UC_INTEL] + u.c[UC_LEVEL] - min_monster_hits)
+                          printf("You see through its trick.\r\n");
+                      else
+                        {
+                          printf("You're confused!\r\n");
+                          ok = false;
+                        } /*if*/
+                    } /*if*/
               if (monster_type == 12)           /* harpie */
-                if (roll(1,3) == 1)
-                  {
-                    printf("The %s charms you with her voice...\r\n", mnam);
-                    if (roll(1,20) < u.c[UC_INTEL] + u.c[UC_LEVEL] - min_monster_hits)
-                        printf("But you resist her death song!\r\n");
-                    else
-                      {
-                        printf("You're hopelessly in love!\r\n");
-                        ok = false;
-                      } /*if*/
-                  } /*if*/
+                  if (roll(1,3) == 1)
+                    {
+                      printf("The %s charms you with her voice...\r\n", mnam);
+                      if (roll(1,20) < u.c[UC_INTEL] + u.c[UC_LEVEL] - min_monster_hits)
+                          printf("But you resist her death song!\r\n");
+                      else
+                        {
+                          printf("You're hopelessly in love!\r\n");
+                          ok = false;
+                        } /*if*/
+                    } /*if*/
               } /*if*/
           } /*while*/
         u.i[6] = 0;
@@ -463,11 +463,11 @@ int cbt_cast(void)
     int in2, lvl = 0, spl = 0;
     if (u.c[UC_STATE] == CBT_CAST)
       {
-        hflag = true;
+        not_in_combat = true;
         u.c[UC_STATE] = DGN_PROMPT;
       }
     else
-        hflag = false;
+        not_in_combat = false;
     while (spl == 0)
       {
 s_top:

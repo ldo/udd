@@ -18,7 +18,7 @@
 
 int cbt_ok(void)
 {
-  if (hflag) {
+  if (not_in_combat) {
     printf("Too bad you just wasted a combat spell!\r\n");
     return(NOPE);
   }
@@ -29,7 +29,7 @@ int ms1
   (
     int s
   )
-  /* MAGE lvl 1 */
+  /* Mage level 1 */
 {
   int tmp;
   switch (s) {
@@ -57,7 +57,7 @@ int ms1
     tmp = getchar();
     printf("\n\r");
     if (tmp == '\n') {
-      autoevade = mskip = true;
+      autoevade = monster_skips_a_turn = true;
       break;
     }
     if (roll(3,6) - u.c[UC_LEVEL] + min_monster_hits <= u.c[UC_CHARISMA]) {
@@ -91,7 +91,7 @@ int ms1
     tmp = getchar();
     printf("\n\r");
     if (tmp == '\n') {
-      autoevade = mskip = true;
+      autoevade = monster_skips_a_turn = true;
       break;
     }
     if (roll(3,6) - u.c[UC_LEVEL] + min_monster_hits < u.c[UC_INTEL]) {
@@ -123,6 +123,7 @@ int ms2
   (
     int s
   )
+  /* Mage level 2 */
 {
   int tmp;
   switch(s) {
@@ -145,7 +146,7 @@ int ms2
     tmp = getchar();
     printf("\r\n");
     if (tmp == '\n')
-      autoevade = mskip = true;
+      autoevade = monster_skips_a_turn = true;
     else {
       dead = 1;
       printf("It died...\r\n");
@@ -188,6 +189,7 @@ int ms3
   (
     int s
   )
+  /* Mage level 3 */
 {
   int tmp, x1, y1;
   const char * const passcmd = "1234WDXA", *pc;
@@ -222,7 +224,7 @@ int ms3
     }
     break;
   case 3:          /* pass wall */
-    if (!hflag) {
+    if (!not_in_combat) {
       printf("Not in the middle of a battle dolt!\r\n");
       break;
     }
@@ -263,7 +265,7 @@ pass_top:
       tmp = getchar();
       printf("\r\n");
       if (tmp == '\n')
-        autoevade = mskip = true;
+        autoevade = monster_skips_a_turn = true;
       else {
         dead = 1;
         printf("It died...\r\n");
@@ -294,6 +296,7 @@ int ms4
   (
     int s
   )
+  /* Mage level 4 */
 {
   int tmp;
   switch(s) {
@@ -385,7 +388,7 @@ int ms4
       printf("The demon is taking a bath.\r\n");
       break;
     }
-    if (!hflag) {
+    if (!not_in_combat) {
       u.i[6] = 0;
       printf("The demon demolishes the %s.\r\n", mnam);
       gone = true;
@@ -397,7 +400,7 @@ int ms4
     else {
       printf("It attacks you!!\r\n");
       mnam = "Demon";
-      hflag = false;
+      not_in_combat = false;
       monster_type = 20;
       min_monster_hits = u.c[UC_LEVEL] + 5;
       monster_hits,monster_hits_old = roll(min_monster_hits, 16);
@@ -420,6 +423,7 @@ int cs1
   (
     int s
   )
+  /* Cleric level 1 */
 {
   int tmp;
   switch (s) {
@@ -464,6 +468,7 @@ int cs2
   (
     int s
   )
+  /* Cleric level 2 */
 {
   int tmp;
   switch (s) {
@@ -500,6 +505,7 @@ int cs3
   (
     int s
   )
+  /* Cleric level 3 */
 {
   int tmp;
   switch (s) {
@@ -553,6 +559,7 @@ int cs4
   (
     int s
   )
+  /* Cleric level 4 */
 {
   int tmp;
   switch (s) {
