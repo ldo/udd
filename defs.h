@@ -107,11 +107,11 @@ struct state {
   char n[2][NAMELEN];                 /* name, secret name */
   int c[65];                /* various stuff */
   int l[22][22];                 /* current level map */
-  int i[9], i1[9];               /* current room analysis */
+  int i[9];               /* current room analysis */
   int p[5][5];                   /* state of rooms surrounding current pos */
 };
 
-/* indexes into state.i and state.i1 arrays */
+/* indexes into state.i arrays */
 /* 0 not used */
 #define ROOM_WALL_WEST 1 /* state of west side of room: 1 = wall, others = can pass (3 = rubble?) */
 #define ROOM_WALL_NORTH 2 /* state of north side of room: 1 = wall, others = can pass (3 = rubble?) */
@@ -123,6 +123,8 @@ struct state {
 #define ROOM_MONSTER 6 /* there is a monster in the room */
 #define ROOM_TREASURE 7 /* room has treasure */
 #define ROOM_TREASURE_BOOBYTRAPPED 8 /* treasure is booby-trapped */
+
+#define ROOM_ANYTHING 9 /* not an index, special value indicating to check for any specials, monsters or treasure */
 
 struct chr {
   char nam[2][NAMELEN];
@@ -238,7 +240,8 @@ int dgn_nomove(int cmd);
 void dgn_voices(void);
 int dlvl_choose(void), dlvl_loadum(int dno, int lvl);
 void dlvl_init(void), dlvl_get_start(int dno);
-int fni(int r), fni1(int r, int s);
+int enter_room(int r), check_room(int r, int a);
+void save_room(bool full_contents);
 int lock_open(char * file, int mode, char * lockdir, char * lockfile, int maxtime);
 int lock_close(int fd, char * lockdir, char * lockfile);
 void opr_main(void);

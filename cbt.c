@@ -105,7 +105,7 @@ int cbt_main(void)
                     printf("You wake up feeling half dead.\r\n");
                     printf("It has stalked off.\r\n");
                     u.i[ROOM_MONSTER] = u.i[ROOM_TREASURE] = u.i[ROOM_TREASURE_BOOBYTRAPPED] = 0;
-                    u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 16*u.i[ROOM_SPECIAL] + 4*u.i[ROOM_WALL_NORTH] + u.i[ROOM_WALL_WEST];
+                    save_room(false);
                     if (u.i[ROOM_SPECIAL] == 0)
                       {
                         u.c[UC_STATE] = DGN_PROMPT;
@@ -198,12 +198,12 @@ ask:
                                     ok = true;
                                     continue;
                                   } /*if*/
-                                if (in == 2  && fni1(u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]+1],ROOM_WALL_WEST) == 1)
+                                if (in == 2  && check_room(u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]+1],ROOM_WALL_WEST) == 1)
                                   {
                                     ok = true;
                                     continue;
                                   } /*if*/
-                                if (in == 3  && fni1(u.l[u.c[UC_DGN_X]+1][u.c[UC_DGN_Y]],ROOM_WALL_NORTH) == 1)
+                                if (in == 3  && check_room(u.l[u.c[UC_DGN_X]+1][u.c[UC_DGN_Y]],ROOM_WALL_NORTH) == 1)
                                   {
                                     ok = true;
                                     continue;
@@ -425,7 +425,7 @@ ask:
             return
                 trs_main();
         u.c[UC_STATE] = 1;
-        u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 16 * u.i[ROOM_SPECIAL] + 4 * u.i[ROOM_WALL_NORTH] + u.i[ROOM_WALL_WEST];
+        save_room(false);
         if (u.i[ROOM_SPECIAL] == 0)
           {
             u.c[UC_STATE] = DGN_PROMPT;

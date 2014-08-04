@@ -121,7 +121,7 @@ exc_top:
             u.c[UC_DGN_X] = roll(1,20);
             u.c[UC_DGN_Y] = roll(1,20);
           } /*if*/
-        u.c[UC_VALUE] = fni(u.l[tmp][tmp2]);
+        u.c[UC_VALUE] = enter_room(u.l[tmp][tmp2]);
         if (roll(3,7) > (u.c[UC_INTEL] + u.c[UC_WISDOM]) / 2)
           {
             printf("The transporter malfunctioned!\r\n");
@@ -303,7 +303,7 @@ alt_top2:
             u.i[ROOM_SPECIAL] = 0;
             if (roll(1,10) < 3)
                 u.i[ROOM_SPECIAL] = SPC_PIT;
-            u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 16*u.i[ROOM_SPECIAL] + 4*u.i[ROOM_WALL_NORTH] + u.i[ROOM_WALL_WEST];
+            save_room(false);
             if (roll(1,4) != 4)
               {
                 u.c[UC_STATE] = DGN_NEWLOC;
@@ -422,14 +422,14 @@ trash:
             if (trs_main() == YEP)
                 return(YEP);         /* this is safe because u.i[ROOM_SPECIAL] == 0 */
         u.i[ROOM_SPECIAL] = sav2;
-        u.l[tmp][tmp2] = 16*u.i[ROOM_SPECIAL] + 4*u.i[ROOM_WALL_NORTH] + u.i[ROOM_WALL_WEST];
+        save_room(false);
         if (u.i[ROOM_SPECIAL] != SPC_ORB)
             break;
         utl_pplot(NOPE/*guess*/);
   /* fallthru */
     case SPC_ORB:
         u.i[ROOM_SPECIAL] = 0;
-        u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 4 * u.i[ROOM_WALL_NORTH] + u.i[ROOM_WALL_WEST];
+        save_room(false);
         printf("You have found the \007ORB!!!!\r\n");
 orb_top:
         printf("Press <CR> to pick it up, <LF> to leave it: ");

@@ -90,7 +90,7 @@ trs_top:
     unix_exit(1);
   }
   u.i[ROOM_MONSTER] = u.i[ROOM_TREASURE] = u.i[ROOM_TREASURE_BOOBYTRAPPED] = 0;
-  u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = 16*u.i[ROOM_SPECIAL] + 4*u.i[ROOM_WALL_NORTH] + u.i[ROOM_WALL_WEST];
+  save_room(false);
   if (u.i[ROOM_SPECIAL] == 0) {
     u.c[UC_STATE] = DGN_PROMPT;
     return(NOPE);

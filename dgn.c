@@ -53,7 +53,7 @@ void dgn_main(void)
         case DGN_NEWLOC:
               {
                 int level;
-                value = fni(u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]]);
+                value = enter_room(u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]]);
                 if (u.i[ROOM_SPECIAL] == SPC_RCK && rnd() < 0.950)       /* oops, solid rock! */
                   {
                     utl_pplot(NOPE);
@@ -140,8 +140,7 @@ void dgn_main(void)
                     break;
                   } /*if*/
                 u.i[ROOM_MONSTER] = u.i[ROOM_TREASURE] = u.i[ROOM_TREASURE_BOOBYTRAPPED] = 0;
-                u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = /* save encoded mask for room we are leaving */
-                    1024 * u.i[ROOM_TREASURE_BOOBYTRAPPED] + 512 * u.i[ROOM_TREASURE] + 256 * u.i[ROOM_MONSTER] + 16 * u.i[ROOM_SPECIAL] + 4 * u.i[ROOM_WALL_NORTH] + u.i[ROOM_WALL_WEST];
+                save_room(true);
                 if (u.i[ROOM_SPECIAL] != 0)
                   {
                     done = spc_main();
@@ -211,14 +210,14 @@ void dgn_main(void)
                       } /*if*/
                 break;
                 case 2:
-                    if (fni1(u.l[x][y+1], ROOM_WALL_WEST) != 1)
+                    if (check_room(u.l[x][y+1], ROOM_WALL_WEST) != 1)
                       {
                         valid = true;
                         printf("East\r\n");
                       } /*if*/
                 break;
                 case 3:
-                    if (fni1(u.l[x+1][y], ROOM_WALL_NORTH) != 1)
+                    if (check_room(u.l[x+1][y], ROOM_WALL_NORTH) != 1)
                       {
                         valid = true;
                         printf("South\r\n");
@@ -238,8 +237,7 @@ void dgn_main(void)
               }
         /* fall through */
         case DGN_AMOVE:
-            u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] = /* save encoded bitmask for dungeon room we are leaving */
-                1024 * u.i[ROOM_TREASURE_BOOBYTRAPPED] + 512 * u.i[ROOM_TREASURE] + 256 * u.i[ROOM_MONSTER] + 16 * u.i[ROOM_SPECIAL] + 4 * u.i[ROOM_WALL_NORTH] + u.i[ROOM_WALL_WEST];
+            save_room(true);
             u.c[UC_DGN_X] += q[value][1];
             u.c[UC_DGN_Y] += q[value][2];
             if (u.c[UC_DGN_X] < 1 || u.c[UC_DGN_X] > 20 || u.c[UC_DGN_Y] < 1 || u.c[UC_DGN_Y] > 20)

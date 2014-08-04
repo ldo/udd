@@ -15,9 +15,9 @@ static char obuf[BUFSIZ];
 static int ccpos;         /* current cursor position */
 static int cobps;         /* current end of obuf position */
 
-#define fnd3(c, z) vaz[fni1(u.p[c][z], ROOM_WALL_VISIBLE_NORTH) + 1]
-#define fnd2(c, z) maz[fni1(u.p[c][z], ROOM_WALL_VISIBLE_WEST)]
-#define fnd1(c, z) ((fni1(u.p[c][z], ROOM_WALL_VISIBLE_WEST) == 0) ? " " : "I")
+#define fnd3(c, z) vaz[check_room(u.p[c][z], ROOM_WALL_VISIBLE_NORTH) + 1]
+#define fnd2(c, z) maz[check_room(u.p[c][z], ROOM_WALL_VISIBLE_WEST)]
+#define fnd1(c, z) ((check_room(u.p[c][z], ROOM_WALL_VISIBLE_WEST) == 0) ? " " : "I")
 
 /* generate opt. output */
 static int optout
@@ -82,61 +82,74 @@ static int optout
   } /*optout*/
 
 
-int fni
+static void analyze_room
+  (
+    int r, /* encoded bitmask representing room state */
+    int flags[9]
+  )
+  /* unpacks bits from r into flags. */
+  {
+    flags[ROOM_WALL_WEST] = flags[ROOM_WALL_VISIBLE_WEST] = (r & 3);           /* sec/nonsec top */
+    r = r >> 2;
+    flags[ROOM_WALL_NORTH] = flags[ROOM_WALL_VISIBLE_NORTH] = (r & 3);           /* sec/nonsec side */
+    r = r >> 2;
+    flags[ROOM_SPECIAL] = (r & 15);                   /* special */
+    r = r >> 4;
+    flags[ROOM_MONSTER] = (r & 1);
+    r = r >> 1;
+    flags[ROOM_TREASURE] = (r & 1);
+    flags[ROOM_TREASURE_BOOBYTRAPPED] = r >> 1;
+  } /*analyze_room*/
+
+int enter_room
   (
     int r /* encoded bitmask representing room state */
   )
   /* analyzes the current room into u.i. */
   {
-    u.i[ROOM_WALL_WEST] = u.i[ROOM_WALL_VISIBLE_WEST] = (r & 3);           /* sec/nonsec top */
-    r = r >> 2;
-    u.i[ROOM_WALL_NORTH] = u.i[ROOM_WALL_VISIBLE_NORTH] = (r & 3);           /* sec/nonsec side */
-    r = r >> 2;
+    analyze_room(r, u.i);
     if (u.c[UC_SPELL_LIGHT] < 1 && u.i[ROOM_WALL_VISIBLE_WEST] == 3 && rnd() < 0.85)
         u.i[ROOM_WALL_VISIBLE_WEST] = 1;
     if (u.c[UC_SPELL_LIGHT] < 1 && u.i[ROOM_WALL_VISIBLE_NORTH] == 3 && rnd() < 0.85)
         u.i[ROOM_WALL_VISIBLE_NORTH] = 1;
-    u.i[ROOM_SPECIAL] = (r & 15);                   /* special */
-    r = r >> 4;
-    u.i[ROOM_MONSTER] = (r & 1);
-    r = r >> 1;
-    u.i[ROOM_TREASURE] = (r & 1);
-    u.i[ROOM_TREASURE_BOOBYTRAPPED] = r >> 1;
     return
         u.i[ROOM_SPECIAL];
-  } /*fni*/
+  } /*enter_room*/
 
-int fni1
+void save_room
+  (
+    bool full_contents
+  )
+  /* packs u.i into an encoded bitmask for the current room. */
+  {
+    u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] =
+            (full_contents ?
+                1024 * u.i[ROOM_TREASURE_BOOBYTRAPPED] + 512 * u.i[ROOM_TREASURE] + 256 * u.i[ROOM_MONSTER]
+            :
+                0
+            )
+        +
+            16 * u.i[ROOM_SPECIAL] + 4 * u.i[ROOM_WALL_NORTH] + u.i[ROOM_WALL_WEST];
+  } /*save_room*/
+
+int check_room
   (
     int r, /* encoded bitmask representing room state */
     int a /* index into i1 array for value to return, or 9 to check for presence of special/monster/treasure */
   )
-  /* analyzes a room other than the current one into u.i1. */
+  /* analyzes a room other than the current one. */
   {
-  /* should find a way to combine most of this code with fni */
-    u.i1[ROOM_WALL_WEST] = u.i1[ROOM_WALL_VISIBLE_WEST] = (r & 3);
-    r = r >> 2;
-    u.i1[ROOM_WALL_NORTH] = u.i1[ROOM_WALL_VISIBLE_NORTH] = (r & 3);
-    r = r >> 2;
-    if (u.c[UC_SPELL_LIGHT] < 1 && u.i1[ROOM_WALL_VISIBLE_WEST] == 3 && rnd() < 0.85)
-        u.i1[ROOM_WALL_VISIBLE_WEST] = 1;
-    if (u.c[UC_SPELL_LIGHT] < 1 && u.i1[ROOM_WALL_VISIBLE_NORTH] == 3 && rnd() < 0.85)
-        u.i1[ROOM_WALL_VISIBLE_NORTH] = 1;
-    u.i1[ROOM_SPECIAL] = (r & 15);
-    r = r >> 4;
-    u.i1[ROOM_MONSTER] = (r & 1);
-    r = r >> 1;
-    u.i1[ROOM_TREASURE] = (r & 1);
-    u.i1[ROOM_TREASURE_BOOBYTRAPPED] = r >> 1;
-    if (a < 9)
+    int flags[9];
+    analyze_room(r, flags);
+    if (a < ROOM_ANYTHING)
         return
-            u.i1[a];
-    if ((u.i1[ROOM_SPECIAL] | u.i1[ROOM_MONSTER] | u.i1[ROOM_TREASURE]) == 0)
+            flags[a];
+    if ((flags[ROOM_SPECIAL] | flags[ROOM_MONSTER] | flags[ROOM_TREASURE]) == 0)
         return
             0;
     return
         1;
-  } /*fni1*/
+  } /*check_room*/
 
 
 static char *fnp
@@ -239,7 +252,7 @@ void utl_pplot
                 u.p[lcv + 2][lcv3 + 2] = u.l[x + lcv][y + lcv3];
     ccpos = 1;
     cobps = 0;
-    if (x != 1 && fni1(u.p[2][2], ROOM_WALL_VISIBLE_NORTH) == 0)       /* print top if one */
+    if (x != 1 && check_room(u.p[2][2], ROOM_WALL_VISIBLE_NORTH) == 0)       /* print top if one */
       {
         strcpy(tbuf,"      ");
         strcat(tbuf,fnd3(1,2));
@@ -253,13 +266,13 @@ void utl_pplot
         strcat(tbuf2, "     ");
         strcat(tbuf2, fnd2(1,3));
         if (u.c[UC_SPELL_LIGHT] > 0)
-            if (fni1(u.p[1][2], 9) != 0)     /* light spell */
+            if (check_room(u.p[1][2], ROOM_ANYTHING) != 0)     /* light spell */
                 tbuf2[9] = '*';
         optout(tbuf);
         optout(tbuf2);
         optout(tbuf);
       } /*if*/
-    if (y != 1 && fni1(u.p[2][2], ROOM_WALL_VISIBLE_WEST) == 0)
+    if (y != 1 && check_room(u.p[2][2], ROOM_WALL_VISIBLE_WEST) == 0)
       {
         strcpy(tbuf, fnd3(2,1));
       }
@@ -268,7 +281,7 @@ void utl_pplot
         strcpy(tbuf, "       ");
       } /*if*/
     fnp1(tbuf, fnd3(2,2), 7);
-    if (fni1(u.p[2][3], ROOM_WALL_VISIBLE_WEST) == 0)
+    if (check_room(u.p[2][3], ROOM_WALL_VISIBLE_WEST) == 0)
         fnp1(tbuf, fnd3(2,3), 13);
     if (u.i[ROOM_WALL_VISIBLE_NORTH] == 0)
       {
@@ -278,11 +291,11 @@ void utl_pplot
     optout(tbuf);
     strcpy(tbuf, "                   ");
     strcpy(tbuf2,"                   ");
-    if (y != 1 && fni1(u.p[2][2], ROOM_WALL_VISIBLE_WEST) == 0)
+    if (y != 1 && check_room(u.p[2][2], ROOM_WALL_VISIBLE_WEST) == 0)
       {
         fnp1(tbuf, fnd1(2,1), 1);
         fnp1(tbuf2,fnd2(2,1), 1);
-        if (u.c[UC_SPELL_LIGHT] > 0 && fni1(u.p[2][1], 9) != 0)
+        if (u.c[UC_SPELL_LIGHT] > 0 && check_room(u.p[2][1], ROOM_ANYTHING) != 0)
             fnp(tbuf2, "*", 4);
       } /*if*/
     fnp1(tbuf, fnd1(2,2), 7);
@@ -293,7 +306,7 @@ void utl_pplot
       {
         fnp1(tbuf, fnd1(2,4), 19);
         fnp1(tbuf2,fnd2(2,4), 19);
-        if (u.c[UC_SPELL_LIGHT] > 0 && fni1(u.p[2][3], 9) != 0)
+        if (u.c[UC_SPELL_LIGHT] > 0 && check_room(u.p[2][3], ROOM_ANYTHING) != 0)
             fnp(tbuf2, "*", 16);
       } /*if*/
     fnp1(tbuf2, "X", 10);
@@ -332,7 +345,7 @@ void utl_pplot
         strcat(tbuf2,fnd2(3,2));
         strcat(tbuf2,"     ");
         strcat(tbuf2,fnd2(3,3));
-        if (u.c[UC_SPELL_LIGHT] > 0 && fni1(u.p[3][2], 9) != 0)
+        if (u.c[UC_SPELL_LIGHT] > 0 && check_room(u.p[3][2], ROOM_ANYTHING) != 0)
             fnp(tbuf2, "*", 10);
         strcpy(tbuf3, "      ");
         strcat(tbuf3,fnd3(4,2));
