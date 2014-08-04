@@ -89,14 +89,15 @@ int dgn_nomove
         return(utl_death());
       in = roll(1,10);
       if (in < 4)
-        u.c[22+in] = 0; 
+        u.c[UC_WEAPON + in] = 0; /* randomly zero one of UC_WEAPON, UC_ARMOR, UC_SHIELD */
       else
         if (in < 7)
-          u.c[50 + in - 3] = 0;
+          u.c[UC_HASORB + in - 3] = 0; /* randomly zero one of UC_RING, UC_ELVEN_CLOAK, UC_ELVEN_BOOTS */
         else
           if (in == 8)
             u.c[UC_RING] = 0;
       for (in = 15 ; in <= 17 ; in++) {
+        /* new random values for UC_DGNLVL, UC_DGN_X, UC_DGN_Y */
         u.c[in] += roll(1,5) - 3;
         if (u.c[in] < 1)
           u.c[in] = 1;
