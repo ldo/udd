@@ -42,31 +42,31 @@ int cbt_main(void)
     switch(u.c[UC_STATE])
       {
     case CBT_NORM:
-        if (u.c[63] != 0)
+        if (u.c[UC_VALUE] != 0)
           {
-            switch (u.c[63])
+            switch (u.c[UC_VALUE])
               {
             case SPC_THR:
-                m = 11;
+                monster_type = 11;
                 mnam = "Dwarf Lord";
-                m1 = u.c[UC_DGNLVL] + 10 + roll(1,6);
-                m_str = roll(1, mm[m].m) + 5;
-                m_arm = roll(1, m1);
+                min_monster_hits = u.c[UC_DGNLVL] + 10 + roll(1,6);
+                m_str = roll(1, mm[monster_type].m) + 5;
+                m_arm = roll(1, min_monster_hits);
             break;
             case SPC_ALT:
-                m = 18 + roll(1,2);
+                monster_type = 18 + roll(1,2);
                 mnam = "Demon Prince";
-                m1 = u.c[UC_DGNLVL] + 5 + roll(1,20);
-                m_str = roll(1,mm[m].m) + 5;
-                m_arm = roll(1, m1);
+                min_monster_hits = u.c[UC_DGNLVL] + 5 + roll(1,20);
+                m_str = roll(1,mm[monster_type].m) + 5;
+                m_arm = roll(1, min_monster_hits);
             break;
             case SPC_DGN1:
             case SPC_DGN2:
-                m = 20;
+                monster_type = 20;
                 mnam = "Dragon Lord";
-                m1 = u.c[UC_DGNLVL] + roll(1,20);
-                m_str = roll(1,mm[m].m);
-                m_arm = roll(1, m1) - 1;
+                min_monster_hits = u.c[UC_DGNLVL] + roll(1,20);
+                m_str = roll(1,mm[monster_type].m);
+                m_arm = roll(1, min_monster_hits) - 1;
             break;
             default:
                 printf("cbt: FAT. ERROR, spec unknown!\r\n");
@@ -81,36 +81,36 @@ int cbt_main(void)
                 ok = true;
                 if (aflag) /* ask for nasty (currently undead) */
                   {
-                    m = (int)(pow((double)(rnd()), (double)(2.0 - 0.04 * u.c[UC_DGNLVL]))
+                    monster_type = (int)(pow((double)(rnd()), (double)(2.0 - 0.04 * u.c[UC_DGNLVL]))
                         * 6.0 + 1.0);
                   }
                 else
                   {
-                    m = roll(1,20);
-                    if (m > 6)
-                        m = (int)(6.0 + pow((double)(rnd()), (double)(2.0 - 0.04 * u.c[UC_DGNLVL]))
+                    monster_type = roll(1,20);
+                    if (monster_type > 6)
+                        monster_type = (int)(6.0 + pow((double)(rnd()), (double)(2.0 - 0.04 * u.c[UC_DGNLVL]))
                             * 14.0 + 1.0);
                     else
-                        m = (int) (pow((double)(rnd()), (double)(2.0 - 0.04 * u.c[UC_DGNLVL]))
+                        monster_type = (int) (pow((double)(rnd()), (double)(2.0 - 0.04 * u.c[UC_DGNLVL]))
                             * 6.0 + 1.0);
-                    if (mm[m].mindunlvl > u.c[UC_DGNLVL])
+                    if (mm[monster_type].mindunlvl > u.c[UC_DGNLVL])
                         ok = false;
                   } /*if*/
-                if (mm[m].maxdunlvl < u.c[UC_DGNLVL])
+                if (mm[monster_type].maxdunlvl < u.c[UC_DGNLVL])
                     ok = false;
-                mnam = mm[m].nam;
-                m1 = roll(1, (int)(u.c[UC_DGNLVL] * 1.5)) + (int)(rnd()*rnd()*rnd()*3);
-                if (m1 < mm[m].minmonlvl)
+                mnam = mm[monster_type].nam;
+                min_monster_hits = roll(1, (int)(u.c[UC_DGNLVL] * 1.5)) + (int)(rnd()*rnd()*rnd()*3);
+                if (min_monster_hits < mm[monster_type].minmonlvl)
                     ok = false;
               } /*while*/
-            m_str = roll(1, mm[m].m);
-            m_arm = roll(1, m1) - 1;
-            l = m1;
+            m_str = roll(1, mm[monster_type].m);
+            m_arm = roll(1, min_monster_hits) - 1;
+            monster_level = min_monster_hits;
             s1 = 1; /* s1 ???XXX*/
-            if (mm[m].m + m1 >= 1.2 * u.c[UC_MAXHIT] && u.c[UC_CURHIT] > 1)
+            if (mm[monster_type].m + min_monster_hits >= 1.2 * u.c[UC_MAXHIT] && u.c[UC_CURHIT] > 1)
                 if (roll(1,20) <= u.c[UC_CHARISMA])
                   {
-                    printf("A level %d %s takes one look at you...", m1, mnam);
+                    printf("A level %d %s takes one look at you...", min_monster_hits, mnam);
                     sleep(1);
                     printf(" snarls and knocks you cold.\r\n");
                     u.c[UC_CURHIT] = u.c[UC_CURHIT] / 2.0;
@@ -129,17 +129,17 @@ int cbt_main(void)
                         spc_main();
                   } /*if; if*/
           } /*if*/
-        m2 = m2_old = roll(m1, mm[m].m);
-        printf("You have encountered a level %d %s!\r\n", m1, mnam);
+        monster_hits = monster_hits_old = roll(min_monster_hits, mm[monster_type].m);
+        printf("You have encountered a level %d %s!\r\n", min_monster_hits, mnam);
         if (u.c[UC_DEBUGCHR] == 1)
-            printf("STR: %2d, ARM: %2d, HITS: %2d, HDIE: %2d\r\n", m_str, m_arm, m2, mm[m].m);
+            printf("STR: %2d, ARM: %2d, HITS: %2d, HDIE: %2d\r\n", m_str, m_arm, monster_hits, mm[monster_type].m);
         ok = false;
         dead = 0;
-        if (u.c[UC_SPELL_SLNC] > 0 && roll(1,20) < 15+u.c[UC_LEVEL] - m1)
+        if (u.c[UC_SPELL_SLNC] > 0 && roll(1,20) < 15+u.c[UC_LEVEL] - min_monster_hits)
             ok = true;
         /*if (roll(1,20) <= u.c[UC_INTEL] + u.c[UC_DEX] / 2.0)
             ok = true;  */
-        if (roll(1,20) + m1 <= ((u.c[UC_INTEL] + u.c[UC_DEX]) / 2.0) + u.c[UC_LEVEL])  /*CDC XXX???*/
+        if (roll(1,20) + min_monster_hits <= ((u.c[UC_INTEL] + u.c[UC_DEX]) / 2.0) + u.c[UC_LEVEL])  /*CDC XXX???*/
             ok = true;
         mskip = false;     /* for spells */
         autoevade = false;
@@ -227,7 +227,7 @@ ask:
                                 if (rnd() > 0.5)
                                     u.i[6] = u.i[7] = u.i[8] = 0;
                                 u.c[UC_STATE] = DGN_AMOVE;
-                                u.c[63] = in;
+                                u.c[UC_VALUE] = in;
                                 return
                                     NOPE;
                               } /*while*/
@@ -254,7 +254,7 @@ ask:
                         +
                             u.c[UC_LEVEL] * (5 - u.c[UC_CLASS])
                         -
-                            m1 * mm[m].m / 2.0;
+                            min_monster_hits * mm[monster_type].m / 2.0;
                     /* 3% per DEX, 1% per STR, +1% * wep, +3,4,5% for level,
                        -1...10% per Mlevel */
                     if (u.c[UC_SPELL_PRAY] > 0)
@@ -272,27 +272,27 @@ ask:
                       }
                     else
                       {
-                        d = roll(1, 8 - 2* u.c[UC_CLASS] + u.c[UC_WEAPON]);/* base on class/wep */
+                        strike_force = roll(1, 8 - 2* u.c[UC_CLASS] + u.c[UC_WEAPON]);/* base on class/wep */
                         i2 = u.c[UC_STRENGTH];     /* base STR */
                         if (u.c[UC_SPELL_STRG] > 0)
                             i2 += 3;       /* STR spell */
                         if (i2 > 14)
-                            d += roll(1, i2 - 14);   /* bonus! */
+                            strike_force += roll(1, i2 - 14);   /* bonus! */
                         else if (i2 < 7)
-                            d -= roll(1, 7 - i2);    /* weakling! */
+                            strike_force -= roll(1, 7 - i2);    /* weakling! */
                         if (u.c[UC_DEBUGCHR] == 1)
-                            printf("FORCE: %d\r\n", d);
+                            printf("FORCE: %d\r\n", strike_force);
                         if (m_arm > 0)
-                            d -= roll(1, m_arm)+roll(1,m_arm);   /*one for ARM,one for shld*/
-                        if (d < 1)
+                            strike_force -= roll(1, m_arm)+roll(1,m_arm);   /*one for ARM,one for shld*/
+                        if (strike_force < 1)
                             printf("It fends you off.\r\n");
                         else
-                            cbt_uhitm(d);
+                            cbt_uhitm(strike_force);
                       } /*if*/
                   } /*if*/
               } /*if*/
             ok = true;
-            d = 0;
+            strike_force = 0;
             if (mskip)
               {
                 mskip = false;
@@ -300,21 +300,21 @@ ask:
               } /*if*/
             if (dead == 0)
               {
-                if (m == 20)
+                if (monster_type == 20)
                   {
                     printf("The %s breathes fire at you!\007\r\n", mnam);
                     sleep(2);
-                    d = roll(2,20) + m1;
+                    strike_force = roll(2,20) + min_monster_hits;
                     if (roll(1,20) >= (17 - u.c[UC_LEVEL] * 0.5))
                       {
                         printf("You partially dodge it.\r\n");
-                        d = d * 0.5;
+                        strike_force = strike_force * 0.5;
                       } /*if*/
                   } /*if*/
-                if (d == 0)
+                if (strike_force == 0)
                   {
-                    i1 = 50 + mm[m].m + m_str + m_arm + u.c[UC_CLASS] * 10 +
-                        m1 * (mm[m].m / 2.0) - u.c[UC_LEVEL] * (5 - u.c[UC_CLASS]);
+                    i1 = 50 + mm[monster_type].m + m_str + m_arm + u.c[UC_CLASS] * 10 +
+                        min_monster_hits * (mm[monster_type].m / 2.0) - u.c[UC_LEVEL] * (5 - u.c[UC_CLASS]);
                     /* chance is 50% + monster, mage+20%, cleric+10%, +1..10% mlevel
                        - 3, 4, 5% per level */
                     if (u.c[UC_SPELL_PROT] > 0)
@@ -326,7 +326,7 @@ ask:
                     if (u.c[UC_DEX] > 14)   /* dex bonus */
                         i1 -= (2 * (u.c[UC_DEX] - 14));
                     i1_old = i1;
-                    i1 = i1 * ((m2_old + m2) / (double)(2 * m2_old)); /* hits taken */
+                    i1 = i1 * ((monster_hits_old + monster_hits) / (double)(2 * monster_hits_old)); /* hits taken */
                     dice = roll(1,100);
                     if (u.c[UC_DEBUGCHR] == 1)
                         printf("CHANCE: %d%% [%d%% max], DIE: %d\r\n", i1, i1_old, dice);
@@ -337,9 +337,9 @@ ask:
                         continue;        /* for while (dead == 0) */
                       } /*if*/
                   } /*if*/
-                if (m > 3 && m < 7) /* high level undead ? */
+                if (monster_type > 3 && monster_type < 7) /* high level undead ? */
                   {
-                    i2 = 10 * (m - 3);
+                    i2 = 10 * (monster_type - 3);
                     if (u.c[UC_SPELL_PROT] > 0)
                         i2 -= 5;         /* prot from evil */
                     if (u.c[UC_SPELL_PRAY] > 0)
@@ -354,30 +354,30 @@ ask:
                         continue;
                       } /*if*/
                   } /*if*/
-                if (d == 0)
-                    d = roll(1, mm[m].m) + m1;
-                if (m == 19)  /* balrog */
+                if (strike_force == 0)
+                    strike_force = roll(1, mm[monster_type].m) + min_monster_hits;
+                if (monster_type == 19)  /* balrog */
                     if (roll(1,3) < 3)
                         printf("The %s uses it's sword!\r\n", mnam);
                     else
                       {
                         printf("The %s uses it's whip!\007\r\n", mnam);
-                        d *= 1.5;
+                        strike_force *= 1.5;
                       } /*if*/
                 if (u.c[UC_DEBUGCHR] == 1)
-                    printf("FORCE: %d\r\n", d);
-                d -= 1 + roll(1, u.c[UC_SHIELD]);
-                if (d <= 0)
+                    printf("FORCE: %d\r\n", strike_force);
+                strike_force -= 1 + roll(1, u.c[UC_SHIELD]);
+                if (strike_force <= 0)
                     printf("You block with your shield.\r\n");
                 else
                   {
-                    d -= roll(1, u.c[UC_ARMOR]) + 2 - u.c[UC_CLASS];
-                    if (d <= 0)
+                    strike_force -= roll(1, u.c[UC_ARMOR]) + 2 - u.c[UC_CLASS];
+                    if (strike_force <= 0)
                         printf("Your armor protects you.\r\n");
                     else
                       {
-                        printf("It did %d point%s to you.\r\n", d, (d == 1) ? "" : "s");
-                        u.c[UC_CURHIT] -= d;
+                        printf("It did %d point%s to you.\r\n", strike_force, (strike_force == 1) ? "" : "s");
+                        u.c[UC_CURHIT] -= strike_force;
                         if (u.c[UC_CURHIT] < 1)
                           {
                             printf("You died!\r\n");
@@ -385,11 +385,11 @@ ask:
                           } /*if*/
                       } /*if*/
                   } /*if*/
-              if (m == 15)           /* doppelganger */
+              if (monster_type == 15)           /* doppelganger */
                 if (roll(1,4) == 3)
                   {
                     printf("The %s looks just like you!\r\n", mnam);
-                    if (roll(1,20) < u.c[UC_INTEL] + u.c[UC_LEVEL] - m1)
+                    if (roll(1,20) < u.c[UC_INTEL] + u.c[UC_LEVEL] - min_monster_hits)
                         printf("You see through its trick.\r\n");
                     else
                       {
@@ -397,11 +397,11 @@ ask:
                         ok = false;
                       } /*if*/
                   } /*if*/
-              if (m == 12)           /* harpie */
+              if (monster_type == 12)           /* harpie */
                 if (roll(1,3) == 1)
                   {
                     printf("The %s charms you with her voice...\r\n", mnam);
-                    if (roll(1,20) < u.c[UC_INTEL] + u.c[UC_LEVEL] - m1)
+                    if (roll(1,20) < u.c[UC_INTEL] + u.c[UC_LEVEL] - min_monster_hits)
                         printf("But you resist her death song!\r\n");
                     else
                       {
@@ -414,20 +414,20 @@ ask:
         u.i[6] = 0;
         if (!gone)
           {
-            d = (mm[m].m * m1 + m_str * m_arm) * 10 / (double) u.c[UC_LEVEL];
-            printf("You got %d experience point%s.\r\n", d, (d == 1) ? "" : "s");
-            u.c[UC_EXP] += d;
+            strike_force = (mm[monster_type].m * min_monster_hits + m_str * m_arm) * 10 / (double) u.c[UC_LEVEL];
+            printf("You got %d experience point%s.\r\n", strike_force, (strike_force == 1) ? "" : "s");
+            u.c[UC_EXP] += strike_force;
             sleep(1);
             utl_chklvl();
           } /*if*/
         utl_pplot(NOPE);
-        if (u.c[63] != 0 || aflag)
+        if (u.c[UC_VALUE] != 0 || aflag)
           {
-            u.c[63] = m1;
+            u.c[UC_VALUE] = min_monster_hits;
             return
                 NOPE;          /* called from spc_main()? */
           } /*if*/
-        u.c[63] = l;
+        u.c[UC_VALUE] = monster_level;
         if (u.i[7] != 0)
             return
                 trs_main();

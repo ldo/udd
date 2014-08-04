@@ -13,12 +13,12 @@
 
 int cbt_uhitm
   (
-    int dam
+    int damage
   )
 {
-  printf("You did %d point%s of damage.\r\n", dam, (dam == 1) ? "" : "s");
-  m2 -= dam;
-  if (m2 < 1) {
+  printf("You did %d point%s of damage.\r\n", damage, (damage == 1) ? "" : "s");
+  monster_hits -= damage;
+  if (monster_hits < 1) {
     printf("It died...\r\n");
     if (rnd() > 0.9) /* XXX */
       u.i[8] = 0;
@@ -29,11 +29,11 @@ int cbt_uhitm
 
 int cbt_ohitu
   (
-    int dam
+    int damage /* ignored */
   )
 {
   int pts;
-  pts = rnd() * ( l * (4 - u.c[UC_CLASS])) + 1;
+  pts = rnd() * (monster_level * (4 - u.c[UC_CLASS])) + 1;
   printf("You suffer %d hit point%s.\r\n", pts, (pts == 1) ? "" : "s");
   u.c[UC_CURHIT] -= pts;
   if (u.c[UC_CURHIT] < 1) {

@@ -40,15 +40,15 @@ int ms1
     break;
   case 2:          /* charm */
     cbt_chk();
-    if (m < 7) {
+    if (monster_type < 7) {
       printf("You can't charm undead.\r\n");
       break;
     }
-    if (m == 15) {
+    if (monster_type == 15) {
       printf("%s is magic resistant\007!\r\n", mnam);
       break;
     }
-    if (2*(roll(3,6) - u.c[UC_LEVEL] + m1) > u.c[UC_INTEL] + u.c[UC_CHARISMA]) {
+    if (2*(roll(3,6) - u.c[UC_LEVEL] + min_monster_hits) > u.c[UC_INTEL] + u.c[UC_CHARISMA]) {
       printf("Your charm failed!\r\n");
       break;
     }
@@ -60,7 +60,7 @@ int ms1
       autoevade = mskip = true;
       break;
     }
-    if (roll(3,6) - u.c[UC_LEVEL] + m1 <= u.c[UC_CHARISMA]) {
+    if (roll(3,6) - u.c[UC_LEVEL] + min_monster_hits <= u.c[UC_CHARISMA]) {
       printf("It dies...\r\n");
       dead = 1;
     } else
@@ -74,15 +74,15 @@ int ms1
     break;
   case 4:          /* sleep */
     cbt_chk();
-    if (m < 7) {
+    if (monster_type < 7) {
       printf("Undead never sleep.\r\n");
       break;
     }
-    if (m == 15) {
+    if (monster_type == 15) {
       printf("%s is magic resistant\007!\r\n", mnam);
       break;
     }
-    if (roll(3,6) - u.c[UC_LEVEL] + m1 > u.c[UC_INTEL]) {
+    if (roll(3,6) - u.c[UC_LEVEL] + min_monster_hits > u.c[UC_INTEL]) {
       printf("It wont sleep!\r\n");
       break;
     }
@@ -94,7 +94,7 @@ int ms1
       autoevade = mskip = true;
       break;
     }
-    if (roll(3,6) - u.c[UC_LEVEL] + m1 < u.c[UC_INTEL]) {
+    if (roll(3,6) - u.c[UC_LEVEL] + min_monster_hits < u.c[UC_INTEL]) {
       printf("It dies...\r\n");
       dead = 1;
     } else
@@ -128,7 +128,7 @@ int ms2
   switch(s) {
   case 1:          /* phant force */
     cbt_chk();
-    if (roll(3,6) + m1 - u.c[UC_LEVEL] + 1 < u.c[UC_INTEL]) {
+    if (roll(3,6) + min_monster_hits - u.c[UC_LEVEL] + 1 < u.c[UC_INTEL]) {
       printf("The %s believed...!\r\n", mnam);
       dead = 1;
     } else {
@@ -154,7 +154,7 @@ int ms2
   case 3:          /* l. bolt */
     cbt_chk();
     tmp = roll(u.c[UC_LEVEL], 6);
-    if (roll(1,10) - m1 + u.c[UC_LEVEL]  < 6)
+    if (roll(1,10) - min_monster_hits + u.c[UC_LEVEL]  < 6)
       tmp = (int) (tmp / 2.0 + 0.5);
     printf("ZZAAAPPPP!!!!!!!\007\r\n");
     cbt_uhitm(tmp);
@@ -190,19 +190,19 @@ int ms3
   )
 {
   int tmp, x1, y1;
-  char *passcmd = "1234WDXA", *pc;
+  const char * const passcmd = "1234WDXA", *pc;
   switch (s) {
   case 1:          /* fireball */
     cbt_chk();
     tmp = roll(u.c[UC_LEVEL], 10);
-    if (roll(1, 10) - m1 + u.c[UC_LEVEL] < 6)
+    if (roll(1, 10) - min_monster_hits + u.c[UC_LEVEL] < 6)
       tmp = (int) (tmp / 2.0 + 0.5);
     printf("The %s is burning...\r\n", mnam);
     cbt_uhitm(tmp);
     break;
   case 2:          /* confuse */
     cbt_chk();
-    if (m == 15) {
+    if (monster_type == 15) {
       printf("%s is magic resistant!\r\n", mnam);
       break;
     }
@@ -210,10 +210,10 @@ int ms3
       printf("The spell failed...\r\n");
       break;
     }
-    tmp = mm[m].m * rnd() + m1;
+    tmp = mm[monster_type].m * rnd() + min_monster_hits;
     printf("It gave itself %d damage point%s.\r\n", tmp, (tmp == 1) ? "" :"s");
-    m2 -= tmp;
-    if (m2 < 1) {
+    monster_hits -= tmp;
+    if (monster_hits < 1) {
       printf("It killed itself!\r\n");
       if (rnd() > 0.1)
         u.i[8] = 0;
@@ -226,7 +226,7 @@ int ms3
       printf("Not in the middle of a battle dolt!\r\n");
       break;
     }
-  pass_top:
+pass_top:
     printf("Direction ->");
     tmp = getchar();
     if (islower(tmp))
@@ -248,15 +248,15 @@ int ms3
     }
     printf("*POOF*\b\b\b\b\b\b++++++\b\b\b\b\b\b******\n\r");
     u.c[UC_STATE] = DGN_AMOVE;
-    u.c[63] = tmp;
+    u.c[UC_VALUE] = tmp;
     break;
   case 4:          /* hold monst */
     cbt_chk();
-    if (m == 15) {
+    if (monster_type == 15) {
       printf("%s is magic resistant!\007\r\n", mnam);
       break;
     }
-    if (roll(3,6) -u.c[UC_LEVEL] + m1 > u.c[UC_CHARISMA])
+    if (roll(3,6) -u.c[UC_LEVEL] + min_monster_hits > u.c[UC_CHARISMA])
       printf("The %s breaks free...\r\n", mnam);
     else {
       printf("The %s is held.  Press <CR> to kill, <LF> to evade: ", mnam);
@@ -318,7 +318,7 @@ int ms4
       u.c[UC_CURHIT] = tmp;
       break;
     }
-    if (m == 15 && rnd() > 0.5) {
+    if (monster_type == 15 && rnd() > 0.5) {
       printf("%s is magic resistant\007!\r\n", mnam);
       break;
     }
@@ -356,12 +356,12 @@ int ms4
     sleep(2);
     if (rnd() > 0.7) {
       printf("The %s tried to get you through the flames!\r\n", mnam);
-      tmp = mm[m].m * rnd() + m1;
+      tmp = mm[monster_type].m * rnd() + min_monster_hits;
       tmp *= 1.5;    /* XXX CDC - make more powerful than confuse */
       printf("It gave itself %d damage point%s.\r\n", tmp,
              (tmp == 1) ? "" :"s");
-      m2 -= tmp;
-      if (m2 < 1) {
+      monster_hits -= tmp;
+      if (monster_hits < 1) {
         printf("It killed itself!\r\n");
         if (rnd() > 0.1)
           u.i[8] = 0;
@@ -398,11 +398,11 @@ int ms4
       printf("It attacks you!!\r\n");
       mnam = "Demon";
       hflag = false;
-      m = 20;
-      m1 = u.c[UC_LEVEL] + 5;
-      m2,m2_old = roll(m1, 16);
-      m_str = roll(1, mm[m].m);
-      m_arm = roll(1,m1) - 1;
+      monster_type = 20;
+      min_monster_hits = u.c[UC_LEVEL] + 5;
+      monster_hits,monster_hits_old = roll(min_monster_hits, 16);
+      m_str = roll(1, mm[monster_type].m);
+      m_arm = roll(1,min_monster_hits) - 1;
       gone = false;
       dead = 0;
       u.i[6] = 1;
@@ -439,11 +439,11 @@ int cs1
   case 4:          /* turn undead */
     printf("GET YE HENCE VILE CREATURE!!!\r\n");
     cbt_chk();
-    if (m > 6) {
+    if (monster_type > 6) {
       printf("The %s feels insulted at being called undead.\r\n", mnam);
       break;
     }
-    if (roll(3,6) + 3 + m1 - u.c[UC_LEVEL] > u.c[UC_WISDOM])
+    if (roll(3,6) + 3 + min_monster_hits - u.c[UC_LEVEL] > u.c[UC_WISDOM])
       printf("The %s listens with deaf ears.\r\n", mnam);
     else {
       printf("The %s runs in terror!\r\n", mnam);
@@ -511,7 +511,7 @@ int cs3
     break;
   case 2:          /* dispell */
     cbt_chk();
-    if (m > 6) {
+    if (monster_type > 6) {
       printf("The %s feels insulted at being called undead.\r\n", mnam);
       break;
     }

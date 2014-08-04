@@ -16,8 +16,8 @@
 #define CBT_EXTERN extern
 #endif
 
-CBT_EXTERN int l, m, m1, m_str, m_arm, m2, m2_old;
+CBT_EXTERN int monster_level, monster_type, min_monster_hits, m_str, m_arm, monster_hits, monster_hits_old;
 CBT_EXTERN const char *mnam;
-CBT_EXTERN int d, dead, dice, i1, i1_old, i2, in;
+CBT_EXTERN int strike_force, dead, dice, i1, i1_old, i2, in;
 CBT_EXTERN bool autoevade, gone, hflag, mskip;
 

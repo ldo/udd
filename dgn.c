@@ -16,12 +16,12 @@ static const char * const cmdstr = "01234SWDXACR\r\n\033KQUH";   /* for pointer 
 
 int dgn_main(void)
 {
-  int i = u.c[63], x, y;
-  int l, in, valid;
+  int value, j, x, y;
+  int level, in, valid;
   char *icp;
   int done = NOPE;
   while (done == NOPE) {
-    i = u.c[63];
+    value = u.c[UC_VALUE];
     switch (u.c[UC_STATE]) {
     case DGN_NEWADV:
       u.c[UC_STATE] = DGN_NEWLOC;
@@ -31,8 +31,8 @@ int dgn_main(void)
       } else {
         u.c[UC_DGNLVL] = dd.dstart;
         u.c[UC_MAXHIT] = u.c[UC_CURHIT];
-        for (i = 31; i <= 36 ; i++)
-          u.c[i] = u.c[i - 6];
+        for (j = 31; j <= 36 ; j++) /* UC_SPELLS1, UC_SPELLS2, UC_SPELLS3, UC_SPELLS4, unused, unused = UC_SPELLSADJ1, UC_SPELLSADJ2, UC_SPELLSADJ3, UC_SPELLSADJ4, unused, unused */
+          u.c[j] = u.c[j - 6];
         u.c[UC_DGN_X] = u.c[UC_DGNLVL] / 20.0 + 1;
         u.c[UC_DGN_Y] = u.c[UC_DGNLVL] % 20 + 1;
         if (u.c[UC_DGN_X] < 1 || u.c[UC_DGN_X] > 20)
@@ -41,13 +41,13 @@ int dgn_main(void)
           u.c[UC_DGN_Y] = 1;
         u.c[UC_DGNLVL] = 1;
         u.c[UC_GOLDFOUND] = u.c[UC_EXPGAIN] = 0;
-        for (i = 37 ; i <= 47 ; i++)
-          u.c[i] = 0;
+        for (j = 37 ; j <= 47 ; j++)
+          u.c[j] = 0;
         utl_inilvl();
       }
       /* fall through */
     case DGN_NEWLOC:
-      i = fni(u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]]);
+      value = fni(u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]]);
       if (u.i[5] == 15 && rnd() < 0.950) {       /* oops, solid rock! */
         utl_pplot(NOPE);
         printf("You have entered solid rock!\r\n");
@@ -69,8 +69,8 @@ int dgn_main(void)
         }
       }
       utl_pplot(YEP);
-      l = u.c[UC_DGNLVL];
-      u.c[63] = 0;
+      level = u.c[UC_DGNLVL];
+      u.c[UC_VALUE] = 0;
       u.c[UC_STATE] = XXX_NORM;
       /* encounters */
       if (u.i[6] == 1 && ( (u.c[UC_SPELL_INVS] > 0 && rnd() > 0.7) ||
@@ -102,7 +102,7 @@ int dgn_main(void)
         }
       }
       /* treasure */
-      u.c[63] = l;
+      u.c[UC_VALUE] = level;
       if (u.i[7] != 0) {
         done = trs_main();
         break;
@@ -143,20 +143,20 @@ int dgn_main(void)
           in = toupper(in);
         icp = index(cmdstr, in);
         if (icp != NULL)
-          valid = i = icp - cmdstr + 1;
+          valid = value = icp - cmdstr + 1;
         else
           printf("\rNo\007\r");
       }
-      if (i > 10) {        /* non-movement command ? */
-        i = i - 2;
-        done = dgn_nomove(i - 8);
+      if (value > 10) {        /* non-movement command ? */
+        value = value - 2;
+        done = dgn_nomove(value - 8);
         break;
       }
-      i--;
-      if (i > 4)
-        i -= 5;
+      value--;
+      if (value > 4)
+        value -= 5;
       valid = 0;
-      switch (i) {
+      switch (value) {
       case 1:
         if (u.i[2] != 1) {
           valid = 1;
@@ -184,7 +184,7 @@ int dgn_main(void)
       default:
         valid = 1;
         printf("Stay here\r\n");
-        i = 0;
+        value = 0;
         break;
       }
       if (valid == 0) {
@@ -194,8 +194,8 @@ int dgn_main(void)
     case DGN_AMOVE:
       u.l[u.c[UC_DGN_X]][u.c[UC_DGN_Y]] =
         1024*u.i[8]+512*u.i[7]+256*u.i[6]+16*u.i[5]+4*u.i[2]+u.i[1];
-      u.c[UC_DGN_X] += q[i][1];
-      u.c[UC_DGN_Y] += q[i][2];
+      u.c[UC_DGN_X] += q[value][1];
+      u.c[UC_DGN_Y] += q[value][2];
       if (u.c[UC_DGN_X] < 1 || u.c[UC_DGN_X] > 20 || u.c[UC_DGN_Y] < 1 || u.c[UC_DGN_Y] > 20)
         done = utl_escape();
       else

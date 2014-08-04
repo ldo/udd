@@ -33,10 +33,10 @@ int trs_chest(void)
   }
   if (u.i[8] == 1 && rnd() > 0.5) {
     printf("CHEST EXPLODES\007!\r\n");
-    if (cbt_ohitu(u.c[63] + 5) == YEP)
+    if (cbt_ohitu(u.c[UC_VALUE] + 5) == YEP)
       return(YEP);
   }
-  trs = 3000.0 * rnd() * u.c[63] + 500;
+  trs = 3000.0 * rnd() * u.c[UC_VALUE] + 500;
   printf("It hold %d in gold.\r\n", trs);
   u.c[UC_GOLDFOUND] += trs;
   adj = u.c[UC_DGNLVL] / (double) u.c[UC_LEVEL];
@@ -73,7 +73,7 @@ int trs_obj(void)
           return(YEP);
         break;
       }
-      if (u.c[UC_WEAPON] > u.c[63]) {
+      if (u.c[UC_WEAPON] > u.c[UC_VALUE]) {
         printf("You already have a %s +%d.\r\n", wep[u.c[UC_CLASS]], u.c[UC_WEAPON]);
         break;
       }
@@ -82,7 +82,7 @@ int trs_obj(void)
              (u.c[UC_WEAPON] > 0) ? "Magic " : "", wep[u.c[UC_CLASS]], u.c[UC_WEAPON]);
       break;
     case 2:        /* arm */
-      if (u.c[UC_ARMOR] < u.c[63] + 2)
+      if (u.c[UC_ARMOR] < u.c[UC_VALUE] + 2)
         tmp = u.c[UC_ARMOR] + 1;
       else
         tmp = u.c[UC_ARMOR];
@@ -94,7 +94,7 @@ int trs_obj(void)
         u.c[UC_ARMOR]++;
       break;
     case 3:        /* shield */
-      if (u.c[UC_SHIELD] < u.c[63] + 2)
+      if (u.c[UC_SHIELD] < u.c[UC_VALUE] + 2)
         tmp = u.c[UC_SHIELD] + 1;
       else
         tmp = u.c[UC_SHIELD];
@@ -142,7 +142,7 @@ int trs_obj(void)
       return(NOPE);
       break;
     case 6:        /* ring */
-      trs = rnd() * rnd() * rnd() * u.c[63] + 1;
+      trs = rnd() * rnd() * rnd() * u.c[UC_VALUE] + 1;
       printf("You have found a Ring of Regeneration +%d.\r\n", trs);
       if (u.c[UC_RING] >= trs) {
         printf("You already have a better one.\r\n");
@@ -163,7 +163,7 @@ int trs_obj(void)
       printf("TRY AGAIN CHOWDERHEAD\007!\r\n");
       goto top6;
     case 7:        /* cloak */
-      trs = rnd() * rnd() * u.c[63] + 2;
+      trs = rnd() * rnd() * u.c[UC_VALUE] + 2;
       printf("You have found an Elven Cloak +%d.\r\n", trs);
       if (u.c[UC_ELVEN_CLOAK] >= trs) {
         printf("You already have a better one.\r\n");
@@ -184,7 +184,7 @@ int trs_obj(void)
       printf("Ever try a hearing aid?\r\n");
       goto top7;
     case 8:        /* boots */
-      trs = rnd() * rnd() * u.c[63] + 2;
+      trs = rnd() * rnd() * u.c[UC_VALUE] + 2;
       printf("You have found a pair of Elven Boots +%d.\r\n", trs);
       if (u.c[UC_ELVEN_BOOTS] >= trs) {
         printf("You already have a better pair.\r\n");

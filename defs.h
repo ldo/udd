@@ -145,12 +145,12 @@ struct chr {
 #define UC_SPELLSADJ2 26 /* deduction from next spell advancement at level 2 */
 #define UC_SPELLSADJ3 27 /* deduction from next spell advancement at level 3 */
 #define UC_SPELLSADJ4 28 /* deduction from next spell advancement at level 4 */
-/* 29, 30 not used */
+/* 29, 30 not used (additional spell levels) */
 #define UC_SPELLS1 31 /* nr of spells available at level 1 */
 #define UC_SPELLS2 32 /* nr of spells available at level 2 */
 #define UC_SPELLS3 33 /* nr of spells available at level 3 */
 #define UC_SPELLS4 34 /* nr of spells available at level 4 */
-/* 35, 36 not used */
+/* 35, 36 not used (additional spell levels) */
 /* spells in effect: */
 #define UC_SPELL_LIGHT 37 /* light */
 #define UC_SPELL_PROT 38 /* protection against evil */
@@ -177,7 +177,7 @@ struct chr {
 #define UC_LASTRUN 60 /* timestamp when character was last run */
 #define UC_DEBUGCHR 61 /* character created for debugging only */
 #define UC_WIZONLY 62 /* character only accessible to wizard players */
-/* 63? */
+#define UC_VALUE 63 /* determines value of items found, also saved direction from last move spell? */
 #define UC_STATE 64 /* controls what to do with character next */
 
 struct dgnstr {

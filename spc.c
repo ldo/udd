@@ -108,7 +108,7 @@ int spc_main(void)
       u.c[UC_DGN_X] = roll(1,20);
       u.c[UC_DGN_Y] = roll(1,20);
     }
-    u.c[63] = fni(u.l[tmp][tmp2]);
+    u.c[UC_VALUE] = fni(u.l[tmp][tmp2]);
     if (roll(3,7) > (u.c[UC_INTEL] + u.c[UC_WISDOM]) / 2) {
       printf("The transporter malfunctioned!\r\n");
       if (cbt_ohitu((abs(sav - u.c[UC_DGNLVL])+0.5*(u.c[UC_DGNLVL] +sav)) *
@@ -256,7 +256,7 @@ int spc_main(void)
       }
       if (roll(1,20) <= 3) {
         printf("A Voice booms out \"I shall be avenged.\"\r\n");
-        u.c[63] = spc;
+        u.c[UC_VALUE] = spc;
         u.c[UC_STATE] = CBT_NORM;
         if (cbt_main() == YEP)
           return(YEP);
@@ -273,7 +273,7 @@ int spc_main(void)
         return(NOPE);
       }
       printf("Something seems to be left behind...\r\n");
-      u.c[63] = u.c[UC_DGNLVL] + 10;
+      u.c[UC_VALUE] = u.c[UC_DGNLVL] + 10;
       u.i[7] = 1;
       if (roll(1,10) == 3)
         u.i[8] = 1;
@@ -340,7 +340,7 @@ int spc_main(void)
 trash:
       printf("Dirty Pagan Trash!\r\n");
       u.c[UC_STATE] = CBT_ALTR;
-      u.c[63] = 0;
+      u.c[UC_VALUE] = 0;
       if (cbt_main() == YEP)
         return(YEP);
       goto alt_top1;
@@ -354,7 +354,7 @@ trash:
     tmp2 = u.c[UC_DGN_Y];
     sav2 = u.i[5] = 0;
     u.i[7] = 1;
-    u.c[63] = spc;
+    u.c[UC_VALUE] = spc;
     u.c[UC_STATE] = CBT_NORM;
     printf("You have encountered a Dragon in it's lair\007!\r\n");
     if (cbt_main() == YEP)
@@ -436,7 +436,7 @@ trash:
         return(spc_main());
       }
       printf("The Dwarven King returns....\r\n");
-      u.c[63] = spc;
+      u.c[UC_VALUE] = spc;
       u.c[UC_STATE] = CBT_NORM;
       if (cbt_main() == YEP)
         return(YEP);
@@ -447,7 +447,7 @@ trash:
       sleep(1);
       if (rnd() < 0.1) {
         printf("The Dwarven King returns....\r\n");
-        u.c[63] = spc;
+        u.c[UC_VALUE] = spc;
         u.c[UC_STATE] = CBT_NORM;
         if (cbt_main() == YEP)
           return(YEP);
@@ -478,7 +478,7 @@ trash:
     }
     if (rnd() > 0.5) {
       printf("The Dwarven King returns...\r\n");
-      u.c[63] = spc;
+      u.c[UC_VALUE] = spc;
       u.c[UC_STATE] = CBT_NORM;
       if (cbt_main() == YEP)
         return(YEP);

@@ -17,12 +17,12 @@
 
 int trs_main(void)
 {
-  int l = u.c[63];
+  const int value = u.c[UC_VALUE];
   int tmp, typ = TRS_NORM;
   int trs;
   double adj;
   if (u.c[UC_DEBUGCHR] == 1)
-    printf("trs: l = %d\r\n", l);
+    printf("trs: l = %d\r\n", value);
   tmp = roll(1, 100);
   if (tmp > 80 && tmp <= 90)
     typ = TRS_CHEST;
@@ -42,22 +42,22 @@ int trs_main(void)
   case TRS_NORM:
     if (tmp <= 30) {
       printf("You see a pile of silver...\r\n");
-      trs = 100 * rnd() * l + 10;
+      trs = 100 * rnd() * value + 10;
     } else
       if (tmp <= 40) {
         printf("You see a pile of gold...\r\n");
-        trs = 500 * rnd() * l + 50;
+        trs = 500 * rnd() * value + 50;
       } else
         if (tmp <= 60) {
           printf("You see a pile of platinum...\r\n");
-          trs = 1000 * rnd() * l + 100;
+          trs = 1000 * rnd() * value + 100;
         } else
           if (tmp <= 72) {
             printf("You see some gems...\r\n");
-            trs = 500.0 * sqrt((double)rnd()) * l + 150.0;
+            trs = 500.0 * sqrt((double)rnd()) * value + 150.0;
           } else {
             printf("You see a jewel...\r\n");
-            trs = 6000.0 * rnd() * rnd() * rnd() * l + 500;
+            trs = 6000.0 * rnd() * rnd() * rnd() * value + 500;
           }
   trs_top:
     utl_dtrp();
