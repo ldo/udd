@@ -216,11 +216,10 @@ EXTERN int autosave;             /* try save if sighup */
 
 /* J. Random functions */
 
-int cbt_cast(void), cbt_main(void), cbt_ohitu(int dam), cbt_ok(void), cbt_uhitm(int dam);
+int cbt_cast(void), cbt_main(void), cbt_ohitu(int dam), cbt_uhitm(int dam);
 int chr_lck_nuke(int lock), chr_load(char * name, int lock), chr_save(int unlock), chr_new(void);
 void chr_rset(void);
 struct chr *chr_scan(void);
-int cs1(int s), cs2(int s), cs3(int s), cs4(int s);
 int dgn_main(void), dgn_nomove(int cmd);
 void dgn_voices(void);
 int dlvl_choose(void), dlvl_loadum(int dno, int lvl);
@@ -229,7 +228,6 @@ int fni(int r), fni1(int r, int s);
 char *fnp(char * a, const char * b, int p), *fnp1(char * a, const char * b, int p);
 int lock_open(char * file, int mode, char * lockdir, char * lockfile, int maxtime);
 int lock_close(int fd, char * lockdir, char * lockfile);
-int ms1(int s), ms2(int s), ms3(int s), ms4(int s);
 void opr_main(void);
 int optout(char * s), roll(int a, int b);
 void sighup(int), sigstop(int), swb_note(char * msg, char * file, int wiz);

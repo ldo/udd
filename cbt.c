@@ -14,20 +14,6 @@
 #include <ctype.h>
 #include <stdio.h>
 
-struct slev {
-int (*ms)();
-int (*cs)();
-};
-
-static struct slev fns[4] =
-  {
-    {ms1, cs1},
-    {ms2, cs2},
-    {ms3, cs3},
-    {ms4, cs4},
-  };
-
-
 int cbt_main(void)
   {
     bool ok;
@@ -514,12 +500,12 @@ s_top:
       {
         printf("%s\r\n", sp[lvl][spl]);
         return
-            (*fns[lvl - 1].ms)(spl);
+            (*spell_fns[lvl - 1].ms)(spl);
       }
     else
       {
         printf("%s\r\n", sp[lvl+4][spl]);
         return
-            (*fns[lvl - 1].cs)(spl);
+            (*spell_fns[lvl - 1].cs)(spl);
       } /*if*/
   } /*cbt_cast*/

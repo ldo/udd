@@ -16,7 +16,7 @@
 
 #define cbt_chk() if (cbt_ok() == NOPE) break
 
-int cbt_ok(void)
+static int cbt_ok(void)
 {
   if (not_in_combat) {
     printf("Too bad you just wasted a combat spell!\r\n");
@@ -25,7 +25,7 @@ int cbt_ok(void)
   return(YEP);
 }
 
-int ms1
+static int ms1
   (
     int s
   )
@@ -119,7 +119,7 @@ int ms1
   return(NOPE);
 }
 
-int ms2
+static int ms2
   (
     int s
   )
@@ -185,7 +185,7 @@ int ms2
   return(NOPE);
 }
 
-int ms3
+static int ms3
   (
     int s
   )
@@ -292,7 +292,7 @@ pass_top:
 }
 
 
-int ms4
+static int ms4
   (
     int s
   )
@@ -419,7 +419,7 @@ int ms4
 }
 
 
-int cs1
+static int cs1
   (
     int s
   )
@@ -464,7 +464,7 @@ int cs1
 }
 
 
-int cs2
+static int cs2
   (
     int s
   )
@@ -501,7 +501,7 @@ int cs2
 }
 
 
-int cs3
+static int cs3
   (
     int s
   )
@@ -555,7 +555,7 @@ int cs3
 }
 
 
-int cs4
+static int cs4
   (
     int s
   )
@@ -589,3 +589,11 @@ int cs4
   }
   return(NOPE);
 }
+
+const struct slev spell_fns[4] =
+  {
+    {ms1, cs1},
+    {ms2, cs2},
+    {ms3, cs3},
+    {ms4, cs4},
+  };
