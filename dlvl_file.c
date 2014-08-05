@@ -13,6 +13,7 @@
 #include <sys/file.h>
 
 void dlvl_init(void)
+/* (re)opens the dungeon data file and sets n_dlvl to the number of dungeons available. */
 {
   if (dfd >= 0)
     close(dfd);
@@ -32,6 +33,7 @@ void dlvl_init(void)
 }
 
 int dlvl_choose(void)
+/* shows the user the available dungeons and asks them to choose one. */
 {
   int tmp, tmp2;
   tmp2 = 0;
@@ -106,9 +108,10 @@ int dlvl_choose(void)
 
 int dlvl_loadum
   (
-    int dno,
-    int lvl
+    int dno, /* dungeon number */
+    int lvl /* level number */
   )
+  /* loads the specified level from the specified dungeon. */
 {
   int tmp, tmp2;
   if (dfd < 0)
@@ -129,8 +132,9 @@ int dlvl_loadum
 
 void dlvl_get_start
   (
-    int dno
+    int dno /* dungeon nr */
   )
+  /* sets dd.dstart to the start coordinate for the specified dungeon. */
 {
   int tmp;
   if (dfd < 0)

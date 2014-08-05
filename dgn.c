@@ -33,17 +33,16 @@ void dgn_main(void)
             else
               {
                 int j;
-                u.c[UC_DGNLVL] = dd.dstart;
                 u.c[UC_MAXHIT] = u.c[UC_CURHIT];
                 for (j = 31; j <= 36 ; j++) /* UC_SPELLS1, UC_SPELLS2, UC_SPELLS3, UC_SPELLS4, unused, unused = UC_SPELLSADJ1, UC_SPELLSADJ2, UC_SPELLSADJ3, UC_SPELLSADJ4, unused, unused */
                     u.c[j] = u.c[j - 6];
-                u.c[UC_DGN_X] = u.c[UC_DGNLVL] / 20.0 + 1;
-                u.c[UC_DGN_Y] = u.c[UC_DGNLVL] % 20 + 1;
+                u.c[UC_DGN_X] = dd.dstart / 20 + 1;
+                u.c[UC_DGN_Y] = dd.dstart % 20 + 1;
                 if (u.c[UC_DGN_X] < 1 || u.c[UC_DGN_X] > 20)
                     u.c[UC_DGN_X] = 1;
                 if (u.c[UC_DGN_Y] < 1 || u.c[UC_DGN_Y] > 20)
                     u.c[UC_DGN_Y] = 1;
-                u.c[UC_DGNLVL] = 1;
+                u.c[UC_DGNLVL] = 1; /* entrance/exit always on top level */
                 u.c[UC_GOLDFOUND] = u.c[UC_EXPGAIN] = 0;
                 for (j = 37 ; j <= 47 ; j++) /* turn off all UC_SPELL_xxx */
                     u.c[j] = 0;
@@ -160,7 +159,7 @@ void dgn_main(void)
                 valid = false;
                 if (u.c[UC_DEBUGCHR] == 1)
                     printf("X=%d, Y=%d\r\n", u.c[UC_DGN_X], u.c[UC_DGN_Y]);
-    dgn_no:
+dgn_no:
                 while (!valid)
                   {
                     int in;

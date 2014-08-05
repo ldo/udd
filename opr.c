@@ -16,20 +16,20 @@
 #include <stdio.h>
 #include "defs.h"
 
-static int loaded = NOPE;
+static bool chr_loaded = false;
 
 void opr_main(void)
   {
     int tmp, tmp2, tmp3;
     int newc;
-    int done = NOPE;
-    FILE *fp, *fopen();
+    FILE *fp;
     char buf[BUFSIZ], nbuf[NAMELEN];
     int dgn, lvl, lcv;
     struct chr *cptr;
     printf("%s\r\n", VERS);
-    while (done == NOPE)
+    for (;;)
       {
+        bool done = false;
         printf("Type 'L' for a list of options, 'E' to return.\r\n");
 otop:
         printf("opr> ");
@@ -47,7 +47,7 @@ otop:
           {
         case 'E':
             printf("Exit\r\n");
-            done = YEP;
+            done = true;
         break;
         case 'L':
             printf("List options\r\n");
@@ -539,7 +539,7 @@ otop:
         break;
         case '<':
             printf("Read in current char\r\n");
-            if (loaded == YEP)
+            if (chr_loaded)
               {
                 printf("opr: %s is already loaded and locked in.\r\n", u.n[0]);
                 printf("opr: Please '>' unload him first.\r\n");
@@ -558,7 +558,7 @@ otop:
               } /*if*/
             if ((tmp = chr_load(buf, LOCK)) == YEP)
               {
-                loaded = YEP;
+                chr_loaded = true;
                 printf("Loaded!\r\n");
               }
             else
@@ -587,7 +587,7 @@ otop:
         break;
         case '>':
             printf("Save current char\r\n");
-            if (loaded == NOPE)
+            if (!chr_loaded)
               {
                 printf("Why don't you load a char first??\r\n");
                 break;
@@ -605,12 +605,12 @@ otop:
             else
               {
                 printf("opr: Done!\r\n\n");
-                loaded = NOPE;
+                chr_loaded = false;
               } /*if*/
         break;
         case 'A':
         case 'N':
-              if (loaded == NOPE)
+              if (!chr_loaded)
                 {
                   printf("\r\nLoad something first!\r\n");
                   break;
@@ -667,5 +667,7 @@ otop:
             printf("%%Illegal option.\r\n");
         break;
           } /*switch*/
-      } /*while*/
+        if (done)
+            break;
+      } /*for*/
   } /*opr_main*/

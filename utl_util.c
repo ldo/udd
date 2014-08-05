@@ -17,9 +17,10 @@
 
 int roll
   (
-    int a,
-    int b
+    int a, /* nr dice */
+    int b /* each die roll is a random integer in [1 .. b] */
   )
+  /* does a random dice roll and returns the total. */
 {
   int tot = 0;
   if (b < 1)
@@ -30,6 +31,7 @@ int roll
 }
 
 void utl_inilvl(void)
+/* loads the player's current dungeon and level into the u.l array, and fills in the dynamic room contents. */
 {
   int lcv1, lcv2;
   int ptr = 0;
@@ -48,19 +50,20 @@ void utl_inilvl(void)
 }
 
 int utl_populate(void)
+/* randomly generates a bitmask representing dynamic room contents. */
 {
   if (rnd() > 0.4)
-    return(0);
+    return(0); /* nothing to see here */
   if (rnd() <= 0.5) {
     if (rnd() > 0.5)
-      return(256);
+      return(256); /* monster */
     if (rnd() > 0.05)
-      return(768);
-    return(1792);
+      return(768); /* monster + treasure */
+    return(1792); /* monster + treasure + boobytrap */
   }
   if (rnd() > 0.2)
-    return(512);
-  return(1536);
+    return(512); /* treasure */
+  return(1536); /* treasure + boobytrap */
 }
 
 

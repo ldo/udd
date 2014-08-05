@@ -195,11 +195,12 @@ struct chr {
 #define UC_VALUE 63 /* determines value of items found, also saved direction from last move spell? */
 #define UC_STATE 64 /* controls what to do with character next */
 
-struct dgnstr {
-  char dnam[DNAM_SZ];
-  short int dstart;
-  unsigned char dmap[400];
+struct dgnstr { /* structure representing a dungeon */
+  char dnam[DNAM_SZ]; /* dungeon name */
+  short int dstart; /* start room coordinate (always on first level), 20 * (start_row - 1) + (start_col - 1), or 400 if closed for repairs */
+  unsigned char dmap[400]; /* state of each room, including walls and specials, but not dynamic contents (monster, treasure, boobytraps) */
 };
+/* dungeon file consists of an int count of nr of dungeons, followed by an array of dgnstr. */
 
 
 /* pre-defined data structs in data.h */
