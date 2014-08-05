@@ -71,7 +71,7 @@
 #define DGN_PROMPT 2
 #define DGN_AMOVE 3
 #define SPC_NORM 1
-#define SPC_TPTNOW 20   /* must be > 15 or < 1  to avoid conflict */
+#define SPC_TPTNOW 20   /* must be > 15 or < 1  to avoid conflict */ /* dynamically-set value to rescue player from solid rock */
 #define SPC_DNS  1 /* down-only staircase */
 #define SPC_UPS  2 /* up-only staircase */
 #define SPC_UDS  3 /* up/down staircase */
@@ -106,7 +106,7 @@ struct monst {
 struct state {
   char n[2][NAMELEN];                 /* name, secret name */
   int c[65];                /* various stuff */
-  int l[22][22];                 /* current level map */
+  int l[22][22];                 /* current level map, plus extra border of dummy rooms surrounding actual rooms */
   int i[9];               /* current room analysis */
   int p[5][5];                   /* state of rooms surrounding current pos, current pos is p[2][2] */
 };
@@ -197,8 +197,13 @@ struct chr {
 
 struct dgnstr { /* structure representing a dungeon */
   char dnam[DNAM_SZ]; /* dungeon name */
-  short int dstart; /* start room coordinate (always on first level), 20 * (start_row - 1) + (start_col - 1), or 400 if closed for repairs */
-  unsigned char dmap[400]; /* state of each room, including walls and specials, but not dynamic contents (monster, treasure, boobytraps) */
+  short int dstart;
+    /* start room coordinate (always on first level), 20 * (start_row - 1) + (start_col - 1),
+        or 400 if closed for repairs */
+  unsigned char dmap[400];
+    /* state of each room, including walls and specials,
+       but not dynamic contents (monster, treasure, boobytraps).
+       Actually there are 20 of these, one per level */
 };
 /* dungeon file consists of an int count of nr of dungeons, followed by an array of dgnstr. */
 

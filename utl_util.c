@@ -40,8 +40,8 @@ void utl_inilvl(void)
     for (lcv2 = 0 ; lcv2 < 22 ; lcv2++)
       u.l[lcv1][lcv2] = 0;
   for (lcv1 = 1; lcv1 <= 20; lcv1++) {
-    u.l[lcv1][21] = 1;
-    u.l[21][lcv1] = 4;
+    u.l[lcv1][21] = 1; /* west walls of easternmost column of dummy rooms */
+    u.l[21][lcv1] = 4; /* north walls of southernmost row of dummy rooms */
   }
   u.l[21][21] = 0;
   for (lcv1 = 1 ; lcv1 < 21 ; lcv1++)
