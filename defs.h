@@ -108,7 +108,7 @@ struct state {
   int c[65];                /* various stuff */
   int l[22][22];                 /* current level map */
   int i[9];               /* current room analysis */
-  int p[5][5];                   /* state of rooms surrounding current pos */
+  int p[5][5];                   /* state of rooms surrounding current pos, current pos is p[2][2] */
 };
 
 /* indexes into state.i arrays */

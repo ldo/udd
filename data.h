@@ -43,7 +43,9 @@ const int q[5][3] = {
 };
 
 const char * const vaz[5] = { " I :", "       ", "IIIIIII", "II---II", "II...II" };
+  /* appearance of top/bottom sides of room: 0 => unused, 1 => open, 2 => wall, 3 => door? (passable) 4 => rubble (passable) */
 const char * const maz[4] = { " ", "I", " ", ":" };
+  /* appearance of east/west side wall: 0 => open, 1 => wall, 2 => ?? (passable) 3 => rubble (passable) */
 
 const char * const st = "STRINTWISCONDEXCHA";
 
