@@ -258,6 +258,7 @@ int spc_main(void), swb_ppnok(void), swb_wiz(void), trs_chest(void), trs_main(vo
 char *unix_date(long dat);
 void unix_exit(int n), unix_init(void), unix_tty_cook(void), unix_tty_dgn(void),
   unix_tty_pswd(void);
+bool debug_mode(void);
 int utl_adj_ex(void), utl_chklvl(void), utl_death(void), utl_escape(void), utl_exp(int lvl),
   utl_populate(void), utl_winner(void);
 void utl_adj_st(void), utl_dtrp(void), utl_eqp(void), utl_inilvl(void), utl_pplot(int flag),

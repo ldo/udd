@@ -137,3 +137,19 @@ void sighup
     } /*if*/
   unix_exit(0);
 }
+
+static bool
+    got_debug_mode = false,
+    in_debug_mode;
+
+bool debug_mode(void)
+  {
+    if (!got_debug_mode)
+      {
+        const char * const str = getenv("UDD_DEBUG");
+        in_debug_mode = str != NULL && atoi(str) != 0;
+        got_debug_mode = true;
+      } /*if*/
+    return
+        u.c[UC_DEBUGCHR] == 1 || in_debug_mode;
+  } /*debug_mode*/

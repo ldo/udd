@@ -118,7 +118,7 @@ int cbt_main(void)
           } /*if*/
         monster_hits = monster_hits_old = roll(min_monster_hits, mm[monster_type].m);
         printf("You have encountered a level %d %s!\r\n", min_monster_hits, mnam);
-        if (u.c[UC_DEBUGCHR] == 1)
+        if (debug_mode())
             printf("STR: %2d, ARM: %2d, HITS: %2d, HDIE: %2d\r\n", m_str, m_arm, monster_hits, mm[monster_type].m);
         ok = false;
         monster_defeated = 0;
@@ -253,7 +253,7 @@ ask:
                     i1 *= (u.c[UC_MAXHIT] + u.c[UC_CURHIT]) / (2.0 * (double) u.c[UC_MAXHIT]);
                                        /* deduct for hits taken */
                     dice = roll(1, 100);
-                    if (u.c[UC_DEBUGCHR] == 1)
+                    if (debug_mode())
                         printf("CHANCE: %d%% [%d%% max], DIE: %d\r\n", i1, i1_old, dice);
                     if (dice > i1)
                       {
@@ -271,7 +271,7 @@ ask:
                             strike_force += roll(1, i2 - 14);   /* bonus! */
                         else if (i2 < 7)
                             strike_force -= roll(1, 7 - i2);    /* weakling! */
-                        if (u.c[UC_DEBUGCHR] == 1)
+                        if (debug_mode())
                             printf("FORCE: %d\r\n", strike_force);
                         if (m_arm > 0)
                             strike_force -= roll(1, m_arm)+roll(1,m_arm);   /*one for ARM,one for shld*/
@@ -320,7 +320,7 @@ ask:
                     i1_old = i1;
                     i1 = i1 * ((monster_hits_old + monster_hits) / (double)(2 * monster_hits_old)); /* hits taken */
                     dice = roll(1,100);
-                    if (u.c[UC_DEBUGCHR] == 1)
+                    if (debug_mode())
                         printf("CHANCE: %d%% [%d%% max], DIE: %d\r\n", i1, i1_old, dice);
                     if (dice > i1)
                       {
@@ -356,7 +356,7 @@ ask:
                         printf("The %s uses its whip!\007\r\n", mnam);
                         strike_force *= 1.5;
                       } /*if*/
-                if (u.c[UC_DEBUGCHR] == 1)
+                if (debug_mode())
                     printf("FORCE: %d\r\n", strike_force);
                 strike_force -= 1 + roll(1, u.c[UC_SHIELD]);
                 if (strike_force <= 0)

@@ -157,7 +157,7 @@ void dgn_main(void)
                     u.c[UC_CURHIT] = u.c[UC_MAXHIT];
                 dgn_voices();
                 valid = false;
-                if (u.c[UC_DEBUGCHR] == 1)
+                if (debug_mode())
                     printf("X=%d, Y=%d\r\n", u.c[UC_DGN_X], u.c[UC_DGN_Y]);
 dgn_no:
                 while (!valid)

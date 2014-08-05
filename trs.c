@@ -21,7 +21,7 @@ int trs_main(void)
   int tmp, typ = TRS_NORM;
   int trs;
   double adj;
-  if (u.c[UC_DEBUGCHR] == 1)
+  if (debug_mode())
     printf("trs: l = %d\r\n", value);
   tmp = roll(1, 100);
   if (tmp > 80 && tmp <= 90)

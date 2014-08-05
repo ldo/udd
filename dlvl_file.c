@@ -96,7 +96,7 @@ int dlvl_choose(void)
   printf("%s\r\n", dd.dnam);
   if (dd.dstart == 400) {
     printf("That dungeon is CLOSED for repairs.\r\n");
-    if (u.c[UC_DEBUGCHR] == 1) {
+    if (debug_mode()) {
       printf("However, since you are in debug mode, you may enter...\r\n");
       dd.dstart = 0;
     } else

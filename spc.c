@@ -563,7 +563,7 @@ thr_top:
     case SPC_SAF:
         if (u.c[UC_SAFE_COMBN] == 0)
             u.c[UC_SAFE_COMBN] = roll(1,4) + 10 * roll(1,4);
-        if(u.c[UC_DEBUGCHR] == 1)
+        if(debug_mode())
           {
             printf("[Combo = %d]\r\n", u.c[UC_SAFE_COMBN]);
           } /*if*/
