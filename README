@@ -1,0 +1,13 @@
+udd (“Unix Dungeons and Dragons”) is one of many versions of a very
+old game, dating back to minicomputer systems of the 1970s. For more
+information about the history of the game, see
+<http://www.digital-eel.com/files/dndpage_files/DND.htm>.
+
+This version comes from Chuck Cranor and a whole bunch of other people
+(see VERSION for the details). My main contribution has been to add a
+whole lot of comments explaining the inner workings of the program.
+
+See INSTALL for build/run instructions.
+
+Lawrence D'Oliveiro <ldo@geek-central.gen.nz>
+2014 August 6
