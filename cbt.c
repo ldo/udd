@@ -169,7 +169,7 @@ ask:
                     if
                       (
                       /* not letting player evade through rubble? */
-                            (u.i[ROOM_WALL_WEST] == 1 || u.c[ROOM_WALL_WEST] == 3)
+                            (u.i[ROOM_WALL_WEST] == 1 || u.i[ROOM_WALL_WEST] == 3)
                         &&
                             (u.i[ROOM_WALL_NORTH] == 1 || u.i[ROOM_WALL_NORTH] == 3)
                         &&

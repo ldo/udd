@@ -403,7 +403,7 @@ static int ms4
       not_in_combat = false;
       monster_type = 20;
       min_monster_hits = u.c[UC_LEVEL] + 5;
-      monster_hits,monster_hits_old = roll(min_monster_hits, 16);
+      monster_hits = monster_hits_old = roll(min_monster_hits, 16);
       m_str = roll(1, mm[monster_type].m);
       m_arm = roll(1,min_monster_hits) - 1;
       gone = false;
