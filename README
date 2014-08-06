@@ -9,5 +9,8 @@ whole lot of comments explaining the inner workings of the program.
 
 See INSTALL for build/run instructions.
 
+See also my udd_hack scripts <https://github.com/ldo/udd_hack> for
+examining and editing the dungeon and character files.
+
 Lawrence D'Oliveiro <ldo@geek-central.gen.nz>
 2014 August 6
