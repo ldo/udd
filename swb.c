@@ -295,11 +295,11 @@ prompt_top:
                     u.c[UC_DGNNR] = dlvl_choose();
                     if (u.c[UC_CLASS] == CHRCLASS_MAGICIAN)
                       {
-                        u.c[UC_SPELLSADJ1] = u.c[UC_SPELLS1] = 3;
+                        u.c[UC_SPELLSAVE1] = u.c[UC_SPELLS1] = 3;
                         u.c[UC_SHIELD] = -1;
                       } /*if*/
                     if (u.c[UC_CLASS] == CHRCLASS_CLERIC)
-                        u.c[UC_SPELLSADJ1] = u.c[UC_SPELLS1] = 2;
+                        u.c[UC_SPELLSAVE1] = u.c[UC_SPELLS1] = 2;
                     u.c[UC_GID] = getgid();
                     u.c[UC_UID] = getuid();
                     u.c[UC_EXP] = 0;
@@ -387,7 +387,7 @@ prompt_top:
                         printf("CLRC\r\n");
                     else if (chrtype == CHRCLASS_MAGICIAN)
                         printf("MAGE\r\n");
-                    else if (cptr->c[UC_SPELLSADJ1] + cptr->c[UC_SPELLSADJ2] + cptr->c[UC_SPELLSADJ3] + cptr->c[UC_SPELLSADJ4] != 0)
+                    else if (cptr->c[UC_SPELLSAVE1] + cptr->c[UC_SPELLSAVE2] + cptr->c[UC_SPELLSAVE3] + cptr->c[UC_SPELLSAVE4] != 0)
                         printf("F/MU\r\n");
                     else if (cptr->c[UC_SPELLS1] + cptr->c[UC_SPELLS2] + cptr->c[UC_SPELLS3] + cptr->c[UC_SPELLS4] != 0)
                         printf("HERO\r\n");
@@ -568,7 +568,7 @@ find_top:
                     printf("CLRC\r\n");
                 else if (chrtype == CHRCLASS_MAGICIAN)
                     printf("MAGE\r\n");
-                else if (cptr->c[UC_SPELLSADJ1] + cptr->c[UC_SPELLSADJ2] + cptr->c[UC_SPELLSADJ3] + cptr->c[UC_SPELLSADJ4] != 0)
+                else if (cptr->c[UC_SPELLSAVE1] + cptr->c[UC_SPELLSAVE2] + cptr->c[UC_SPELLSAVE3] + cptr->c[UC_SPELLSAVE4] != 0)
                     printf("F/MU\r\n");
                 else if (cptr->c[UC_SPELLS1] + cptr->c[UC_SPELLS2] + cptr->c[UC_SPELLS3] + cptr->c[UC_SPELLS4] != 0)
                     printf("HERO\r\n");

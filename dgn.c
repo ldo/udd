@@ -34,7 +34,9 @@ void dgn_main(void)
               {
                 int j;
                 u.c[UC_MAXHIT] = u.c[UC_CURHIT];
-                for (j = 31; j <= 36 ; j++) /* UC_SPELLS1, UC_SPELLS2, UC_SPELLS3, UC_SPELLS4, unused, unused = UC_SPELLSADJ1, UC_SPELLSADJ2, UC_SPELLSADJ3, UC_SPELLSADJ4, unused, unused */
+                for (j = 31; j <= 36 ; j++)
+                  /* UC_SPELLS1, UC_SPELLS2, UC_SPELLS3, UC_SPELLS4, unused, unused = UC_SPELLSAVE1, UC_SPELLSAVE2, UC_SPELLSAVE3, UC_SPELLSAVE4, unused, unused */
+                  /* reset spell counts to saved spell counts */
                     u.c[j] = u.c[j - 6];
                 u.c[UC_DGN_X] = dd.dstart / 20 + 1;
                 u.c[UC_DGN_Y] = dd.dstart % 20 + 1;

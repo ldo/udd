@@ -558,7 +558,7 @@ thr_top:
         tmp = UC_SPELLS1 + rnd() * rnd() * 4.0;
         u.c[tmp]++; /* add a spell, more likely a lower-level spell */
         if (rnd() > 0.666)
-            u.c[tmp-6] += 1; /* also increment corresponding UC_SPELLSADJx */
+            u.c[tmp-6] += 1; /* also increment corresponding UC_SPELLSAVEx */
     break;
     case SPC_SAF:
         if (u.c[UC_SAFE_COMBN] == 0)

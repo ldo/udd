@@ -112,7 +112,7 @@ int utl_escape(void)
   u.c[UC_CURHIT] = u.c[UC_MAXHIT];
   u.c[UC_EXP] +=  u.c[UC_EXPGAIN];
   u.c[UC_TOTALGOLD] += u.c[UC_GOLDFOUND];
-  for (i = 31; i <= 36 ; i++) /* reset UC_SPELLSxxx to UC_SPELLSADJxxx */
+  for (i = 31; i <= 36 ; i++) /* reset UC_SPELLSxxx to UC_SPELLSAVExxx */
     u.c[i] = u.c[i - 6];
   utl_chklvl();
   printf("\n\r\n");
@@ -303,20 +303,21 @@ int utl_chklvl(void)
 void utl_sprog(void)
 /* increases the power of spells available to a non-fighter character, based on their level advancement. */
 {
-  int lcv, tmp;
+  int lcv, new_nr_spells;
   if (u.c[UC_CLASS] == CHRCLASS_FIGHTER)
     return;
   for (lcv = 1 ; lcv < 5 ; lcv++) {
     if (u.c[UC_CLASS] == CHRCLASS_CLERIC)
-      tmp = u.c[UC_LEVEL] - (lcv + 1.0) / 0.75 + 1;
+      new_nr_spells = u.c[UC_LEVEL] - (lcv + 1.0) / 0.75 + 1;
     else /* CHRCLASS_MAGICIAN */
-      tmp = u.c[UC_LEVEL] - lcv / 0.8 + 1;
-    if (tmp < 0)
-      tmp = 0;
+      new_nr_spells = u.c[UC_LEVEL] - lcv / 0.8 + 1;
+    if (new_nr_spells < 0)
+      new_nr_spells = 0;
     if (lcv == 1)
-      tmp += 2;
-    u.c[UC_SPELLS1 - 1 + lcv] = u.c[UC_SPELLS1 - 1 + lcv] + tmp - u.c[UC_SPELLSADJ1 - 1 + lcv];
-    u.c[UC_SPELLSADJ1 - 1 + lcv] = tmp;
+      new_nr_spells += 2;
+    u.c[UC_SPELLS1 - 1 + lcv] = u.c[UC_SPELLS1 - 1 + lcv] + new_nr_spells - u.c[UC_SPELLSAVE1 - 1 + lcv];
+      /* preserve current difference between UC_SPELLSx and UC_SPELLSAVEx */
+    u.c[UC_SPELLSAVE1 - 1 + lcv] = new_nr_spells;
   }
 }
 

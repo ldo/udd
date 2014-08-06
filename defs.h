@@ -156,10 +156,10 @@ struct chr {
 #define UC_WEAPON 22 /* weapon power, -1 for none, >0 for magic (actual weapon is class-dependent) */
 #define UC_ARMOR 23 /* armour power, -1 for none, >0 for magic (actual armour type is class-dependent) */
 #define UC_SHIELD 24 /* type of shield, if any: 0 none, -1 non-magic, 1 magic */
-#define UC_SPELLSADJ1 25 /* deduction from next spell advancement at level 1 */
-#define UC_SPELLSADJ2 26 /* deduction from next spell advancement at level 2 */
-#define UC_SPELLSADJ3 27 /* deduction from next spell advancement at level 3 */
-#define UC_SPELLSADJ4 28 /* deduction from next spell advancement at level 4 */
+#define UC_SPELLSAVE1 25 /* saved nr of spells available at level 1 */
+#define UC_SPELLSAVE2 26 /* saved nr of spells available at level 2 */
+#define UC_SPELLSAVE3 27 /* saved nr of spells available at level 3 */
+#define UC_SPELLSAVE4 28 /* saved nr of spells available at level 4 */
 /* 29, 30 not used (additional spell levels) */
 #define UC_SPELLS1 31 /* nr of spells available at level 1 */
 #define UC_SPELLS2 32 /* nr of spells available at level 2 */
