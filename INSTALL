@@ -16,7 +16,8 @@ DATA FILES:
         no valid characters, so you will have to create one to start.
     lvl.dat
         Dungeon definitions are kept here. The file as provided contains
-        two dungeons, named “Crestwood” and “Squire's Hole”. The latter
-        seems more suitable for advanced players.
+        two dungeons, named “Crestwood” and “Squire's Hole”. Crestwood
+        is incomplete: levels below the first 3 are empty, and there is no
+        Orb.
     not.txt
         A text file to be displayed to the user at game startup.
