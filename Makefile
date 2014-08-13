@@ -32,7 +32,6 @@ OBJS	      = $(OBJDIR)cbt.o \
 		$(OBJDIR)chr_file.o \
 		$(OBJDIR)dgn.o \
 		$(OBJDIR)dgn_nomove.o \
-		$(OBJDIR)dgn_voices.o \
 		$(OBJDIR)dlvl_file.o \
 		$(OBJDIR)lock.o \
 		$(OBJDIR)opr.o \
@@ -55,7 +54,6 @@ SRCS	      = cbt.c \
 		chr_file.c \
 		dgn.c \
 		dgn_nomove.c \
-		dgn_voices.c \
 		dlvl_file.c \
 		lock.c \
 		opr.c \
@@ -116,10 +114,6 @@ $(OBJDIR)dgn.o: defs.h dgn.c
 		$(CC) $(CFLAGS) -c -o $@ $(*F).c
 
 $(OBJDIR)dgn_nomove.o: defs.h dgn_nomove.c
-		@$(MKBIN)
-		$(CC) $(CFLAGS) -c -o $@ $(*F).c
-
-$(OBJDIR)dgn_voices.o: dgn_voices.c
 		@$(MKBIN)
 		$(CC) $(CFLAGS) -c -o $@ $(*F).c
 

@@ -14,6 +14,73 @@
 #include <ctype.h>
 #include <stdio.h>
 
+static int cbt_cast(void)
+  {
+    int in2, lvl = 0, spl = 0;
+    if (u.c[UC_STATE] == CBT_CAST)
+      {
+        not_in_combat = true;
+        u.c[UC_STATE] = DGN_PROMPT;
+      }
+    else
+        not_in_combat = false;
+    while (spl == 0)
+      {
+s_top:
+        printf("Level:");
+        in2 = getchar();
+        if (in2 < 0)
+            in2 = '\r';
+        if (in2 == '\r')
+          {
+            printf("\r\n");
+            return
+                NOPE;
+          } /*if*/
+        if (in2 < '1' || in2 > '4')
+          {
+            printf("A number for 1 to 4 you jester!\r\n");
+            goto s_top;
+          } /*if*/
+        lvl = in2 - '0';
+        if (u.c[UC_SPELLS1 - 1 + lvl] < 1)
+          {
+            printf("You have no more level %d spells.\r\n", lvl);
+            return
+                NOPE;
+          } /*if*/
+        printf(" Spell # ");
+        in2 = getchar();
+        if (in2 == '\r')
+            return
+                NOPE;
+        if
+          (
+                in2 < '1'
+            ||
+                in2 > '4' && u.c[UC_CLASS] == CHRCLASS_CLERIC
+            ||
+                in2 > '6' && u.c[UC_CLASS] != CHRCLASS_CLERIC
+          )
+            utl_prtspl(u.c[UC_CLASS], lvl);
+        else
+            spl = in2 - '0';
+      } /*while*/
+    u.c[UC_SPELLS1 - 1 + lvl]--;
+    if (u.c[UC_CLASS] != CHRCLASS_CLERIC)
+      {
+        printf("%s\r\n", sp[lvl][spl]);
+        return
+            (*spell_fns[lvl - 1].ms)(spl);
+      }
+    else
+      {
+        printf("%s\r\n", sp[lvl+4][spl]);
+        return
+            (*spell_fns[lvl - 1].cs)(spl);
+      } /*if*/
+  } /*cbt_cast*/
+
 int cbt_main(void)
   /* returns YEP/NOPE indicating if character died. */
   {
@@ -445,70 +512,3 @@ ask:
     return
         NOPE;
   } /*cbt_main*/
-
-int cbt_cast(void)
-  {
-    int in2, lvl = 0, spl = 0;
-    if (u.c[UC_STATE] == CBT_CAST)
-      {
-        not_in_combat = true;
-        u.c[UC_STATE] = DGN_PROMPT;
-      }
-    else
-        not_in_combat = false;
-    while (spl == 0)
-      {
-s_top:
-        printf("Level:");
-        in2 = getchar();
-        if (in2 < 0)
-            in2 = '\r';
-        if (in2 == '\r')
-          {
-            printf("\r\n");
-            return
-                NOPE;
-          } /*if*/
-        if (in2 < '1' || in2 > '4')
-          {
-            printf("A number for 1 to 4 you jester!\r\n");
-            goto s_top;
-          } /*if*/
-        lvl = in2 - '0';
-        if (u.c[UC_SPELLS1 - 1 + lvl] < 1)
-          {
-            printf("You have no more level %d spells.\r\n", lvl);
-            return
-                NOPE;
-          } /*if*/
-        printf(" Spell # ");
-        in2 = getchar();
-        if (in2 == '\r')
-            return
-                NOPE;
-        if
-          (
-                in2 < '1'
-            ||
-                in2 > '4' && u.c[UC_CLASS] == CHRCLASS_CLERIC
-            ||
-                in2 > '6' && u.c[UC_CLASS] != CHRCLASS_CLERIC
-          )
-            utl_prtspl(u.c[UC_CLASS], lvl);
-        else
-            spl = in2 - '0';
-      } /*while*/
-    u.c[UC_SPELLS1 - 1 + lvl]--;
-    if (u.c[UC_CLASS] != CHRCLASS_CLERIC)
-      {
-        printf("%s\r\n", sp[lvl][spl]);
-        return
-            (*spell_fns[lvl - 1].ms)(spl);
-      }
-    else
-      {
-        printf("%s\r\n", sp[lvl+4][spl]);
-        return
-            (*spell_fns[lvl - 1].cs)(spl);
-      } /*if*/
-  } /*cbt_cast*/
