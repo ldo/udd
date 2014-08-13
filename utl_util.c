@@ -7,6 +7,8 @@
  *
  */
 
+#include <stdlib.h>
+#include <unistd.h>
 #include <math.h>
 #include <sys/types.h>
 #include <sys/file.h>

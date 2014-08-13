@@ -7,12 +7,14 @@
  *
  */
 
-#include "defs.h"
-#include "cbt.h"
+#include <stdlib.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <strings.h>
 #include <math.h>
 #include <ctype.h>
+#include "defs.h"
+#include "cbt.h"
 
 #define cbt_chk() if (cbt_ok() == NOPE) break
 

@@ -8,9 +8,13 @@
  * Operator program version:  */
 #define VERS "OPR  V2.1C-03  26-Oct-89"
 
+#include <unistd.h>
+#include <stdlib.h>
+#include <time.h>
 #include <ctype.h>
 #include <errno.h>
 #include <sys/types.h>
+#include <arpa/inet.h>
 #include <sys/file.h>
 #include <string.h>
 #include <stdio.h>

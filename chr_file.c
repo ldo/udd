@@ -7,7 +7,9 @@
  *
  */
 
+#include <unistd.h>
 #include <sys/types.h>
+#include <arpa/inet.h>
 #include <sys/file.h>
 #include <signal.h>
 #include <string.h>

@@ -8,6 +8,8 @@
  */
 
 #include <math.h>
+#include <unistd.h>
+#include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 #include <stdio.h>

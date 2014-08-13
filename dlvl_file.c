@@ -7,10 +7,12 @@
  *
  */
 
-#include "defs.h"
+#include <unistd.h>
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/file.h>
+#include <arpa/inet.h>
+#include "defs.h"
 
 void dlvl_init(void)
 /* (re)opens the dungeon data file and sets n_dlvl to the number of dungeons available. */

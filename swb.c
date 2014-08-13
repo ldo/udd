@@ -11,7 +11,10 @@
 
 #define MAIN /* put globals here */
 
+#include <unistd.h>
 #include <stdlib.h>
+#include <time.h>
+#include <arpa/inet.h>
 #include <string.h>
 #include <ctype.h>
 #include <pwd.h>

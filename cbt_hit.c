@@ -7,6 +7,7 @@
  *
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include "defs.h"
 #include "cbt.h"
