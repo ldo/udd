@@ -104,17 +104,16 @@ struct monst {
 };
 
 struct state {
-  char n[2][NAMELEN];                 /* name, secret name */
-  int c[65];                /* various stuff */
-  int l[22][22];                 /* current level map, plus extra border of dummy rooms surrounding actual rooms */
+  char n[2][NAMELEN];     /* name, secret name */
+  int c[65];              /* various stuff */
+  int l[22][22];          /* current level map, plus extra border of dummy rooms surrounding actual rooms */
   int i[9];               /* current room analysis */
-  int p[5][5];                   /* state of rooms surrounding current pos, current pos is p[2][2] */
 };
 
-/* indexes into state.i arrays */
+/* indexes into state.i array */
 /* 0 not used */
-#define ROOM_WALL_WEST 1 /* state of west side of room: 1 = wall, others = can pass (3 = rubble?) */
-#define ROOM_WALL_NORTH 2 /* state of north side of room: 1 = wall, others = can pass (3 = rubble?) */
+#define ROOM_WALL_WEST 1 /* state of west side of room: 0 = open, 1 = wall (impassable), 2 = door, 3 = rubble? */
+#define ROOM_WALL_NORTH 2 /* state of north side of room, same values as west side */
 /* east side comes from west side of room to the east */
 /* south side comes from north side of room to the south */
 #define ROOM_WALL_VISIBLE_WEST 3 /* player can see exit to west */
@@ -131,7 +130,7 @@ struct chr {
   int c[65];
 };
 
-/* usage of "various stuff" array */
+/* usage of "various stuff" state.c and chr.c arrays */
 #define UC_ALIVE 0 /* character is actually alive */
 #define UC_STRENGTH 1 /* strength attribute */
 #define UC_INTEL 2 /* intelligence attribute */
