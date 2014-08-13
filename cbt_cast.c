@@ -425,7 +425,6 @@ static int cs1
   )
   /* Cleric level 1 */
 {
-  int tmp;
   switch (s) {
   case 1:          /* prot/evil */
     ms1(5);
@@ -470,7 +469,6 @@ static int cs2
   )
   /* Cleric level 2 */
 {
-  int tmp;
   switch (s) {
   case 1:          /* dtrp */
     if (u.c[UC_SPELL_DTRP] < 1)
@@ -561,7 +559,6 @@ static int cs4
   )
   /* Cleric level 4 */
 {
-  int tmp;
   switch (s) {
   case 1:          /* holy word */
     ms4(2);

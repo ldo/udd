@@ -240,7 +240,7 @@ int utl_exp
   )
   /* find exp for a level */
 {
-  double z, z1, z2;
+  double z, z2;
   int lcv;
   if (lvl > 10) {
     z2 = lvl - 10.0;

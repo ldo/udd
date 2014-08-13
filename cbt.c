@@ -18,7 +18,7 @@ int cbt_main(void)
   /* returns YEP/NOPE indicating if character died. */
   {
     bool ok;
-    int s1, tmp;
+    int tmp;
     bool aflag = false;
     monster_defeated = -1; /* why? */
     if (u.c[UC_STATE] == CBT_ALTR)  /* ask for tough one! */
@@ -93,7 +93,6 @@ int cbt_main(void)
             m_str = roll(1, mm[monster_type].m);
             m_arm = roll(1, min_monster_hits) - 1;
             monster_level = min_monster_hits;
-            s1 = 1; /* s1 ???XXX*/
             if (mm[monster_type].m + min_monster_hits >= 1.2 * u.c[UC_MAXHIT] && u.c[UC_CURHIT] > 1)
                 if (roll(1,20) <= u.c[UC_CHARISMA])
                   {
