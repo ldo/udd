@@ -111,7 +111,7 @@ int chr_save
     return(NOPE);
   }
   if (cp->c[UC_LOCKED] == 0) {
-    printf("%s: Internal error!  Char in file is not locked!!\r\n");
+    printf("%s: Internal error!  Char in file is not locked!!\r\n", ddd);
     lock_close(cwfp, FIL_CHR_LD, FIL_CHR_LK);
 #ifdef SIGTSTP
     signal(SIGTSTP, sigstop);
@@ -200,7 +200,7 @@ int chr_new(void)
     sleep(roll(1,2));
   }
   if (cwfp < 0) {
-    printf("%d: Can't get access to char file %s.\r\n", ddd, FIL_CHR);
+    printf("%s: Can't get access to char file %s.\r\n", ddd, FIL_CHR);
     return(NOPE);
   }
   while ((cp = chr_scan()) != NULL)

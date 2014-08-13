@@ -40,7 +40,7 @@ int main
     dfd = n_dlvl = -1;
     if (argc != 1)
       {
-        printf("%s: This command takes no options.\r\n");
+        printf("%s: This command takes no options.\r\n", ddd);
         exit(1);
       } /*if*/
     if (alevel == NOPE)
@@ -581,7 +581,7 @@ find_top:
             printf("\r\n");
         break;
         default:
-            printf("\r\n%d: This can't happen!\r\n", ddd);
+            printf("\r\n%s: This can't happen!\r\n", ddd);
           } /*switch*/
       } /*for*/
   } /*main*/
