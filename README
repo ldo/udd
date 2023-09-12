@@ -1,16 +1,4 @@
-udd (“Unix Dungeons and Dragons”) is one of many versions of a very
-old game, dating back to minicomputer systems of the 1970s. For more
-information about the history of the game, see
-<http://www.digital-eel.com/files/dndpage_files/DND.htm>.
-
-This version comes from Chuck Cranor and a whole bunch of other people
-(see VERSION for the details). My main contribution has been to add a
-whole lot of comments explaining the inner workings of the program.
-
-See INSTALL for build/run instructions.
-
-See also my udd_hack scripts <https://bitbucket.org/ldo17/udd_hack> for
-examining and editing the dungeon and character files.
-
-Lawrence D'Oliveiro <ldo@geek-central.gen.nz>
-2023 September 12
+This project is no longer being maintained on GitHub.
+Look for it at one of
+* gitlab: https://gitlab.com/ldo/udd
+* bitbucket: https://bitbucket.org/ldo17/udd
